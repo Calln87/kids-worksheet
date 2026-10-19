@@ -3,17 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
-  <title>넘버블럭스 초등 수학 학습지 (Lv.1~Lv.10)</title>
+  <title>넘버블럭스 & 알파블럭스 수학·영어 학습지 생성기 (Lv.1~Lv.20)</title>
   <style>
     :root {
       --bg-page: #F1F5F9;
       --primary: #EF4444;
       --secondary: #0EA5E9;
       --success: #10B981;
+      --purple: #8B5CF6;
       --dark: #0F172A;
-      --card-bg: #FFFFFF;
+      --sheet-bg: #FFFFFF;
+      --card-bg: #F8FAFC;
       --card-border: #E2E8F0;
       --accent: #F59E0B;
+    }
+
+    /* 테마 2: 눈이 편안한 웜 아이보리 */
+    body.theme-warm {
+      --sheet-bg: #FFFDF7;
+      --card-bg: #FEF9EE;
+      --card-border: #FDE68A;
+    }
+
+    /* 테마 3: 잉크 절약 고대비 에코 라인 */
+    body.theme-eco {
+      --sheet-bg: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --card-border: #94A3B8;
     }
 
     * {
@@ -31,27 +47,112 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px 12px 40px;
+      padding: 14px 10px 40px;
       min-height: 100vh;
     }
 
-    /* 상단 설정 바 (PC & 모바일 반응형) */
+    /* =========================================
+       상단 설정 바 (PC & 모바일 반응형)
+       ========================================= */
     .toolbar {
       background: #FFFFFF;
-      border-radius: 18px;
-      padding: 16px 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+      border-radius: 20px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
       width: 100%;
       max-width: 794px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
+    }
+
+    /* 과목 전환 탭 + 우측 유틸리티 바 */
+    .top-bar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .subject-tabs {
+      display: flex;
+      background: #F1F5F9;
+      padding: 4px;
+      border-radius: 14px;
+      gap: 4px;
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 900;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn.active-math {
+      background: #EF4444;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    }
+
+    .tab-btn.active-eng {
+      background: #6366F1;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    }
+
+    .util-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chip-btn {
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 11px;
+      border-radius: 10px;
+      border: 2px solid #E2E8F0;
+      background: #F8FAFC;
+      color: #334155;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .chip-btn.active {
+      border-color: #0EA5E9;
+      background: #E0F2FE;
+      color: #0369A1;
+    }
+
+    .timer-display {
+      font-variant-numeric: tabular-nums;
+      font-weight: 900;
+      color: #0F172A;
     }
 
     .toolbar-grid {
       display: grid;
-      grid-template-columns: 1.9fr 1fr 1fr 1.1fr;
+      grid-template-columns: 1.7fr 1.2fr 0.9fr 1fr;
       gap: 10px;
     }
 
@@ -70,11 +171,11 @@
     .ctrl-box {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
     }
 
     .ctrl-box label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       color: #475569;
       display: flex;
@@ -85,9 +186,9 @@
     select, input[type="text"] {
       width: 100%;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 700;
-      padding: 10px 12px;
+      padding: 9px 10px;
       border-radius: 10px;
       border: 2px solid #CBD5E1;
       background-color: #F8FAFC;
@@ -103,21 +204,21 @@
 
     .action-row {
       display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: 1.2fr 1.1fr 1.1fr 1fr;
+      gap: 8px;
     }
 
-    @media (max-width: 540px) {
+    @media (max-width: 640px) {
       .action-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
       }
     }
 
     .btn {
       font-family: inherit;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
-      padding: 11px 16px;
+      padding: 11px 12px;
       border-radius: 12px;
       border: none;
       cursor: pointer;
@@ -125,10 +226,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
       transition: all 0.1s ease;
       user-select: none;
-      text-decoration: none;
+      white-space: nowrap;
     }
 
     .btn:active {
@@ -140,6 +241,12 @@
       box-shadow: 0 3px 0 #059669;
     }
     .btn-new:hover { background: #059669; }
+
+    .btn-check {
+      background: #F59E0B;
+      box-shadow: 0 3px 0 #D97706;
+    }
+    .btn-check:hover { background: #D97706; }
 
     .btn-print {
       background: #0284C7;
@@ -156,7 +263,33 @@
       box-shadow: 0 3px 0 #BE123C;
     }
 
-    /* A4 스케일링 래퍼 (모바일 반응형 핵심) */
+    .btn-retry {
+      background: #8B5CF6;
+      box-shadow: 0 3px 0 #6D28D9;
+      display: none;
+    }
+
+    .score-banner {
+      display: none;
+      background: #FEF3C7;
+      border: 2px solid #F59E0B;
+      color: #92400E;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .score-banner.visible {
+      display: flex;
+    }
+
+    /* =========================================
+       A4 스케일링 래퍼 & A4 시트 (794px * 1122px)
+       ========================================= */
     .sheet-wrapper {
       position: relative;
       width: 794px;
@@ -166,14 +299,13 @@
       margin: 0 auto;
     }
 
-    /* A4 실제 인쇄 시트 (794px * 1122px - A4 96 DPI 비율) */
     .a4-sheet {
       width: 794px;
       height: 1122px;
-      background: #FFFFFF;
+      background: var(--sheet-bg);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
       border-radius: 8px;
-      padding: 32px 36px;
+      padding: 30px 36px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -183,8 +315,8 @@
 
     /* 학습지 헤더 */
     .sheet-header {
-      border-bottom: 3px solid #E2E8F0;
-      padding-bottom: 14px;
+      border-bottom: 3px solid var(--card-border);
+      padding-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -200,8 +332,8 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 12px;
+      font-weight: 900;
       color: #DC2626;
       background: #FEE2E2;
       padding: 3px 10px;
@@ -209,8 +341,13 @@
       width: fit-content;
     }
 
+    .brand-tag.eng-tag {
+      color: #4F46E5;
+      background: #E0E7FF;
+    }
+
     .main-title {
-      font-size: 26px;
+      font-size: 25px;
       font-weight: 900;
       color: #0F172A;
       letter-spacing: -0.5px;
@@ -220,8 +357,8 @@
     }
 
     .subtitle {
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13.5px;
+      font-weight: 800;
       color: #64748B;
     }
 
@@ -234,8 +371,8 @@
     .meta-field {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 14px;
+      gap: 5px;
+      font-size: 13.5px;
       font-weight: 700;
       color: #475569;
     }
@@ -243,18 +380,19 @@
     .line-input {
       border: none;
       border-bottom: 2px solid #94A3B8;
-      width: 85px;
+      width: 82px;
       text-align: center;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #0F172A;
       padding: 2px 4px;
       background: transparent;
+      outline: none;
     }
 
     .score-badge {
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       border: 2px dashed #CBD5E1;
       border-radius: 50%;
       display: flex;
@@ -265,40 +403,61 @@
       font-weight: 800;
       color: #94A3B8;
       text-align: center;
-      line-height: 1.1;
+      line-height: 1.15;
+      transition: all 0.2s ease;
     }
 
-    /* 문제 목록 컨테이너 (가로 1줄에 1문제) */
+    .score-badge.stamped {
+      border: 2.5px solid #EF4444;
+      background: #FEF2F2;
+      color: #DC2626;
+      transform: rotate(-8deg) scale(1.05);
+    }
+
+    /* =========================================
+       문제 목록 컨테이너 (가로 1줄에 1문제)
+       ========================================= */
     .problems-grid {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       flex: 1;
-      margin: 16px 0;
+      margin: 14px 0;
       justify-content: space-between;
-    }
-
-    /* 개별 문제 카드 (가로형 와이드 카드) */
-    .problem-card {
-      background: #F8FAFC;
-      border: 2px solid #E2E8F0;
-      border-radius: 18px;
-      padding: 12px 24px 12px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      position: relative;
-      flex: 1;
       min-height: 0;
     }
 
+    .problem-card {
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 18px;
+      padding: 10px 22px 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      transition: border-color 0.2s ease;
+    }
+
+    .problem-card.card-correct {
+      border-color: #10B981;
+      background: #ECFDF5;
+    }
+
+    .problem-card.card-wrong {
+      border-color: #EF4444;
+      background: #FEF2F2;
+    }
+
     .card-num {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 900;
-      color: #64748B;
-      width: 30px;
-      height: 30px;
+      color: #475569;
+      width: 28px;
+      height: 28px;
       border-radius: 8px;
       background: #E2E8F0;
       display: flex;
@@ -307,32 +466,32 @@
       flex-shrink: 0;
     }
 
-    /* 넘버블럭스 캐릭터 시각화 영역 (크고 시원하게) */
+    /* 캐릭터 시각화 영역 */
     .visual-area {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
-      min-width: 280px;
+      gap: 12px;
+      min-width: 265px;
       flex-shrink: 0;
-      padding: 2px 6px;
+      padding: 2px 4px;
     }
 
     .operator-icon {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 900;
       color: #475569;
       margin: 0 2px;
     }
 
-    /* 수식 및 정답 입력 영역 */
+    /* 수식 / 영단어 및 정답 입력 영역 */
     .formula-area {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 14px;
-      font-size: 32px;
+      gap: 12px;
+      font-size: 30px;
       font-weight: 900;
       color: #1E293B;
       letter-spacing: 0.5px;
@@ -342,16 +501,57 @@
       white-space: nowrap;
     }
 
+    .eng-word-box {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .eng-meaning-badge {
+      font-size: 13px;
+      font-weight: 800;
+      color: #4F46E5;
+      background: #EEF2FF;
+      border: 1.5px solid #C7D2FE;
+      padding: 2px 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .eng-letters-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .letter-tile {
+      width: 48px;
+      height: 58px;
+      border: 2.5px solid #CBD5E1;
+      background: #FFFFFF;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: #1E293B;
+    }
+
+    /* 정답 입력 박스 (터치/키보드 입력 + 인쇄 겸용) */
     .answer-box {
-      width: 70px;
-      height: 70px;
+      width: 68px;
+      height: 68px;
       border: 3.5px solid #0EA5E9;
       background: #FFFFFF;
       border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 900;
       color: #0284C7;
       position: relative;
@@ -364,20 +564,78 @@
       color: #D97706;
     }
 
-    /* 정답 미리보기 힌트 (기본은 투명) */
+    /* 영어 4선 노트 가이드라인 (English 4-Line Note) */
+    .answer-box.eng-four-line {
+      width: 64px;
+      height: 64px;
+      border-color: #6366F1;
+      background-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 23%,
+        #FECDD3 23%,
+        #FECDD3 25%,
+        transparent 25%,
+        transparent 49%,
+        #CBD5E1 49%,
+        #CBD5E1 51%,
+        transparent 51%,
+        transparent 75%,
+        #93C5FD 75%,
+        #93C5FD 77%,
+        transparent 77%
+      );
+    }
+
+    .answer-box.eng-wide {
+      width: 128px;
+    }
+
+    .answer-input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-family: inherit;
+      font-size: 28px;
+      font-weight: 900;
+      color: #0F172A;
+      outline: none;
+      position: relative;
+      z-index: 2;
+      padding: 0;
+    }
+
+    /* 정답 힌트 / 따라쓰기(Tracing) 오버레이 */
     .answer-hint {
       display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
       color: #E11D48;
-      font-size: 28px;
+      font-size: 27px;
+      font-weight: 900;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* 따라쓰기 모드일 때 연한 회색 점선/가이드 글자 표시 */
+    .answer-hint.trace-guide {
+      display: flex;
+      color: rgba(148, 163, 184, 0.42);
+      font-size: 30px;
     }
 
     body.show-answers .answer-hint {
-      display: block;
+      display: flex;
+      color: #E11D48;
     }
 
     /* 하단 푸터 */
     .sheet-footer {
-      border-top: 2px dashed #E2E8F0;
+      border-top: 2px dashed var(--card-border);
       padding-top: 10px;
       display: flex;
       justify-content: space-between;
@@ -429,47 +687,55 @@
         border: none !important;
         width: 794px !important;
         height: 1122px !important;
-        padding: 36px 40px !important;
-      }
-
-      .btn, select, .score-badge, .line-input {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        padding: 32px 38px !important;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- 설정 및 액션 툴바 (PC & 모바일 반응형) -->
+  <!-- 상단 컨트롤 툴바 -->
   <header class="toolbar">
+    <!-- 1열: 과목 선택 탭 + 타이머/사운드/테마 유틸리티 -->
+    <div class="top-bar-row">
+      <div class="subject-tabs">
+        <button type="button" class="tab-btn active-math" id="tabMath">
+          <span>🔢 수학 (넘버블럭스 Lv.1~20)</span>
+        </button>
+        <button type="button" class="tab-btn" id="tabEng">
+          <span>🔤 영어 (알파블럭스 Lv.1~20)</span>
+        </button>
+      </div>
+
+      <div class="util-group">
+        <button type="button" class="chip-btn" id="btnTimer" title="타이머 시작/초기화">
+          <span>⏱️</span>
+          <span class="timer-display" id="timerText">00:00</span>
+        </button>
+        <button type="button" class="chip-btn active" id="btnSound" title="효과음 켜기/끄기">
+          <span id="soundIcon">🔊 효과음</span>
+        </button>
+        <select id="themeSelect" style="width: auto; padding: 7px 9px; font-size: 12px;" title="인쇄/화면 테마 선택">
+          <option value="default">🎨 파스텔 테마</option>
+          <option value="warm">🌿 눈 보호 웜톤</option>
+          <option value="eco">🖨️ 잉크 절약</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 2열: 단계 / 세부 유형 / 문제 수 / 제목 -->
     <div class="toolbar-grid">
       <div class="ctrl-box">
-        <label for="levelSelect">⭐ 학습 단계 (Lv.1 ~ Lv.10)</label>
+        <label for="levelSelect" id="levelLabel">⭐ 학습 단계 (Lv.1 ~ Lv.20)</label>
         <select id="levelSelect">
-          <option value="1">Lv.1 - 5 이하 기초 연산 (1~5)</option>
-          <option value="2" selected>Lv.2 - 10 이하 한 자리 연산 (1~10)</option>
-          <option value="3">Lv.3 - 10 모으기와 가르기 (보수)</option>
-          <option value="4">Lv.4 - 20 이하 받아올림/내림 기초 (11~18)</option>
-          <option value="5">Lv.5 - 20 이하 한·두 자리 연산 (11~20)</option>
-          <option value="6">Lv.6 - 30 이하 두 자리와 한 자리 (11~30)</option>
-          <option value="7">Lv.7 - 50 이하 두 자리 수 연산 (10~50)</option>
-          <option value="8">Lv.8 - 몇십끼리 연산 (10, 20... 100)</option>
-          <option value="9">Lv.9 - 100 이하 두 자리 수 연산 (11~100)</option>
-          <option value="10">Lv.10 - 100 이하 빈칸 채우기 도전 (1~100)</option>
+          <!-- JS로 과목별 Lv.1~20 동적 렌더링 -->
         </select>
       </div>
 
       <div class="ctrl-box">
-        <label for="opSelect">➕➖✖️➗ 연산 종류</label>
+        <label for="opSelect" id="opLabel">➕➖✖️➗ 연산 / 학습 유형</label>
         <select id="opSelect">
-          <option value="add">덧셈 (+)</option>
-          <option value="sub">뺄셈 (-)</option>
-          <option value="mul">곱셈 (×)</option>
-          <option value="div">나눗셈 (÷)</option>
-          <option value="mix" selected>덧셈·뺄셈 혼합 (+/-)</option>
-          <option value="mix_md">곱셈·나눗셈 혼합 (×/÷)</option>
-          <option value="mix_all">사칙연산 전체 혼합 (+/-/×/÷)</option>
+          <!-- JS로 과목별 옵션 동적 렌더링 -->
         </select>
       </div>
 
@@ -484,19 +750,31 @@
 
       <div class="ctrl-box">
         <label for="titleCustom">🏷️ 학습지 제목</label>
-        <input type="text" id="titleCustom" value="넘버블럭스 수학 교실" maxlength="15">
+        <input type="text" id="titleCustom" value="넘버블럭스 수학 교실" maxlength="16">
       </div>
     </div>
 
+    <!-- 3열: 주요 액션 버튼 -->
     <div class="action-row">
-      <button class="btn btn-new" id="btnGenerate">
+      <button type="button" class="btn btn-new" id="btnGenerate">
         <span>🎲 새 문제 만들기</span>
       </button>
-      <button class="btn btn-print" id="btnPrint">
-        <span>🖨️ A4 인쇄 / PDF 저장</span>
+      <button type="button" class="btn btn-check" id="btnCheckScore">
+        <span>✅ 바로 채점하기</span>
       </button>
-      <button class="btn btn-ans" id="btnToggleAns">
-        <span>👀 정답 보기/숨김</span>
+      <button type="button" class="btn btn-print" id="btnPrint">
+        <span>🖨️ A4 인쇄 / PDF</span>
+      </button>
+      <button type="button" class="btn btn-ans" id="btnToggleAns">
+        <span>👀 정답 보기</span>
+      </button>
+    </div>
+
+    <!-- 채점 결과 & 오답노트 배너 -->
+    <div class="score-banner" id="scoreBanner">
+      <span id="scoreResultText">채점 결과</span>
+      <button type="button" class="btn btn-retry" id="btnRetryWrong" style="padding: 7px 12px; font-size: 12.5px;">
+        <span>📌 틀린 문제 다시 풀기 (오답노트)</span>
       </button>
     </div>
   </header>
@@ -508,21 +786,21 @@
       <!-- 학습지 헤더 -->
       <section class="sheet-header">
         <div class="title-group">
-          <div class="brand-tag">
+          <div class="brand-tag" id="brandTag">
             <span>●</span> NUMBERBLOCKS MATH (1~100)
           </div>
           <h1 class="main-title" id="displayTitle">넘버블럭스 수학 교실</h1>
-          <p class="subtitle" id="displaySubtitle">Lv.2 - 10 이하 한 자리 연산 [덧셈·뺄셈 혼합]</p>
+          <p class="subtitle" id="displaySubtitle">Lv.2 - 10 이하 한 자리 연산</p>
         </div>
 
         <div class="meta-box">
           <div class="meta-field">
-            날짜: <span class="line-input" id="currentDate"></span>
+            날짜: <input type="text" class="line-input" id="currentDate" readonly>
           </div>
           <div class="meta-field">
-            이름: <span class="line-input"></span>
+            이름: <input type="text" class="line-input" placeholder="이름 쓰기">
           </div>
-          <div class="score-badge">
+          <div class="score-badge" id="scoreBadge">
             참 잘했어요<br>⭐
           </div>
         </div>
@@ -535,8 +813,8 @@
 
       <!-- 학습지 푸터 -->
       <footer class="sheet-footer">
-        <div>Numberblocks 1~100 © Learning Blocks Ltd. | 창의력과 수 감각을 기르는 매일 수학</div>
-        <div class="footer-cheer">오늘도 스스로 멋지게 해냈어요! 👍</div>
+        <div id="footerCopyright">Numberblocks & Alphablocks © Learning Blocks Ltd. | 스스로 생각하는 즐거운 매일 학습지</div>
+        <div class="footer-cheer" id="footerCheer">오늘도 스스로 멋지게 해냈어요! 👍</div>
       </footer>
 
     </div>
@@ -544,8 +822,69 @@
 
   <script>
     /* =====================================================================
+       0. Web Audio API 내장 사운드 합성기 (외부 오디오 파일 제로) & 타이머
+       ===================================================================== */
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function playTone(freq, type, duration, delay = 0, gainVal = 0.12) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime + delay);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + delay);
+        osc.stop(audioCtx.currentTime + delay + duration);
+      } catch (e) {}
+    }
+
+    function playSoundEffect(kind) {
+      if (!soundEnabled) return;
+      if (kind === 'pop') {
+        playTone(523.25, 'sine', 0.1, 0, 0.08);
+        playTone(659.25, 'sine', 0.12, 0.06, 0.08);
+      } else if (kind === 'fanfare') {
+        playTone(523.25, 'triangle', 0.15, 0, 0.14);
+        playTone(659.25, 'triangle', 0.15, 0.12, 0.14);
+        playTone(783.99, 'triangle', 0.15, 0.24, 0.14);
+        playTone(1046.5, 'triangle', 0.35, 0.36, 0.16);
+      } else if (kind === 'tryagain') {
+        playTone(330, 'sawtooth', 0.18, 0, 0.08);
+        playTone(261.63, 'sawtooth', 0.25, 0.15, 0.08);
+      }
+    }
+
+    // 타이머 제어
+    let timerInterval = null;
+    let timerSeconds = 0;
+    function toggleTimer() {
+      const btn = document.getElementById('btnTimer');
+      const txt = document.getElementById('timerText');
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.classList.remove('active');
+      } else {
+        timerSeconds = 0;
+        txt.innerText = '00:00';
+        btn.classList.add('active');
+        timerInterval = setInterval(() => {
+          timerSeconds++;
+          const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+          const s = String(timerSeconds % 60).padStart(2, '0');
+          txt.innerText = `${m}:${s}`;
+        }, 1000);
+      }
+    }
+
+    /* =====================================================================
        1. 모바일 & PC 반응형 A4 스케일러 (fitA4ToScreen)
-       - 794px * 1122px 크기를 화면 너비에 맞게 깨짐 없이 부드럽게 축소
        ===================================================================== */
     function fitA4ToScreen() {
       const wrapper = document.getElementById('sheetWrapper');
@@ -554,14 +893,14 @@
       const screenWidth = window.innerWidth;
       const targetWidth = 794;
       const targetHeight = 1122;
-      const padding = 24; // 좌우 여백
+      const padding = 20;
 
       if (screenWidth < targetWidth + padding) {
         const scale = (screenWidth - padding) / targetWidth;
         wrapper.style.transform = `scale(${scale})`;
         wrapper.style.width = `${targetWidth * scale}px`;
         wrapper.style.height = `${targetHeight * scale}px`;
-        wrapper.style.marginBottom = '20px';
+        wrapper.style.marginBottom = '16px';
       } else {
         wrapper.style.transform = 'none';
         wrapper.style.width = `${targetWidth}px`;
@@ -575,35 +914,31 @@
     document.addEventListener('DOMContentLoaded', fitA4ToScreen);
 
     /* =====================================================================
-       2. 순수 내장형 SVG 넘버블럭스 1~100 렌더링 엔진 (buildNumberblockSVG)
-       - 실제 넘버블럭스 애니메이션의 컬러 눈 테두리(Eye Rim), 속눈썹, 땀방울,
-         분홍 코(9), 광대 모자(3), 별 안경(5/15/50), 주사위 점(6/60), 무지개 머리(7/17/70),
-         옥토블록 촉수 가면(8/18/80), 베레모(17), 보더 헬멧(14), 신사 모자&나비넥타이(20/90),
-         탐험가 모자(21), 로열 골든 크라운(32/100) 등 정밀 구현
+       2A. 순수 내장형 SVG 넘버블럭스 1~100 엔진 (buildNumberblockSVG)
        ===================================================================== */
     const UNIT_COLORS = {
-      1: { fill: '#EF4444', stroke: '#B91C1C', rim: '#DC2626' }, // Red
-      2: { fill: '#F97316', stroke: '#C2410C', rim: '#7E22CE' }, // Orange (Purple glasses)
-      3: { fill: '#FACC15', stroke: '#CA8A04', rim: '#EF4444' }, // Yellow (Red eye rims)
-      4: { fill: '#22C55E', stroke: '#15803D', rim: '#15803D' }, // Green (Square dark green rims)
-      5: { fill: '#06B6D4', stroke: '#0E7490', rim: '#1D4ED8' }, // Cyan (Blue star rim)
-      6: { fill: '#6366F1', stroke: '#4338CA', rim: '#4338CA' }, // Indigo (Violet lashed rims)
-      7: { fill: '#A855F7', stroke: '#6B21A8', rim: '#7E22CE' }, // Rainbow / Violet
-      8: { fill: '#EC4899', stroke: '#BE185D', rim: '#9D174D' }, // Magenta (Octoblock mask)
-      9: { fill: '#94A3B8', stroke: '#475569', rim: '#334155' }  // 3-tone Grey (Square grey rims)
+      1: { fill: '#EF4444', stroke: '#B91C1C', rim: '#DC2626' },
+      2: { fill: '#F97316', stroke: '#C2410C', rim: '#7E22CE' },
+      3: { fill: '#FACC15', stroke: '#CA8A04', rim: '#EF4444' },
+      4: { fill: '#22C55E', stroke: '#15803D', rim: '#15803D' },
+      5: { fill: '#06B6D4', stroke: '#0E7490', rim: '#1D4ED8' },
+      6: { fill: '#6366F1', stroke: '#4338CA', rim: '#4338CA' },
+      7: { fill: '#A855F7', stroke: '#6B21A8', rim: '#7E22CE' },
+      8: { fill: '#EC4899', stroke: '#BE185D', rim: '#9D174D' },
+      9: { fill: '#94A3B8', stroke: '#475569', rim: '#334155' }
     };
 
     const TEN_THEMES = {
-      1: { fill: '#FFFFFF', stroke: '#EF4444', rim: '#DC2626' }, // 10s: White + Red border
-      2: { fill: '#FED7AA', stroke: '#EA580C', rim: '#EA580C' }, // 20s: Light Orange + Orange border
-      3: { fill: '#FEF08A', stroke: '#CA8A04', rim: '#D97706' }, // 30s: Light Yellow + Gold border
-      4: { fill: '#BBF7D0', stroke: '#16A34A', rim: '#15803D' }, // 40s: Light Green + Green border
-      5: { fill: '#BAE6FD', stroke: '#0284C7', rim: '#0284C7' }, // 50s: Light Sky + Blue border
-      6: { fill: '#DDD6FE', stroke: '#6D28D9', rim: '#5B21B6' }, // 60s: Light Lavender + Indigo border
-      7: { fill: 'RAINBOW_PASTEL', stroke: '#7E22CE', rim: '#7E22CE' }, // 70s: Pastel Rainbow
-      8: { fill: '#FBCFE8', stroke: '#DB2777', rim: '#9D174D' }, // 80s: Light Pink + Magenta border
-      9: { fill: 'GREY_TEN', stroke: '#475569', rim: '#334155' }, // 90s: 3-tone Grey + Slate border
-      10: { fill: '#FEE2E2', stroke: '#DC2626', rim: '#DC2626' } // 100: Red/White Checkerboard
+      1: { fill: '#FFFFFF', stroke: '#EF4444', rim: '#DC2626' },
+      2: { fill: '#FED7AA', stroke: '#EA580C', rim: '#EA580C' },
+      3: { fill: '#FEF08A', stroke: '#CA8A04', rim: '#D97706' },
+      4: { fill: '#BBF7D0', stroke: '#16A34A', rim: '#15803D' },
+      5: { fill: '#BAE6FD', stroke: '#0284C7', rim: '#0284C7' },
+      6: { fill: '#DDD6FE', stroke: '#6D28D9', rim: '#5B21B6' },
+      7: { fill: 'RAINBOW_PASTEL', stroke: '#7E22CE', rim: '#7E22CE' },
+      8: { fill: '#FBCFE8', stroke: '#DB2777', rim: '#9D174D' },
+      9: { fill: 'GREY_TEN', stroke: '#475569', rim: '#334155' },
+      10: { fill: '#FEE2E2', stroke: '#DC2626', rim: '#DC2626' }
     };
 
     const RAINBOW_7 = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#6366F1', '#A855F7'];
@@ -623,18 +958,15 @@
       `;
     }
 
-    // 머리 위 왕관 / 모자 / 무지개 머리결 / 헬멧 / 베레모 장식 렌더링
     function renderHeadAccessory(n, cx, topY, headWidth) {
       const cw = Math.max(18, Math.min(38, headWidth * 0.85));
       const ch = Math.max(9, cw * 0.42);
       const baseY = topY;
 
-      // 3: 노란 광대 왕관 (빨간 방울 3개 달린 3각 모자)
       if (n === 3) {
         const w = Math.max(20, cw * 0.9);
         const h = Math.max(9, ch);
-        const l = cx - w / 2;
-        const r = cx + w / 2;
+        const l = cx - w / 2, r = cx + w / 2;
         return `
           <polygon points="${l + 2},${baseY} ${l - 1},${baseY - h * 0.85} ${cx - w * 0.2},${baseY - h * 0.35} ${cx},${baseY - h * 1.05} ${cx + w * 0.2},${baseY - h * 0.35} ${r + 1},${baseY - h * 0.85} ${r - 2},${baseY}"
                    fill="#FACC15" stroke="#CA8A04" stroke-width="1.2" stroke-linejoin="round"/>
@@ -644,13 +976,11 @@
         `;
       }
 
-      // 32 (로열 골든 5각 보석 왕관), 30, 33, 60, 100: 왕관 캐릭터
       if ([30, 32, 33, 60, 100].includes(n)) {
         const isRoyal = (n === 32 || n === 100);
         const w = isRoyal ? Math.max(24, cw * 1.08) : cw * 0.88;
         const h = isRoyal ? Math.max(11, ch * 1.18) : ch;
-        const left = cx - w / 2;
-        const right = cx + w / 2;
+        const left = cx - w / 2, right = cx + w / 2;
         return `
           <polygon points="${left + 2},${baseY} ${left},${baseY - h * 0.85} ${cx - w * 0.25},${baseY - h * 0.4} ${cx},${baseY - h * 1.15} ${cx + w * 0.25},${baseY - h * 0.4} ${right},${baseY - h * 0.85} ${right - 2},${baseY}"
                    fill="#FACC15" stroke="#B45309" stroke-width="1.3" stroke-linejoin="round"/>
@@ -661,7 +991,6 @@
         `;
       }
 
-      // 80 (슈퍼 로보-옥토블록 히어로 크레스트 왕관 & 안테나), 88
       if (n === 80 || n === 88) {
         const w = Math.max(26, cw * 1.08);
         const h = Math.max(11, ch * 1.15);
@@ -674,19 +1003,16 @@
         `;
       }
 
-      // 7, 70, 77, 49: 행운의 7색 무지개 머리결
       if ([7, 49, 70, 77].includes(n) || (n > 20 && n % 10 === 7)) {
         const w = Math.max(18, cw * 0.85);
         const seg = w / 7;
         let tufts = '';
         for (let i = 0; i < 7; i++) {
-          const tx = cx - w / 2 + i * seg;
-          tufts += `<rect x="${tx}" y="${baseY - 7}" width="${seg + 0.5}" height="7" rx="2" fill="${RAINBOW_7[i]}" stroke="rgba(0,0,0,0.25)" stroke-width="0.6"/>`;
+          tufts += `<rect x="${cx - w / 2 + i * seg}" y="${baseY - 7}" width="${seg + 0.5}" height="7" rx="2" fill="${RAINBOW_7[i]}" stroke="rgba(0,0,0,0.25)" stroke-width="0.6"/>`;
         }
         return tufts;
       }
 
-      // 17: 화가 보라색 베레모 (Painter Beret)
       if (n === 17) {
         return `
           <ellipse cx="${cx + 2}" cy="${baseY - 4}" rx="12" ry="5" fill="#7E22CE" stroke="#4C1D95" stroke-width="1.1" transform="rotate(-8 ${cx} ${baseY})"/>
@@ -694,7 +1020,6 @@
         `;
       }
 
-      // 14, 24, 44: 스케이트보더 무지개 헬멧
       if ([14, 24, 44].includes(n)) {
         const w = Math.max(20, cw * 0.92);
         return `
@@ -704,7 +1029,6 @@
         `;
       }
 
-      // 15: 비밀요원 페도라 모자
       if (n === 15) {
         return `
           <ellipse cx="${cx}" cy="${baseY - 1.5}" rx="13" ry="2.5" fill="#1E293B"/>
@@ -713,7 +1037,6 @@
         `;
       }
 
-      // 20, 90: 신사/마술사 실크 모자 (Top Hat)
       if (n === 20 || n === 90) {
         const hatCol = (n === 20) ? '#EA580C' : '#1E293B';
         const bandCol = (n === 20) ? '#FACC15' : '#EF4444';
@@ -724,7 +1047,6 @@
         `;
       }
 
-      // 21: 탐험가 모자 & 빨간 깃털
       if (n === 21) {
         return `
           <ellipse cx="${cx}" cy="${baseY - 1.5}" rx="13" ry="2.5" fill="#D97706" stroke="#78350F" stroke-width="0.9"/>
@@ -733,7 +1055,6 @@
         `;
       }
 
-      // 50: 슈퍼스타 락스타 골드 스파이크 헤어
       if (n === 50) {
         const w = Math.max(22, cw * 0.95);
         return `
@@ -745,7 +1066,6 @@
       return '';
     }
 
-    // 실제 넘버블럭스 애니메이션 스타일의 눈(컬러 테두리 + 반사광 눈동자), 눈썹, 코, 입, 안경, 가면 렌더링
     function renderFaceFeatures(n, cx, cy, u, faceWidth) {
       const rEye = Math.max(2.9, Math.min(6.4, u * 0.25));
       const rPupil = rEye * 0.52;
@@ -754,7 +1074,6 @@
       const ones = n % 10;
       const tens = Math.floor(n / 10);
 
-      // 캐릭터 고유 눈 테두리(Eye Rim) 색상 결정
       let rimColor = '#1E293B';
       if (n <= 10) {
         rimColor = UNIT_COLORS[n] ? UNIT_COLORS[n].rim : '#DC2626';
@@ -762,7 +1081,6 @@
         rimColor = (ones > 0 && UNIT_COLORS[ones]) ? UNIT_COLORS[ones].rim : (TEN_THEMES[tens] ? TEN_THEMES[tens].rim : '#DC2626');
       }
 
-      // 공통 눈동자 + 반짝이는 하이라이트 2개 헬퍼
       const drawPupil = (px, py, scale = 1) => {
         const pr = rPupil * scale;
         return `
@@ -772,7 +1090,6 @@
         `;
       };
 
-      // 1: 외눈박이 (진한 빨간색 두꺼운 눈 테두리 + 반짝이는 눈동자 + 귀여운 입)
       if (n === 1) {
         const browW = rEye * 1.45;
         return `
@@ -785,11 +1102,8 @@
         `;
       }
 
-      // 32: 로열 더블러 (왕족 아치형 볼드 눈썹 + 주황/골드 눈 테두리 + 속눈썹 + 볼터치 + 활짝 웃는 입)
       if (n === 32) {
-        const lx = cx - eyeOffset;
-        const rx = cx + eyeOffset;
-        const ey = cy - rEye * 0.15;
+        const lx = cx - eyeOffset, rx = cx + eyeOffset, ey = cy - rEye * 0.15;
         return `
           <path d="M ${lx - rEye * 1.15} ${ey - rEye * 1.25} Q ${lx} ${ey - rEye * 1.85} ${lx + rEye * 1.1} ${ey - rEye * 1.15}"
                 stroke="#92400E" stroke-width="2.2" fill="none" stroke-linecap="round"/>
@@ -806,27 +1120,21 @@
         `;
       }
 
-      // 8, 18, 80, 88 (또는 일의 자리가 8인 옥토 패밀리): 옥토블록 촉수 가면 & V자 영웅 눈썹!
       if ([8, 18, 80, 88].includes(n)) {
         const mw = eyeOffset * 2 + rEye * 3.0;
         const mh = rEye * 2.2;
-        const lx = cx - eyeOffset;
-        const rx = cx + eyeOffset;
-        const ey = cy - mh * 0.15;
+        const lx = cx - eyeOffset, rx = cx + eyeOffset, ey = cy - mh * 0.15;
         const isSuper80 = (n === 80 || n === 88);
         const maskFill = isSuper80 ? '#4A044E' : '#831843';
         const maskStroke = isSuper80 ? '#FACC15' : '#F472B6';
         const browCol = isSuper80 ? '#FACC15' : '#FBCFE8';
         return `
-          <!-- 옥토블록 가면 좌우 촉수 포인트 -->
           <line x1="${cx - mw / 2 - 3}" y1="${ey - 3}" x2="${cx - mw / 2 + 1}" y2="${ey - 1}" stroke="${maskStroke}" stroke-width="1.8" stroke-linecap="round"/>
           <line x1="${cx - mw / 2 - 3}" y1="${ey + 3}" x2="${cx - mw / 2 + 1}" y2="${ey + 1}" stroke="${maskStroke}" stroke-width="1.8" stroke-linecap="round"/>
           <line x1="${cx + mw / 2 + 3}" y1="${ey - 3}" x2="${cx + mw / 2 - 1}" y2="${ey - 1}" stroke="${maskStroke}" stroke-width="1.8" stroke-linecap="round"/>
           <line x1="${cx + mw / 2 + 3}" y1="${ey + 3}" x2="${cx + mw / 2 - 1}" y2="${ey + 1}" stroke="${maskStroke}" stroke-width="1.8" stroke-linecap="round"/>
-          <!-- 옥토블록 히어로 마스크 본체 -->
           <rect x="${cx - mw / 2}" y="${cy - mh * 0.65}" width="${mw}" height="${mh}" rx="${mh / 2}"
                 fill="${maskFill}" stroke="${maskStroke}" stroke-width="1.4"/>
-          <!-- 히어로 V자 각진 눈썹 -->
           <path d="M ${lx - rEye * 1.2} ${ey - rEye * 1.1} L ${lx + rEye * 0.95} ${ey - rEye * 0.6}"
                 stroke="${browCol}" stroke-width="2.2" stroke-linecap="round"/>
           <path d="M ${rx + rEye * 1.2} ${ey - rEye * 1.1} L ${rx - rEye * 0.95} ${ey - rEye * 0.6}"
@@ -840,13 +1148,10 @@
         `;
       }
 
-      // 2, 20, 22, 40: 실제 캐릭터 안경 (2=보라 안경, 20=주황 안경+나비넥타이, 40=초록 직사각형 안경)
       if ([2, 20, 22, 40].includes(n)) {
         const gColor = (n === 2 || n === 22) ? '#7E22CE' : (n === 40 ? '#15803D' : '#EA580C');
-        const gw = rEye * 2.15;
-        const gh = rEye * 1.75;
-        const lx = cx - eyeOffset;
-        const rx = cx + eyeOffset;
+        const gw = rEye * 2.15, gh = rEye * 1.75;
+        const lx = cx - eyeOffset, rx = cx + eyeOffset;
         const bowTie = (n === 20) ? `
           <polygon points="${cx},${cy + rEye * 1.9} ${cx - 5},${cy + rEye * 1.5} ${cx - 5},${cy + rEye * 2.3}" fill="#EA580C"/>
           <polygon points="${cx},${cy + rEye * 1.9} ${cx + 5},${cy + rEye * 1.5} ${cx + 5},${cy + rEye * 2.3}" fill="#EA580C"/>
@@ -868,12 +1173,9 @@
         `;
       }
 
-      // 5, 15, 25, 50, 55 (또는 일의 자리가 5인 캐릭터): 한쪽 눈에 큰 별 안경(Star Glass)!
       if ([5, 15, 50, 55].includes(n) || ones === 5) {
         const sr = rEye * 1.85;
-        const sx = cx - eyeOffset;
-        const rx = cx + eyeOffset;
-        const sy = cy - rEye * 0.2;
+        const sx = cx - eyeOffset, rx = cx + eyeOffset, sy = cy - rEye * 0.2;
         const isGold50 = (n === 50);
         const starStroke = isGold50 ? '#CA8A04' : '#1D4ED8';
         const starFill = isGold50 ? '#FEF08A' : '#38BDF8';
@@ -891,10 +1193,8 @@
         `;
       }
 
-      // 10, 100: 양쪽 모두 빨간 별 눈 (Ten / One Hundred Star Eyes)
       if (n === 10 || n === 100) {
-        const sr = rEye * 1.6;
-        const sy = cy - rEye * 0.15;
+        const sr = rEye * 1.6, sy = cy - rEye * 0.15;
         const star = (sx) => `
           <polygon points="${sx},${sy - sr} ${sx + sr * 0.35},${sy - sr * 0.35} ${sx + sr},${sy - sr * 0.3} ${sx + sr * 0.45},${sy + sr * 0.2} ${sx + sr * 0.65},${sy + sr * 0.9} ${sx},${sy + sr * 0.5} ${sx - sr * 0.65},${sy + sr * 0.9} ${sx - sr * 0.45},${sy + sr * 0.2} ${sx - sr},${sy - sr * 0.3} ${sx - sr * 0.35},${sy - sr * 0.35}"
                    fill="#FECACA" stroke="#DC2626" stroke-width="1.1"/>
@@ -909,11 +1209,9 @@
         `;
       }
 
-      // 제곱수(4, 9, 16, 36, 49, 64, 81): 각진 네모 눈썹 + 네모 눈 + (9, 81은 귀여운 분홍 코 '에취!' 추가)
       if (isSquare) {
         const sq = rEye * 1.88;
-        const lx = cx - eyeOffset;
-        const rx = cx + eyeOffset;
+        const lx = cx - eyeOffset, rx = cx + eyeOffset;
         const browColor = (n === 4) ? '#14532D' : (n === 9 || n === 81 ? '#334155' : rimColor);
         const pinkNose = (n === 9 || n === 81) ? `
           <ellipse cx="${cx}" cy="${cy + rEye * 0.45}" rx="${rEye * 0.48}" ry="${rEye * 0.34}" fill="#F43F5E" stroke="#9F1239" stroke-width="0.8"/>
@@ -931,11 +1229,8 @@
         `;
       }
 
-      // 13: 덜렁이 13번 (짝짝이 눈썹 + 파란 땀방울 💧 + 익살스러운 입)
       if (n === 13) {
-        const lx = cx - eyeOffset;
-        const rx = cx + eyeOffset;
-        const ey = cy - rEye * 0.2;
+        const lx = cx - eyeOffset, rx = cx + eyeOffset, ey = cy - rEye * 0.2;
         return `
           <path d="M ${lx - rEye} ${ey - rEye * 1.5} Q ${lx} ${ey - rEye * 2.0} ${lx + rEye} ${ey - rEye * 1.4}" stroke="#CA8A04" stroke-width="1.8" fill="none" stroke-linecap="round"/>
           <path d="M ${rx - rEye} ${ey - rEye * 1.1} Q ${rx} ${ey - rEye * 1.4} ${rx + rEye} ${ey - rEye * 1.2}" stroke="#CA8A04" stroke-width="1.8" fill="none" stroke-linecap="round"/>
@@ -948,12 +1243,7 @@
         `;
       }
 
-      // 기본 캐릭터 (3, 6, 7 및 나머지 모든 숫자):
-      // - 6, 60 (또는 일의 자리 6): 귀여운 속눈썹 3개 추가
-      // - 9, 19, 29... (일의 자리 9): 귀여운 분홍 코 추가
-      const lx = cx - eyeOffset;
-      const rx = cx + eyeOffset;
-      const ey = cy - rEye * 0.2;
+      const lx = cx - eyeOffset, rx = cx + eyeOffset, ey = cy - rEye * 0.2;
       const hasLashes = (n === 6 || n === 60 || ones === 6 || n === 3 || n === 30);
       const lashesHtml = hasLashes ? `
         <line x1="${lx - rEye * 0.8}" y1="${ey - rEye * 0.8}" x2="${lx - rEye * 1.15}" y2="${ey - rEye * 1.2}" stroke="${rimColor}" stroke-width="1.3" stroke-linecap="round"/>
@@ -966,13 +1256,11 @@
       ` : '';
 
       return `
-        <!-- 캐릭터 컬러 눈썹 -->
         <path d="M ${lx - rEye * 0.95} ${ey - rEye * 1.3} Q ${lx} ${ey - rEye * 1.75} ${lx + rEye * 0.95} ${ey - rEye * 1.3}"
               stroke="${rimColor}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
         <path d="M ${rx - rEye * 0.95} ${ey - rEye * 1.3} Q ${rx} ${ey - rEye * 1.75} ${rx + rEye * 0.95} ${ey - rEye * 1.3}"
               stroke="${rimColor}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
         ${lashesHtml}
-        <!-- 실제 넘버블럭스 특유의 두꺼운 컬러 눈 테두리(Eye Rim) -->
         <circle cx="${lx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${rimColor}" stroke-width="1.6"/>
         <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${rimColor}" stroke-width="1.6"/>
         ${drawPupil(lx, ey)}
@@ -985,22 +1273,19 @@
 
     function buildNumberblockSVG(num, sizeScale = 1) {
       const n = Math.max(1, Math.min(100, Math.round(Number(num) || 1)));
-      const labelH = 30; // 상단 왕관/액세서리 + Numberling(숫자 머리표) 영역 여유 높이
+      const labelH = 30;
 
-      // -----------------------------------------------------------------
-      // A. 1 ~ 10번 캐릭터 (크고 선명한 블록 비율)
-      // -----------------------------------------------------------------
       if (n <= 10) {
         let cols = 1, rows = n, u = 22;
         if (n === 1) { cols = 1; rows = 1; u = 42; }
-        else if (n === 2) { cols = 1; rows = 2; u = 34; }
-        else if (n === 3) { cols = 1; rows = 3; u = 26; }
-        else if (n === 4) { cols = 2; rows = 2; u = 32; }
+        else if (n === 2) { cols = 1; rows = 2; u = 33; }
+        else if (n === 3) { cols = 1; rows = 3; u = 25; }
+        else if (n === 4) { cols = 2; rows = 2; u = 31; }
         else if (n === 5) { cols = 1; rows = 5; u = 17; }
-        else if (n === 6) { cols = 2; rows = 3; u = 25; }
+        else if (n === 6) { cols = 2; rows = 3; u = 24; }
         else if (n === 7) { cols = 1; rows = 7; u = 13; }
-        else if (n === 8) { cols = 2; rows = 4; u = 20; }
-        else if (n === 9) { cols = 3; rows = 3; u = 24; }
+        else if (n === 8) { cols = 2; rows = 4; u = 19; }
+        else if (n === 9) { cols = 3; rows = 3; u = 23; }
         else if (n === 10) { cols = 2; rows = 5; u = 17; }
 
         u = Math.round(u * sizeScale);
@@ -1015,30 +1300,17 @@
         for (let r = rows - 1; r >= 0; r--) {
           for (let c = 0; c < cols; c++) {
             if (idx >= n) break;
-            const x = startX + c * u;
-            const y = startY + r * u;
-
+            const x = startX + c * u, y = startY + r * u;
             let fill = UNIT_COLORS[n] ? UNIT_COLORS[n].fill : '#FFFFFF';
             let stroke = UNIT_COLORS[n] ? UNIT_COLORS[n].stroke : '#EF4444';
 
-            if (n === 7) {
-              fill = RAINBOW_7[idx % 7];
-              stroke = 'rgba(0,0,0,0.3)';
-            } else if (n === 9) {
-              fill = GREY_3[r % 3];
-              stroke = '#475569';
-            } else if (n === 10) {
-              fill = '#FFFFFF';
-              stroke = '#EF4444';
-            }
+            if (n === 7) { fill = RAINBOW_7[idx % 7]; stroke = 'rgba(0,0,0,0.3)'; }
+            else if (n === 9) { fill = GREY_3[r % 3]; stroke = '#475569'; }
+            else if (n === 10) { fill = '#FFFFFF'; stroke = '#EF4444'; }
 
-            // 3번 빨간 저글링 단추 3개 / 6번 주사위 눈(Pips) 장식
             let extra = '';
-            if (n === 3) {
-              extra = `<circle cx="${x + u / 2}" cy="${y + u * 0.72}" r="${Math.max(2.2, u * 0.12)}" fill="#EF4444" stroke="#991B1B" stroke-width="0.6"/>`;
-            } else if (n === 6 && r > 0) {
-              extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${Math.max(2.2, u * 0.13)}" fill="#312E81"/>`;
-            }
+            if (n === 3) extra = `<circle cx="${x + u / 2}" cy="${y + u * 0.72}" r="${Math.max(2.2, u * 0.12)}" fill="#EF4444" stroke="#991B1B" stroke-width="0.6"/>`;
+            else if (n === 6 && r > 0) extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${Math.max(2.2, u * 0.13)}" fill="#312E81"/>`;
 
             blocksHtml += drawSingleCell(x, y, u, fill, stroke, extra);
             idx++;
@@ -1049,8 +1321,6 @@
         const faceCy = startY + u * 0.54;
         const accessoryHtml = renderHeadAccessory(n, faceCx, startY, cols * u);
         const faceHtml = renderFaceFeatures(n, faceCx, faceCy, u, cols * u);
-
-        // 상단 Numberling (숫자 머리표)
         const hasCrown = [3, 7, 10].includes(n);
         const numY = hasCrown ? (startY - 12) : (startY - 6);
         const numberlingHtml = `
@@ -1068,21 +1338,17 @@
         `;
       }
 
-      // -----------------------------------------------------------------
-      // B. 11 ~ 100번 캐릭터 (십의 자리 기둥 + 일의 자리 블록 조합)
-      // -----------------------------------------------------------------
-      const tens = Math.floor(n / 10); // 1 ~ 10
-      const ones = n % 10;             // 0 ~ 9
+      const tens = Math.floor(n / 10);
+      const ones = n % 10;
       const totalCols = tens + (ones > 0 ? 1 : 0);
 
-      // 숫자 크기에 맞춰 한 칸(unit) 크기를 큼직하게 자동 조절
-      let baseU = 9.5;
-      if (totalCols <= 2) baseU = 10.5;
-      else if (totalCols <= 4) baseU = 10;
-      else if (totalCols <= 6) baseU = 9.2;
-      else baseU = 8.4;
+      let baseU = 9.2;
+      if (totalCols <= 2) baseU = 10.2;
+      else if (totalCols <= 4) baseU = 9.6;
+      else if (totalCols <= 6) baseU = 9.0;
+      else baseU = 8.2;
 
-      const u = Math.max(7, baseU * sizeScale);
+      const u = Math.max(6.8, baseU * sizeScale);
       const rows = 10;
       const padX = 8;
       const svgW = Math.max(48, totalCols * u + padX * 2 + (ones > 0 ? 2 : 0));
@@ -1093,15 +1359,11 @@
       let blocksHtml = '';
       const tenTheme = TEN_THEMES[tens] || TEN_THEMES[1];
 
-      // 1) 십의 자리 기둥들 (각 기둥은 10칸 높이)
       for (let c = 0; c < tens; c++) {
         for (let r = 0; r < 10; r++) {
-          const x = startX + c * u;
-          const y = startY + r * u;
+          const x = startX + c * u, y = startY + r * u;
           const rowFromBottom = 9 - r;
-
-          let fill = tenTheme.fill;
-          let stroke = tenTheme.stroke;
+          let fill = tenTheme.fill, stroke = tenTheme.stroke;
 
           if (n === 100) {
             fill = ((r + c) % 2 === 0) ? '#FEE2E2' : '#FCA5A5';
@@ -1112,7 +1374,6 @@
             fill = GREY_3[r % 3];
           }
 
-          // 캐릭터별 바디 디테일 (12/24/32 어레이 엠블럼, 30 서커스 단추, 60 주사위 점, 80 옥토 벨트)
           let extra = '';
           if ((n === 12 || n === 24 || n === 32) && (r === 4 || r === 5)) {
             extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${u * 0.22}" fill="#F97316"/>`;
@@ -1128,42 +1389,30 @@
         }
       }
 
-      // 2) 일의 자리 기둥 (바닥부터 ones칸 만큼 쌓음, 고유 1~9 색상 적용)
       if (ones > 0) {
         const oneColX = startX + tens * u + 2;
         const unitTheme = UNIT_COLORS[ones];
-
         for (let i = 0; i < ones; i++) {
           const r = 9 - i;
           const y = startY + r * u;
-          let fill = unitTheme.fill;
-          let stroke = unitTheme.stroke;
-
-          if (ones === 7) {
-            fill = RAINBOW_7[i % 7];
-          } else if (ones === 9) {
-            fill = GREY_3[i % 3];
-          }
+          let fill = unitTheme.fill, stroke = unitTheme.stroke;
+          if (ones === 7) fill = RAINBOW_7[i % 7];
+          else if (ones === 9) fill = GREY_3[i % 3];
 
           let extra = '';
-          if (ones === 6) {
-            extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.15)}" fill="#312E81"/>`;
-          } else if (ones === 3) {
-            extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.15)}" fill="#EF4444"/>`;
-          }
+          if (ones === 6) extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.15)}" fill="#312E81"/>`;
+          else if (ones === 3) extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.15)}" fill="#EF4444"/>`;
 
           blocksHtml += drawSingleCell(oneColX, y, u, fill, stroke, extra);
         }
       }
 
-      // 3) 상단 왕관/모자 액세서리 + 얼굴 배치
       const tensWidth = tens * u;
       const faceCx = startX + tensWidth / 2;
       const faceCy = startY + u * 1.28;
       const accessoryHtml = renderHeadAccessory(n, faceCx, startY, Math.max(u * 2.5, tensWidth));
       const faceHtml = renderFaceFeatures(n, faceCx, faceCy, u * 1.55, Math.max(u * 2.2, tensWidth));
 
-      // 4) 상단 Numberling (11 ~ 100 숫자 머리표)
       const labelCx = startX + (totalCols * u) / 2;
       const hasTallAccessory = [14, 15, 17, 20, 21, 24, 30, 32, 33, 44, 49, 50, 60, 70, 77, 80, 88, 90, 100].includes(n) || (n > 20 && n % 10 === 7);
       const numY = hasTallAccessory ? (startY - 13) : (startY - 6);
@@ -1182,300 +1431,704 @@
       `;
     }
 
-    // 하위 호환 별칭 유지
     const renderNumberblockSVG = buildNumberblockSVG;
 
     /* =====================================================================
-       3. Lv.1 ~ Lv.10 수학 문제 생성기 (덧셈 / 뺄셈 / 곱셈 / 나눗셈 / 혼합 완벽 지원)
+       2B. 순수 내장형 SVG 알파블럭스 A~Z 엔진 (buildAlphablockSVG)
+       - 실제 알파블럭스 애니메이션의 투명 유리관 모자(Letter Cap) + A~Z 고유 색상/소품
        ===================================================================== */
-    const LEVEL_INFOS = {
-      1: { name: "Lv.1 - 기초 수 감각 연산 (1~6)" },
-      2: { name: "Lv.2 - 10 이하 기본 연산 (1~12)" },
-      3: { name: "Lv.3 - 10 모으기·가르기 / 2·5단 (1~20)" },
-      4: { name: "Lv.4 - 20 이하 연산 / 2~4단 (1~24)" },
-      5: { name: "Lv.5 - 20 이하 심화 / 3~5단 (1~30)" },
-      6: { name: "Lv.6 - 30 이하 연산 / 2~6단 (1~42)" },
-      7: { name: "Lv.7 - 50 이하 연산 / 4~7단 (1~56)" },
-      8: { name: "Lv.8 - 몇십 연산 / 6~9단 구구단 (1~90)" },
-      9: { name: "Lv.9 - 100 이하 두 자리 종합 연산 (1~100)" },
-      10: { name: "Lv.10 - 100 이하 빈칸 채우기 도전 (1~100)" }
+    const ALPHABLOCK_STYLES = {
+      A: { fill: '#4ADE80', stroke: '#16A34A', rim: '#15803D', prop: 'apple_cheek' },
+      B: { fill: '#60A5FA', stroke: '#2563EB', rim: '#1D4ED8', prop: 'glasses' },
+      C: { fill: '#F87171', stroke: '#DC2626', rim: '#991B1B', prop: 'crack' },
+      D: { fill: '#FBBF24', stroke: '#D97706', rim: '#B45309', prop: 'drum' },
+      E: { fill: '#FB923C', stroke: '#EA580C', rim: '#9A3412', prop: 'megaphone' },
+      F: { fill: '#A78BFA', stroke: '#7C3AED', rim: '#5B21B6', prop: 'helmet' },
+      G: { fill: '#34D399', stroke: '#059669', rim: '#065F46', prop: 'leaf' },
+      H: { fill: '#F97316', stroke: '#C2410C', rim: '#9A3412', prop: 'headband' },
+      I: { fill: '#F472B6', stroke: '#DB2777', rim: '#9D174D', prop: 'bowtie' },
+      J: { fill: '#22D3EE', stroke: '#0891B2', rim: '#155E75', prop: 'jester' },
+      K: { fill: '#FACC15', stroke: '#CA8A04', rim: '#854D0E', prop: 'crown' },
+      L: { fill: '#C084FC', stroke: '#9333EA', rim: '#6B21A8', prop: 'lashes' },
+      M: { fill: '#2DD4BF', stroke: '#0D9488', rim: '#115E59', prop: 'smile_big' },
+      N: { fill: '#FB7185', stroke: '#E11D48', rim: '#9F1239', prop: 'brow_bold' },
+      O: { fill: '#F97316', stroke: '#EA580C', rim: '#9A3412', prop: 'cyclops_lens' },
+      P: { fill: '#F472B6', stroke: '#EC4899', rim: '#9D174D', prop: 'star' },
+      Q: { fill: '#A855F7', stroke: '#7E22CE', rim: '#581C87', prop: 'crown' },
+      R: { fill: '#EF4444', stroke: '#B91C1C', rim: '#7F1D1D', prop: 'eyepatch' },
+      S: { fill: '#FDE047', stroke: '#CA8A04', rim: '#B91C1C', prop: 'stripes' },
+      T: { fill: '#38BDF8', stroke: '#0284C7', rim: '#075985', prop: 'tophat' },
+      U: { fill: '#818CF8', stroke: '#4F46E5', rim: '#3730A3', prop: 'umbrella' },
+      V: { fill: '#8B5CF6', stroke: '#6D28D9', rim: '#4C1D95', prop: 'visor' },
+      W: { fill: '#7DD3FC', stroke: '#0284C7', rim: '#0369A1', prop: 'waves' },
+      X: { fill: '#FACC15', stroke: '#CA8A04', rim: '#1E293B', prop: 'x_hero' },
+      Y: { fill: '#FEF08A', stroke: '#EAB308', rim: '#854D0E', prop: 'lashes' },
+      Z: { fill: '#CBD5E1', stroke: '#334155', rim: '#0F172A', prop: 'zebra' }
     };
 
-    const OP_LABELS = {
-      add: "덧셈 집중 (+)",
-      sub: "뺄셈 집중 (-)",
-      mul: "곱셈 집중 (×)",
-      div: "나눗셈 집중 (÷)",
-      mix: "덧셈·뺄셈 혼합 (+/-)",
-      mix_md: "곱셈·나눗셈 혼합 (×/÷)",
-      mix_all: "사칙연산 전체 혼합 (+/-/×/÷)"
+    function buildAlphablockSVG(charInput, sizeScale = 1) {
+      const raw = String(charInput || 'A').trim();
+      const upper = (raw[0] || 'A').toUpperCase();
+      const cfg = ALPHABLOCK_STYLES[upper] || ALPHABLOCK_STYLES.A;
+
+      const u = Math.round(44 * sizeScale);
+      const domeH = Math.round(24 * sizeScale);
+      const svgW = u + 20;
+      const svgH = u + domeH + 14;
+      const bx = 10;
+      const by = domeH + 4;
+      const cx = bx + u / 2;
+      const cy = by + u / 2;
+
+      // 1) 상단 투명 유리관 알파벳 모자(Letter Dome Cap)
+      const domeW = u * 0.68;
+      const domeX = cx - domeW / 2;
+      const domeY = 3;
+      const domeHtml = `
+        <path d="M ${domeX} ${by} L ${domeX} ${domeY + 8} Q ${cx} ${domeY - 3} ${domeX + domeW} ${domeY + 8} L ${domeX + domeW} ${by} Z"
+              fill="rgba(255,255,255,0.88)" stroke="#94A3B8" stroke-width="1.5"/>
+        <text x="${cx}" y="${by - 5}" text-anchor="middle" font-size="${Math.round(16 * sizeScale)}" font-weight="900" fill="#0F172A">${raw}</text>
+      `;
+
+      // 2) 블록 바디 패턴 (S 줄무늬, Z 지브라, X 엠블럼, C 크랙 등)
+      let bodyExtra = '';
+      if (cfg.prop === 'stripes') {
+        bodyExtra = `
+          <line x1="${bx + 3}" y1="${by + u * 0.25}" x2="${bx + u - 3}" y2="${by + u * 0.25}" stroke="#EF4444" stroke-width="3"/>
+          <line x1="${bx + 3}" y1="${by + u * 0.78}" x2="${bx + u - 3}" y2="${by + u * 0.78}" stroke="#EF4444" stroke-width="3"/>
+        `;
+      } else if (cfg.prop === 'zebra') {
+        bodyExtra = `
+          <rect x="${bx + 2}" y="${by + u * 0.2}" width="${u - 4}" height="4" fill="#1E293B"/>
+          <rect x="${bx + 2}" y="${by + u * 0.72}" width="${u - 4}" height="4" fill="#1E293B"/>
+        `;
+      } else if (cfg.prop === 'x_hero') {
+        bodyExtra = `
+          <line x1="${bx + 6}" y1="${by + 6}" x2="${bx + u - 6}" y2="${by + u - 6}" stroke="rgba(15,23,42,0.22)" stroke-width="4" stroke-linecap="round"/>
+          <line x1="${bx + u - 6}" y1="${by + 6}" x2="${bx + 6}" y2="${by + u - 6}" stroke="rgba(15,23,42,0.22)" stroke-width="4" stroke-linecap="round"/>
+        `;
+      } else if (cfg.prop === 'crack') {
+        bodyExtra = `
+          <polyline points="${cx + 4},${by + 2} ${cx + 1},${by + 10} ${cx + 6},${by + 15}" fill="none" stroke="#7F1D1D" stroke-width="1.5" stroke-linecap="round"/>
+        `;
+      } else if (cfg.prop === 'apple_cheek') {
+        bodyExtra = `
+          <circle cx="${bx + u * 0.2}" cy="${cy + u * 0.14}" r="3.5" fill="rgba(239,68,68,0.45)"/>
+          <circle cx="${bx + u * 0.8}" cy="${cy + u * 0.14}" r="3.5" fill="rgba(239,68,68,0.45)"/>
+        `;
+      } else if (cfg.prop === 'bowtie') {
+        bodyExtra = `
+          <polygon points="${cx},${by + u - 6} ${cx - 6},${by + u - 10} ${cx - 6},${by + u - 2}" fill="#BE185D"/>
+          <polygon points="${cx},${by + u - 6} ${cx + 6},${by + u - 10} ${cx + 6},${by + u - 2}" fill="#BE185D"/>
+        `;
+      }
+
+      const bodyHtml = drawSingleCell(bx, by, u, cfg.fill, cfg.stroke, bodyExtra);
+
+      // 3) 알파블럭스 얼굴 (눈, 눈썹, 소품)
+      const rEye = Math.max(3.8, u * 0.12);
+      const eyeOffset = u * 0.21;
+      const lx = cx - eyeOffset, rx = cx + eyeOffset, ey = cy - u * 0.08;
+
+      let faceHtml = '';
+      if (cfg.prop === 'cyclops_lens') {
+        // O: 커다란 돋보기 외눈
+        faceHtml = `
+          <circle cx="${cx}" cy="${ey}" r="${rEye * 1.45}" fill="#FFF" stroke="${cfg.rim}" stroke-width="2.2"/>
+          <circle cx="${cx}" cy="${ey}" r="${rEye * 0.72}" fill="#0F172A"/>
+          <circle cx="${cx - 1.5}" cy="${ey - 1.5}" r="${rEye * 0.25}" fill="#FFF"/>
+          <path d="M ${cx - 5} ${cy + 7} Q ${cx} ${cy + 12} ${cx + 5} ${cy + 7}" stroke="#0F172A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        `;
+      } else if (cfg.prop === 'eyepatch') {
+        // R: 해적 안대
+        faceHtml = `
+          <line x1="${bx + 2}" y1="${ey - 4}" x2="${bx + u - 2}" y2="${ey + 2}" stroke="#0F172A" stroke-width="1.6"/>
+          <circle cx="${lx}" cy="${ey}" r="${rEye * 1.05}" fill="#0F172A"/>
+          <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${cfg.rim}" stroke-width="1.6"/>
+          <circle cx="${rx}" cy="${ey}" r="${rEye * 0.55}" fill="#0F172A"/>
+          <path d="M ${cx - 5} ${cy + 7} Q ${cx} ${cy + 12} ${cx + 5} ${cy + 7}" stroke="#0F172A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        `;
+      } else {
+        const glasses = (cfg.prop === 'glasses' || cfg.prop === 'visor') ? `
+          <rect x="${lx - rEye * 1.3}" y="${ey - rEye * 1.1}" width="${rEye * 2.6}" height="${rEye * 2.1}" rx="2" fill="none" stroke="#1E3A8A" stroke-width="1.6"/>
+          <rect x="${rx - rEye * 1.3}" y="${ey - rEye * 1.1}" width="${rEye * 2.6}" height="${rEye * 2.1}" rx="2" fill="none" stroke="#1E3A8A" stroke-width="1.6"/>
+          <line x1="${lx + rEye * 1.3}" y1="${ey}" x2="${rx - rEye * 1.3}" y2="${ey}" stroke="#1E3A8A" stroke-width="1.6"/>
+        ` : '';
+        faceHtml = `
+          <path d="M ${lx - rEye} ${ey - rEye * 1.3} Q ${lx} ${ey - rEye * 1.8} ${lx + rEye} ${ey - rEye * 1.3}" stroke="${cfg.rim}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+          <path d="M ${rx - rEye} ${ey - rEye * 1.3} Q ${rx} ${ey - rEye * 1.8} ${rx + rEye} ${ey - rEye * 1.3}" stroke="${cfg.rim}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+          <circle cx="${lx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${cfg.rim}" stroke-width="1.5"/>
+          <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${cfg.rim}" stroke-width="1.5"/>
+          <circle cx="${lx}" cy="${ey}" r="${rEye * 0.52}" fill="#0F172A"/>
+          <circle cx="${rx}" cy="${ey}" r="${rEye * 0.52}" fill="#0F172A"/>
+          <circle cx="${lx - 1.2}" cy="${ey - 1.2}" r="${rEye * 0.2}" fill="#FFF"/>
+          <circle cx="${rx - 1.2}" cy="${ey - 1.2}" r="${rEye * 0.2}" fill="#FFF"/>
+          ${glasses}
+          <path d="M ${cx - 5.5} ${cy + 6.5} Q ${cx} ${cy + 12} ${cx + 5.5} ${cy + 6.5}" stroke="#0F172A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        `;
+      }
+
+      // 4) 귀여운 발(Shoes)
+      const shoesHtml = `
+        <ellipse cx="${cx - u * 0.22}" cy="${by + u + 3}" rx="5.5" ry="3" fill="${cfg.stroke}"/>
+        <ellipse cx="${cx + u * 0.22}" cy="${by + u + 3}" rx="5.5" ry="3" fill="${cfg.stroke}"/>
+      `;
+
+      return `
+        <svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" class="ab-svg" style="filter: drop-shadow(0 3px 4px rgba(15,23,42,0.14));">
+          ${shoesHtml}
+          ${domeHtml}
+          ${bodyHtml}
+          ${faceHtml}
+        </svg>
+      `;
+    }
+
+    /* =====================================================================
+       3. 수학(Lv.1~20) & 영어(Lv.1~20) 커리큘럼 데이터 및 문제 생성기
+       ===================================================================== */
+    const MATH_LEVELS = {
+      1: "Lv.1 - 1~5 수 세기와 모으기",
+      2: "Lv.2 - 1~5 가르기와 기초 뺄셈",
+      3: "Lv.3 - 6~10 수 모으기와 덧셈",
+      4: "Lv.4 - 6~10 수 가르기와 뺄셈",
+      5: "Lv.5 - 10의 보수 (합이 10인 짝꿍 수)",
+      6: "Lv.6 - 받아올림 없는 십몇 + 한 자리",
+      7: "Lv.7 - 받아내림 없는 십몇 - 한 자리",
+      8: "Lv.8 - 20 이하 받아올림 덧셈 (합 11~18)",
+      9: "Lv.9 - 20 이하 받아내림 뺄셈 (11~18)",
+      10: "Lv.10 - 20 이하 종합 연산 & 2·5단 구구단",
+      11: "Lv.11 - 30 이하 두 자리와 한 자리 (2~3단)",
+      12: "Lv.12 - 50 이하 받아올림 없는 연산 (3~5단)",
+      13: "Lv.13 - 50 이하 받아올림 있는 연산 (4~6단)",
+      14: "Lv.14 - 몇십 + 몇십 / 몇십 - 몇십 (10~100)",
+      15: "Lv.15 - 100 이하 받아올림 없는 연산 (7~9단)",
+      16: "Lv.16 - 100 이하 받아올림 두 자리 덧셈",
+      17: "Lv.17 - 100 이하 받아내림 두 자리 뺄셈",
+      18: "Lv.18 - 100 이하 두 자리 사칙연산 종합",
+      19: "Lv.19 - 세 수의 연쇄 연산 (넘버블럭스 3친구)",
+      20: "Lv.20 - 100 이하 미지수 빈칸 추론 마스터"
+    };
+
+    const ENG_LEVELS = {
+      1: "Lv.1 - 알파벳 A ~ G 대·소문자 짝꿍",
+      2: "Lv.2 - 알파벳 H ~ N 대·소문자 짝꿍",
+      3: "Lv.3 - 알파벳 O ~ U 대·소문자 짝꿍",
+      4: "Lv.4 - 알파벳 V ~ Z 대·소문자 짝꿍",
+      5: "Lv.5 - 알파벳 A ~ Z 순서 빈칸 추론",
+      6: "Lv.6 - 파닉스 첫소리(Beginning Sound) 찾기",
+      7: "Lv.7 - 단모음 A 가족 CVC 단어 블렌딩",
+      8: "Lv.8 - 단모음 E · I 가족 CVC 단어 블렌딩",
+      9: "Lv.9 - 단모음 O · U 가족 CVC 단어 블렌딩",
+      10: "Lv.10 - 파닉스 끝소리(Ending Sound) 찾기",
+      11: "Lv.11 - 이중자음 CH · SH · TH 알파블럭스",
+      12: "Lv.12 - 자음 블렌드 ST · FR · TR · CL 단어",
+      13: "Lv.13 - 마법의 E (Magic E 장모음 단어)",
+      14: "Lv.14 - 이중모음 OO · EE · EA 필수 단어",
+      15: "Lv.15 - 동물 친구들 필수 영단어 스펠링",
+      16: "Lv.16 - 숫자 영단어 (넘버블럭스×알파블럭스!)",
+      17: "Lv.17 - 색깔 & 과일 필수 영단어 완성",
+      18: "Lv.18 - 알파블럭스 애너그램 (철자 순서 맞추기)",
+      19: "Lv.19 - 기초 반대말·짝꿍 영단어 완성",
+      20: "Lv.20 - 초등 기초 영어 문장 빈칸 완성"
+    };
+
+    const WORD_BANKS = {
+      cvc_a: [
+        { w: 'CAT', m: '🐱 고양이' }, { w: 'BAG', m: '🎒 가방' }, { w: 'HAT', m: '🎩 모자' },
+        { w: 'FAN', m: '🪭 부채/선풍기' }, { w: 'MAP', m: '🗺️ 지도' }, { w: 'JAM', m: '🍓 잼' },
+        { w: 'VAN', m: '🚐 승합차' }, { w: 'BAT', m: '🦇 박쥐' }, { w: 'CAP', m: '🧢 야구모자' }
+      ],
+      cvc_ei: [
+        { w: 'BED', m: '🛏️ 침대' }, { w: 'PEN', m: '🖊️ 펜' }, { w: 'RED', m: '🔴 빨강' },
+        { w: 'HEN', m: '🐔 암탉' }, { w: 'NET', m: '🥅 그물' }, { w: 'PIG', m: '🐷 돼지' },
+        { w: 'SIX', m: '6️⃣ 숫자 6' }, { w: 'LIP', m: '👄 입술' }, { w: 'ZIP', m: '🤐 지퍼' }
+      ],
+      cvc_ou: [
+        { w: 'DOG', m: '🐶 강아지' }, { w: 'BOX', m: '📦 상자' }, { w: 'FOX', m: '🦊 여우' },
+        { w: 'POT', m: '🍲 냄비' }, { w: 'LOG', m: '🪵 통나무' }, { w: 'SUN', m: '☀️ 태양' },
+        { w: 'BUS', m: '🚌 버스' }, { w: 'CUP', m: '🥤 컵' }, { w: 'BUG', m: '🐞 무당벌레' }
+      ],
+      digraph: [
+        { w: 'SHIP', m: '🚢 배' }, { w: 'FISH', m: '🐟 물고기' }, { w: 'SHOP', m: '🏪 가게' },
+        { w: 'CHIN', m: '😊 턱' }, { w: 'CHIP', m: '🍟 감자칩' }, { w: 'BATH', m: '🛁 목욕' },
+        { w: 'MATH', m: '🔢 수학' }, { w: 'KING', m: '👑 왕' }, { w: 'RING', m: '💍 반지' }
+      ],
+      blends: [
+        { w: 'STAR', m: '⭐ 별' }, { w: 'STOP', m: '🛑 멈춤' }, { w: 'FROG', m: '🐸 개구리' },
+        { w: 'FLAG', m: '🚩 깃발' }, { w: 'DRUM', m: '🥁 북/드럼' }, { w: 'CLAP', m: '👏 박수' },
+        { w: 'CRAB', m: '🦀 꽃게' }, { w: 'SWIM', m: '🏊 수영' }, { w: 'MILK', m: '🥛 우유' }
+      ],
+      magic_e: [
+        { w: 'CAKE', m: '🎂 케이크' }, { w: 'BIKE', m: '🚲 자전거' }, { w: 'KITE', m: '🪁 연' },
+        { w: 'HOME', m: '🏠 집' }, { w: 'NOSE', m: '👃 코' }, { w: 'ROSE', m: '🌹 장미' },
+        { w: 'CUBE', m: '🧊 큐브' }, { w: 'GAME', m: '🎮 게임' }, { w: 'LAKE', m: '🏞️ 호수' }
+      ],
+      vowel_team: [
+        { w: 'BOOK', m: '📖 책' }, { w: 'MOON', m: '🌙 달' }, { w: 'FOOT', m: '🦶 발' },
+        { w: 'TREE', m: '🌳 나무' }, { w: 'BEE', m: '🐝 꿀벌' }, { w: 'SEED', m: '🌱 씨앗' },
+        { w: 'BOAT', m: '⛵ 보트' }, { w: 'RAIN', m: '🌧️ 비' }, { w: 'LEAF', m: '🍃 나뭇잎' }
+      ],
+      animals: [
+        { w: 'LION', m: '🦁 사자' }, { w: 'BEAR', m: '🐻 곰' }, { w: 'DUCK', m: '🦆 오리' },
+        { w: 'BIRD', m: '🐦 새' }, { w: 'WOLF', m: '🐺 늑대' }, { w: 'DEER', m: '🦌 사슴' },
+        { w: 'GOAT', m: '🐐 염소' }, { w: 'SEAL', m: '🦭 물개' }
+      ],
+      numbers_eng: [
+        { w: 'ONE', m: '1 (원)', num: 1 }, { w: 'TWO', m: '2 (투)', num: 2 },
+        { w: 'THREE', m: '3 (쓰리)', num: 3 }, { w: 'FOUR', m: '4 (포)', num: 4 },
+        { w: 'FIVE', m: '5 (파이브)', num: 5 }, { w: 'SIX', m: '6 (식스)', num: 6 },
+        { w: 'SEVEN', m: '7 (세븐)', num: 7 }, { w: 'EIGHT', m: '8 (에잇)', num: 8 },
+        { w: 'NINE', m: '9 (나인)', num: 9 }, { w: 'TEN', m: '10 (텐)', num: 10 }
+      ],
+      colors_fruits: [
+        { w: 'APPLE', m: '🍎 사과' }, { w: 'MELON', m: '🍈 멜론' }, { w: 'GRAPE', m: '🍇 포도' },
+        { w: 'LEMON', m: '🍋 레몬' }, { w: 'GREEN', m: '🟢 초록색' }, { w: 'BLUE', m: '🔵 파란색' },
+        { w: 'PINK', m: '🩷 분홍색' }, { w: 'BLACK', m: '⚫ 검정색' }
+      ],
+      opposites: [
+        { q: 'HOT 🔥 ↔', w: 'COLD', m: '❄️ 추운/차가운' },
+        { q: 'BIG 🐘 ↔', w: 'SMALL', m: '🐭 작은' },
+        { q: 'UP ⬆️ ↔', w: 'DOWN', m: '⬇️ 아래로' },
+        { q: 'DAY ☀️ ↔', w: 'NIGHT', m: '🌙 밤' },
+        { q: 'FAST 🐆 ↔', w: 'SLOW', m: '🐢 느린' },
+        { q: 'GOOD 👍 ↔', w: 'BAD', m: '👎 나쁜' },
+        { q: 'OPEN 🔓 ↔', w: 'CLOSE', m: '🔒 닫다' }
+      ],
+      sentences: [
+        { pre: 'I am', post: '!', w: 'HAPPY', m: '😊 나는 행복해요' },
+        { pre: 'It is a', post: '.', w: 'DOG', m: '🐶 그것은 강아지예요' },
+        { pre: 'I like', post: '.', w: 'MILK', m: '🥛 나는 우유를 좋아해요' },
+        { pre: 'Look at the', post: '!', w: 'STAR', m: '⭐ 저 별을 보세요' },
+        { pre: 'This is my', post: '.', w: 'BOOK', m: '📖 이것은 내 책이에요' },
+        { pre: 'I can', post: '!', w: 'SWIM', m: '🏊 나는 수영할 수 있어요' }
+      ]
     };
 
     function rand(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    function pickItem(arr) {
+      return arr[rand(0, arr.length - 1)];
+    }
+
     function pickActualOp(opMode) {
-      if (opMode === 'add' || opMode === 'sub' || opMode === 'mul' || opMode === 'div') return opMode;
+      if (['add', 'sub', 'mul', 'div'].includes(opMode)) return opMode;
       if (opMode === 'mix_md') return (Math.random() < 0.5) ? 'mul' : 'div';
-      if (opMode === 'mix_all') {
-        const list = ['add', 'sub', 'mul', 'div'];
-        return list[rand(0, 3)];
-      }
+      if (opMode === 'mix_all') return ['add', 'sub', 'mul', 'div'][rand(0, 3)];
       return (Math.random() < 0.5) ? 'add' : 'sub';
     }
 
-    // 곱셈 & 나눗셈 레벨별 문제 생성 (결과 및 피연산자 모두 1~100 자연수 보장)
-    function generateMulDivProblem(level, actualOp) {
+    // 🔢 수학 Lv.1 ~ Lv.20 문제 생성
+    function generateMathProblem(level, opMode) {
       const lv = Number(level);
-      const isDiv = (actualOp === 'div');
-      let f1 = 2, f2 = 2;
-
-      switch (lv) {
-        case 1:
-          f1 = rand(1, 3);
-          f2 = rand(1, 2);
-          break;
-        case 2:
-          f1 = rand(2, 3);
-          f2 = rand(1, 4);
-          break;
-        case 3: {
-          const bases = [2, 5];
-          f1 = bases[rand(0, 1)];
-          f2 = rand(1, 5);
-          break;
-        }
-        case 4:
-          f1 = rand(2, 4);
-          f2 = rand(2, 6);
-          break;
-        case 5:
-          f1 = rand(3, 5);
-          f2 = rand(2, 6);
-          break;
-        case 6:
-          f1 = rand(2, 6);
-          f2 = rand(3, 7);
-          break;
-        case 7:
-          f1 = rand(4, 7);
-          f2 = rand(3, 8);
-          break;
-        case 8:
-          f1 = rand(6, 9);
-          f2 = rand(2, 9);
-          break;
-        case 9:
-          if (Math.random() < 0.6) {
-            f1 = rand(6, 9);
-            f2 = rand(4, 9);
-          } else {
-            f1 = rand(11, 24);
-            f2 = rand(2, Math.floor(100 / f1));
-          }
-          break;
-        case 10:
-        default:
-          f1 = rand(2, 10);
-          f2 = rand(2, 10);
-          if (!isDiv) {
-            return { a: f1, b: f2, op: '×', ans: f2, target: f1 * f2, type: 'blank_right' };
-          } else {
-            const prod = f1 * f2;
-            return { a: prod, b: f1, op: '÷', ans: f1, target: f2, type: 'blank_right' };
-          }
-      }
-
-      const product = f1 * f2;
-      if (!isDiv) {
-        return { a: f1, b: f2, op: '×', ans: product, type: 'normal' };
-      } else {
-        return { a: product, b: f1, op: '÷', ans: f2, type: 'normal' };
-      }
-    }
-
-    function generateProblem(level, opMode = 'mix') {
       const actualOp = pickActualOp(opMode);
 
+      // 곱셈/나눗셈 선택 시 레벨별 맞춤 구구단/나눗셈 생성
       if (actualOp === 'mul' || actualOp === 'div') {
-        return generateMulDivProblem(level, actualOp);
+        const isDiv = (actualOp === 'div');
+        let f1 = 2, f2 = 2;
+        if (lv <= 2) { f1 = rand(1, 3); f2 = rand(1, 3); }
+        else if (lv <= 5) { f1 = [2, 3, 5][rand(0, 2)]; f2 = rand(1, 5); }
+        else if (lv <= 8) { f1 = rand(2, 4); f2 = rand(2, 6); }
+        else if (lv <= 11) { f1 = rand(2, 5); f2 = rand(2, 7); }
+        else if (lv <= 14) { f1 = rand(3, 7); f2 = rand(3, 8); }
+        else if (lv <= 17) { f1 = rand(5, 9); f2 = rand(3, 9); }
+        else { f1 = rand(6, 10); f2 = rand(3, 10); }
+
+        const prod = f1 * f2;
+        if (lv === 20) {
+          return !isDiv
+            ? { subject: 'math', a: f1, b: f2, op: '×', ans: String(f2), target: prod, type: 'blank_right' }
+            : { subject: 'math', a: prod, b: f1, op: '÷', ans: String(f1), target: f2, type: 'blank_right' };
+        }
+        return !isDiv
+          ? { subject: 'math', a: f1, b: f2, op: '×', ans: String(prod), type: 'normal' }
+          : { subject: 'math', a: prod, b: f1, op: '÷', ans: String(f2), type: 'normal' };
       }
 
       const isSub = (actualOp === 'sub');
-      let p = {};
+      let a = 1, b = 1;
 
-      switch (Number(level)) {
-        case 1: {
+      switch (lv) {
+        case 1: // 1~5 덧셈/뺄셈
+          if (!isSub) { a = rand(1, 4); b = rand(1, 5 - a); }
+          else { a = rand(2, 5); b = rand(1, a - 1); }
+          break;
+        case 2: // 1~5 가르기
+          if (opMode === 'add') { a = rand(1, 4); b = rand(1, 5 - a); }
+          else { a = rand(2, 5); b = rand(1, a - 1); return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' }; }
+          break;
+        case 3: // 6~10 모으기
+          if (!isSub) { a = rand(2, 7); b = rand(2, 10 - a); }
+          else { a = rand(6, 10); b = rand(1, a - 2); }
+          break;
+        case 4: // 6~10 빼기
+          if (opMode === 'add') { a = rand(3, 7); b = rand(2, 10 - a); }
+          else { a = rand(6, 10); b = rand(2, a - 1); return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' }; }
+          break;
+        case 5: // 10의 보수
+          a = rand(1, 9); b = 10 - a;
           if (!isSub) {
-            const a = rand(1, 4);
-            const b = rand(1, 5 - a);
-            p = { a, b, op: '+', ans: a + b, type: 'normal' };
+            return { subject: 'math', a, b, op: '+', ans: String(b), target: 10, type: 'blank_right' };
           } else {
-            const a = rand(2, 5);
-            const b = rand(1, a - 1);
-            p = { a, b, op: '-', ans: a - b, type: 'normal' };
+            return { subject: 'math', a: 10, b: a, op: '-', ans: String(b), type: 'normal' };
+          }
+        case 6: // 받아올림 없는 십몇 + 한 자리
+          if (!isSub) { const o = rand(1, 6); a = 10 + o; b = rand(1, 9 - o); }
+          else { const o = rand(3, 9); a = 10 + o; b = rand(1, o - 1); }
+          break;
+        case 7: // 받아내림 없는 십몇 - 한 자리
+          if (opMode === 'add') { const o = rand(1, 7); a = 10 + o; b = rand(1, 9 - o); }
+          else { const o = rand(3, 9); a = 10 + o; b = rand(1, o - 1); return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' }; }
+          break;
+        case 8: // 20 이하 받아올림 덧셈
+          if (opMode === 'sub') { a = rand(11, 18); b = rand(Math.max(2, a - 9), 9); }
+          else { a = rand(4, 9); b = rand(11 - a, 9); return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' }; }
+          break;
+        case 9: // 20 이하 받아내림 뺄셈
+          if (opMode === 'add') { a = rand(5, 9); b = rand(11 - a, 9); }
+          else { a = rand(11, 18); b = rand(Math.max(2, a - 9), 9); return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' }; }
+          break;
+        case 10: // 20 이하 종합
+          if (!isSub) { a = rand(5, 13); b = rand(3, 20 - a); }
+          else { a = rand(11, 20); b = rand(3, a - 2); }
+          break;
+        case 11: // 30 이하 두 자리와 한 자리
+          if (!isSub) { a = rand(12, 24); b = rand(2, 30 - a); }
+          else { a = rand(15, 30); b = rand(2, 9); }
+          break;
+        case 12: // 50 이하 받아올림/내림 없는 두 자리 연산
+          if (!isSub) {
+            const t1 = rand(1, 2), o1 = rand(1, 5);
+            const t2 = rand(1, 4 - t1), o2 = rand(1, 9 - o1);
+            a = t1 * 10 + o1; b = t2 * 10 + o2;
+          } else {
+            const t1 = rand(2, 4), o1 = rand(3, 9);
+            const t2 = rand(1, t1 - 1), o2 = rand(1, o1 - 1);
+            a = t1 * 10 + o1; b = t2 * 10 + o2;
           }
           break;
+        case 13: // 50 이하 받아올림/내림 있는 두 자리 연산
+          if (!isSub) {
+            const t1 = rand(1, 2), o1 = rand(5, 9);
+            const t2 = rand(1, 3 - t1), o2 = rand(10 - o1, 9);
+            a = t1 * 10 + o1; b = t2 * 10 + o2;
+          } else {
+            const t1 = rand(2, 4), o1 = rand(1, 5);
+            const t2 = rand(1, t1 - 1), o2 = rand(o1 + 1, 9);
+            a = t1 * 10 + o1; b = t2 * 10 + o2;
+          }
+          break;
+        case 14: // 몇십 + 몇십 / 몇십 - 몇십
+          if (!isSub) {
+            const t1 = rand(1, 8), t2 = rand(1, 10 - t1);
+            a = t1 * 10; b = t2 * 10;
+          } else {
+            const t1 = rand(2, 10), t2 = rand(1, t1 - 1);
+            a = t1 * 10; b = t2 * 10;
+          }
+          break;
+        case 15: // 100 이하 받아올림 없는 두 자리 연산
+          if (!isSub) {
+            const t1 = rand(2, 6), o1 = rand(1, 5);
+            const t2 = rand(1, 9 - t1), o2 = rand(1, 9 - o1);
+            a = t1 * 10 + o1; b = t2 * 10 + o2;
+          } else {
+            const t1 = rand(3, 9), o1 = rand(3, 9);
+            const t2 = rand(1, t1 - 1), o2 = rand(1, o1 - 1);
+            a = t1 * 10 + o1; b = t2 * 10 + o2;
+          }
+          break;
+        case 16: // 100 이하 받아올림 두 자리 덧셈
+          if (opMode === 'sub') { a = rand(42, 98); b = rand(15, a - 12); }
+          else {
+            const t1 = rand(1, 6), o1 = rand(4, 9);
+            const t2 = rand(1, 8 - t1), o2 = rand(10 - o1, 9);
+            a = t1 * 10 + o1; b = t2 * 10 + o2;
+            return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' };
+          }
+          break;
+        case 17: // 100 이하 받아내림 두 자리 뺄셈
+          if (opMode === 'add') { a = rand(24, 68); b = rand(15, 100 - a); }
+          else {
+            const t1 = rand(3, 9), o1 = rand(1, 6);
+            const t2 = rand(1, t1 - 1), o2 = rand(o1 + 1, 9);
+            a = t1 * 10 + o1; b = t2 * 10 + o2;
+            return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' };
+          }
+          break;
+        case 18: // 100 이하 종합
+          if (!isSub) { a = rand(15, 72); b = rand(12, 100 - a); }
+          else { a = rand(35, 100); b = rand(12, a - 10); }
+          break;
+        case 19: { // 세 수의 연쇄 연산 (넘버블럭스 3캐릭터)
+          if (!isSub) {
+            const c1 = rand(2, 12), c2 = rand(2, 12), c3 = rand(2, 12);
+            return { subject: 'math', a: c1, b: c2, c: c3, op1: '+', op2: '+', ans: String(c1 + c2 + c3), type: 'triple' };
+          } else {
+            const c1 = rand(12, 28), c2 = rand(2, 7), c3 = rand(2, 6);
+            return { subject: 'math', a: c1, b: c2, c: c3, op1: '-', op2: '-', ans: String(c1 - c2 - c3), type: 'triple' };
+          }
         }
-        case 2: {
+        case 20:
+        default: { // 미지수 빈칸 추론 마스터
           if (!isSub) {
-            const a = rand(1, 8);
-            const b = rand(1, 10 - a);
-            p = { a, b, op: '+', ans: a + b, type: 'normal' };
+            a = rand(12, 65); b = rand(11, 100 - a);
+            return { subject: 'math', a, b, op: '+', ans: String(b), target: a + b, type: 'blank_right' };
           } else {
-            const a = rand(3, 10);
-            const b = rand(1, a - 1);
-            p = { a, b, op: '-', ans: a - b, type: 'normal' };
+            a = rand(32, 100); b = rand(11, a - 10);
+            return { subject: 'math', a, b, op: '-', ans: String(b), target: a - b, type: 'blank_right' };
           }
-          break;
-        }
-        case 3: {
-          const a = rand(1, 9);
-          const b = 10 - a;
-          if (!isSub) {
-            if (Math.random() > 0.4) {
-              p = { a, b, op: '+', ans: b, target: 10, type: 'blank_right' };
-            } else {
-              p = { a, b, op: '+', ans: 10, type: 'normal' };
-            }
-          } else {
-            p = { a: 10, b: a, op: '-', ans: b, type: 'normal' };
-          }
-          break;
-        }
-        case 4: {
-          if (!isSub) {
-            const a = rand(4, 9);
-            const b = rand(11 - a, 9);
-            p = { a, b, op: '+', ans: a + b, type: 'normal' };
-          } else {
-            const a = rand(11, 18);
-            const b = rand(Math.max(2, a - 9), 9);
-            p = { a, b, op: '-', ans: a - b, type: 'normal' };
-          }
-          break;
-        }
-        case 5: {
-          if (!isSub) {
-            const a = rand(7, 14);
-            const b = rand(3, 20 - a);
-            p = { a, b, op: '+', ans: a + b, type: 'normal' };
-          } else {
-            const a = rand(12, 20);
-            const b = rand(3, a - 2);
-            p = { a, b, op: '-', ans: a - b, type: 'normal' };
-          }
-          break;
-        }
-        case 6: {
-          if (!isSub) {
-            const a = rand(11, 24);
-            const b = rand(2, 30 - a);
-            p = { a, b, op: '+', ans: a + b, type: 'normal' };
-          } else {
-            const a = rand(14, 30);
-            const b = rand(2, 9);
-            p = { a, b, op: '-', ans: a - b, type: 'normal' };
-          }
-          break;
-        }
-        case 7: {
-          if (!isSub) {
-            const a = rand(12, 34);
-            const b = rand(11, 50 - a);
-            p = { a, b, op: '+', ans: a + b, type: 'normal' };
-          } else {
-            const a = rand(25, 50);
-            const b = rand(11, a - 5);
-            p = { a, b, op: '-', ans: a - b, type: 'normal' };
-          }
-          break;
-        }
-        case 8: {
-          if (!isSub) {
-            const ta = rand(1, 8);
-            const tb = rand(1, 10 - ta);
-            const a = ta * 10;
-            const b = tb * 10;
-            p = { a, b, op: '+', ans: a + b, type: 'normal' };
-          } else {
-            const ta = rand(2, 10);
-            const tb = rand(1, ta - 1);
-            const a = ta * 10;
-            const b = tb * 10;
-            p = { a, b, op: '-', ans: a - b, type: 'normal' };
-          }
-          break;
-        }
-        case 9: {
-          if (!isSub) {
-            const a = rand(14, 75);
-            const b = rand(12, 100 - a);
-            p = { a, b, op: '+', ans: a + b, type: 'normal' };
-          } else {
-            const a = rand(32, 100);
-            const b = rand(12, a - 10);
-            p = { a, b, op: '-', ans: a - b, type: 'normal' };
-          }
-          break;
-        }
-        case 10:
-        default: {
-          if (!isSub) {
-            const a = rand(14, 68);
-            const b = rand(11, 100 - a);
-            p = { a, b, op: '+', ans: b, target: a + b, type: 'blank_right' };
-          } else {
-            const a = rand(32, 100);
-            const b = rand(11, a - 10);
-            p = { a, b, op: '-', ans: b, target: a - b, type: 'blank_right' };
-          }
-          break;
         }
       }
 
-      return p;
+      const opChar = isSub ? '-' : '+';
+      const ansVal = isSub ? (a - b) : (a + b);
+      return { subject: 'math', a, b, op: opChar, ans: String(ansVal), type: 'normal' };
+    }
+
+    // 🔤 영어(알파블럭스) Lv.1 ~ Lv.20 문제 생성
+    function generateEngProblem(level, engMode) {
+      const lv = Number(level);
+      const isTrace = (engMode === 'eng_trace');
+
+      // Lv.1 ~ Lv.4: 알파벳 대·소문자 짝꿍 찾기
+      if (lv >= 1 && lv <= 4) {
+        const ranges = { 1: 'ABCDEFG', 2: 'HIJKLMN', 3: 'OPQRSTU', 4: 'VWXYZ' };
+        const pool = ranges[lv];
+        const ch = pool[rand(0, pool.length - 1)];
+        const lower = ch.toLowerCase();
+        return {
+          subject: 'eng',
+          type: 'letter_pair',
+          chars: [ch, lower],
+          promptLeft: `${ch} 의 짝꿍 소문자 →`,
+          ans: lower,
+          meaning: `알파블럭스 ${ch} · ${lower}`,
+          trace: isTrace
+        };
+      }
+
+      // Lv.5: 알파벳 A~Z 순서 빈칸 추론 (A - [ B ] - C)
+      if (lv === 5) {
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const idx = rand(0, 23);
+        const c1 = alphabet[idx], c2 = alphabet[idx + 1], c3 = alphabet[idx + 2];
+        return {
+          subject: 'eng',
+          type: 'seq_blank',
+          chars: [c1, c2, c3],
+          seq: [c1, null, c3],
+          ans: c2,
+          meaning: '알파벳 순서 맞추기',
+          trace: isTrace
+        };
+      }
+
+      // Lv.16: 숫자 영단어 (넘버블럭스 × 알파블럭스 콜라보!)
+      if (lv === 16) {
+        const item = pickItem(WORD_BANKS.numbers_eng);
+        const w = item.w;
+        const blankIdx = (engMode === 'eng_first') ? 0 : (engMode === 'eng_last' ? w.length - 1 : rand(0, w.length - 1));
+        return {
+          subject: 'eng',
+          type: 'number_word',
+          num: item.num,
+          word: w,
+          blankIdx,
+          ans: w[blankIdx],
+          meaning: item.m,
+          trace: isTrace
+        };
+      }
+
+      // Lv.18: 알파블럭스 애너그램 (철자 순서 맞추기)
+      if (lv === 18) {
+        const pool = [...WORD_BANKS.cvc_a, ...WORD_BANKS.cvc_ei, ...WORD_BANKS.cvc_ou];
+        const item = pickItem(pool);
+        const w = item.w;
+        const scrambled = w.split('').reverse().join(' · ');
+        return {
+          subject: 'eng',
+          type: 'whole_word',
+          chars: w.split(''),
+          promptText: `[ ${scrambled} ] →`,
+          ans: w,
+          meaning: item.m,
+          trace: isTrace
+        };
+      }
+
+      // Lv.19: 반대말 완성
+      if (lv === 19) {
+        const item = pickItem(WORD_BANKS.opposites);
+        const w = item.w;
+        const blankIdx = rand(0, w.length - 1);
+        return {
+          subject: 'eng',
+          type: 'word_blank',
+          chars: w.slice(0, 3).split(''),
+          prefix: item.q,
+          word: w,
+          blankIdx,
+          ans: w[blankIdx],
+          meaning: item.m,
+          trace: isTrace
+        };
+      }
+
+      // Lv.20: 기초 영어 문장 빈칸 완성
+      if (lv === 20) {
+        const item = pickItem(WORD_BANKS.sentences);
+        return {
+          subject: 'eng',
+          type: 'sentence_blank',
+          chars: item.w.slice(0, 3).split(''),
+          pre: item.pre,
+          post: item.post,
+          ans: item.w,
+          meaning: item.m,
+          trace: isTrace
+        };
+      }
+
+      // Lv.6 ~ Lv.15, Lv.17: 파닉스 및 영단어 스펠링 블렌딩
+      let bank = WORD_BANKS.cvc_a;
+      if (lv === 6) bank = [...WORD_BANKS.cvc_a, ...WORD_BANKS.cvc_ei, ...WORD_BANKS.cvc_ou];
+      else if (lv === 7) bank = WORD_BANKS.cvc_a;
+      else if (lv === 8) bank = WORD_BANKS.cvc_ei;
+      else if (lv === 9) bank = WORD_BANKS.cvc_ou;
+      else if (lv === 10) bank = [...WORD_BANKS.cvc_a, ...WORD_BANKS.cvc_ou];
+      else if (lv === 11) bank = WORD_BANKS.digraph;
+      else if (lv === 12) bank = WORD_BANKS.blends;
+      else if (lv === 13) bank = WORD_BANKS.magic_e;
+      else if (lv === 14) bank = WORD_BANKS.vowel_team;
+      else if (lv === 15) bank = WORD_BANKS.animals;
+      else if (lv === 17) bank = WORD_BANKS.colors_fruits;
+
+      const item = pickItem(bank);
+      const w = item.w;
+      let blankIdx = 0;
+      if (lv === 6 || engMode === 'eng_first') blankIdx = 0;
+      else if (lv === 10 || engMode === 'eng_last') blankIdx = w.length - 1;
+      else if ((lv >= 7 && lv <= 9) || engMode === 'eng_vowel') blankIdx = 1;
+      else blankIdx = rand(0, w.length - 1);
+
+      return {
+        subject: 'eng',
+        type: 'word_blank',
+        chars: w.slice(0, 3).split(''),
+        word: w,
+        blankIdx,
+        ans: w[blankIdx],
+        meaning: item.m,
+        trace: isTrace
+      };
     }
 
     /* =====================================================================
-       4. 렌더링 및 UI 바인딩
+       4. UI 상태 관리, 과목 전환, 렌더링 및 오답노트/채점 시스템
        ===================================================================== */
-    function renderWorksheet() {
-      const level = document.getElementById('levelSelect').value;
-      const opMode = document.getElementById('opSelect').value || 'mix';
-      const count = parseInt(document.getElementById('countSelect').value, 10) || 5;
-      const customTitle = document.getElementById('titleCustom').value.trim() || '넘버블럭스 수학 교실';
+    let currentSubject = 'math'; // 'math' | 'eng'
+    let currentProblems = [];
+    let wrongProblems = [];
 
-      // 텍스트 업데이트
-      document.getElementById('displayTitle').innerText = customTitle;
-      const info = LEVEL_INFOS[level] || LEVEL_INFOS[2];
-      const opLabel = OP_LABELS[opMode] || OP_LABELS.mix;
-      document.getElementById('displaySubtitle').innerText = `${info.name} [${opLabel}]`;
+    function populateSelectors() {
+      const levelSelect = document.getElementById('levelSelect');
+      const opSelect = document.getElementById('opSelect');
+      const prevLevel = levelSelect.value || '2';
 
-      // 문제 수에 따라 캐릭터 스케일 최적화
-      const svgScale = (count === 4) ? 1.15 : (count === 5 ? 1.02 : 0.86);
+      levelSelect.innerHTML = '';
+      const levelsMap = (currentSubject === 'math') ? MATH_LEVELS : ENG_LEVELS;
+      for (let i = 1; i <= 20; i++) {
+        const opt = document.createElement('option');
+        opt.value = String(i);
+        opt.textContent = levelsMap[i];
+        if (String(i) === prevLevel) opt.selected = true;
+        levelSelect.appendChild(opt);
+      }
 
-      // 문제 컨테이너 초기화
-      const container = document.getElementById('problemsContainer');
-      container.className = 'problems-grid';
-      container.innerHTML = '';
+      opSelect.innerHTML = '';
+      if (currentSubject === 'math') {
+        const mathOps = [
+          { v: 'mix', t: '덧셈·뺄셈 혼합 (+/-)' },
+          { v: 'add', t: '덧셈 집중 (+)' },
+          { v: 'sub', t: '뺄셈 집중 (-)' },
+          { v: 'mul', t: '곱셈 집중 (×)' },
+          { v: 'div', t: '나눗셈 집중 (÷)' },
+          { v: 'mix_md', t: '곱셈·나눗셈 혼합 (×/÷)' },
+          { v: 'mix_all', t: '사칙연산 전체 혼합' }
+        ];
+        mathOps.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.v;
+          opt.textContent = o.t;
+          opSelect.appendChild(opt);
+        });
+      } else {
+        const engOps = [
+          { v: 'eng_all', t: '파닉스·스펠링 빈칸 (표준)' },
+          { v: 'eng_trace', t: '따라쓰기 가이드 (Tracing)' },
+          { v: 'eng_first', t: '첫소리(앞글자) 집중' },
+          { v: 'eng_vowel', t: '모음(가운데 글자) 집중' },
+          { v: 'eng_last', t: '끝소리(마지막 글자) 집중' }
+        ];
+        engOps.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.v;
+          opt.textContent = o.t;
+          opSelect.appendChild(opt);
+        });
+      }
+    }
 
-      for (let i = 1; i <= count; i++) {
-        const prob = generateProblem(level, opMode);
-        const card = document.createElement('div');
-        card.className = 'problem-card';
+    function renderProblemCardDOM(prob, idx, count) {
+      const card = document.createElement('div');
+      card.className = 'problem-card';
+      card.dataset.index = idx;
 
-        // 시각화 (1~100 모든 넘버블럭스 SVG 렌더링)
-        let visualHtml = '';
+      const svgScale = (count === 4) ? 1.12 : (count === 5 ? 0.98 : 0.84);
+      let visualHtml = '';
+      let formulaHtml = '';
+
+      if (prob.subject === 'math') {
         if (prob.type === 'triple') {
           visualHtml = `
             <div class="visual-area">
-              ${buildNumberblockSVG(prob.a, svgScale * 0.85)}
+              ${buildNumberblockSVG(prob.a, svgScale * 0.8)}
               <span class="operator-icon">${prob.op1}</span>
-              ${buildNumberblockSVG(prob.b, svgScale * 0.85)}
+              ${buildNumberblockSVG(prob.b, svgScale * 0.8)}
               <span class="operator-icon">${prob.op2}</span>
-              ${buildNumberblockSVG(prob.c, svgScale * 0.85)}
+              ${buildNumberblockSVG(prob.c, svgScale * 0.8)}
+            </div>
+          `;
+          formulaHtml = `
+            <div class="formula-area">
+              <span class="formula-text">${prob.a} ${prob.op1} ${prob.b} ${prob.op2} ${prob.c} =</span>
+              <div class="answer-box">
+                <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="3" inputmode="numeric">
+                <span class="answer-hint">${prob.ans}</span>
+              </div>
+            </div>
+          `;
+        } else if (prob.type === 'blank_right') {
+          visualHtml = `
+            <div class="visual-area">
+              ${buildNumberblockSVG(prob.a, svgScale)}
+              <span class="operator-icon">${prob.op}</span>
+              ${buildNumberblockSVG(prob.b, svgScale)}
+            </div>
+          `;
+          formulaHtml = `
+            <div class="formula-area">
+              <span class="formula-text">${prob.a} ${prob.op}</span>
+              <div class="answer-box blank-middle">
+                <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="3" inputmode="numeric">
+                <span class="answer-hint">${prob.ans}</span>
+              </div>
+              <span class="formula-text">= ${prob.target}</span>
             </div>
           `;
         } else {
@@ -1486,84 +2139,291 @@
               ${buildNumberblockSVG(prob.b, svgScale)}
             </div>
           `;
-        }
-
-        // 수식 및 답안 박스
-        let formulaHtml = '';
-        if (prob.type === 'blank_right') {
-          formulaHtml = `
-            <div class="formula-area">
-              <span class="formula-text">${prob.a} ${prob.op}</span>
-              <div class="answer-box blank-middle">
-                <span class="answer-hint">${prob.ans}</span>
-              </div>
-              <span class="formula-text">= ${prob.target}</span>
-            </div>
-          `;
-        } else if (prob.type === 'triple') {
-          formulaHtml = `
-            <div class="formula-area">
-              <span class="formula-text">${prob.a} ${prob.op1} ${prob.b} ${prob.op2} ${prob.c} =</span>
-              <div class="answer-box">
-                <span class="answer-hint">${prob.ans}</span>
-              </div>
-            </div>
-          `;
-        } else {
           formulaHtml = `
             <div class="formula-area">
               <span class="formula-text">${prob.a} ${prob.op} ${prob.b} =</span>
               <div class="answer-box">
+                <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="3" inputmode="numeric">
                 <span class="answer-hint">${prob.ans}</span>
               </div>
             </div>
           `;
         }
+      } else {
+        // 영어 (알파블럭스) 카드 렌더링
+        const traceClass = prob.trace ? 'trace-guide' : '';
 
-        card.innerHTML = `
-          <div class="card-num">${i}</div>
-          ${visualHtml}
-          ${formulaHtml}
-        `;
+        if (prob.type === 'number_word') {
+          // Lv.16: 넘버블럭스 + 알파블럭스 콜라보!
+          visualHtml = `
+            <div class="visual-area">
+              ${buildNumberblockSVG(prob.num, svgScale * 0.92)}
+              <span class="operator-icon">=</span>
+              ${buildAlphablockSVG(prob.word[0], svgScale * 0.92)}
+            </div>
+          `;
+        } else {
+          const charsToShow = (prob.chars || ['A', 'B']).slice(0, 3);
+          visualHtml = `
+            <div class="visual-area">
+              ${charsToShow.map(c => buildAlphablockSVG(c, svgScale * 0.95)).join('')}
+            </div>
+          `;
+        }
 
-        container.appendChild(card);
+        if (prob.type === 'letter_pair') {
+          formulaHtml = `
+            <div class="formula-area">
+              <div class="eng-word-box">
+                <span class="eng-meaning-badge">${prob.meaning}</span>
+                <div class="eng-letters-row">
+                  <span class="formula-text" style="font-size:24px;">${prob.promptLeft}</span>
+                  <div class="answer-box eng-four-line">
+                    <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="2">
+                    <span class="answer-hint ${traceClass}">${prob.ans}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (prob.type === 'seq_blank') {
+          formulaHtml = `
+            <div class="formula-area">
+              <div class="eng-word-box">
+                <span class="eng-meaning-badge">${prob.meaning}</span>
+                <div class="eng-letters-row">
+                  <div class="letter-tile">${prob.seq[0]}</div>
+                  <span class="operator-icon">→</span>
+                  <div class="answer-box eng-four-line">
+                    <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="2">
+                    <span class="answer-hint ${traceClass}">${prob.ans}</span>
+                  </div>
+                  <span class="operator-icon">→</span>
+                  <div class="letter-tile">${prob.seq[2]}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (prob.type === 'whole_word' || prob.type === 'sentence_blank') {
+          const leftLabel = (prob.type === 'sentence_blank') ? `${prob.pre}` : `${prob.promptText}`;
+          const rightLabel = (prob.type === 'sentence_blank') ? `${prob.post}` : '';
+          formulaHtml = `
+            <div class="formula-area">
+              <div class="eng-word-box">
+                <span class="eng-meaning-badge">${prob.meaning}</span>
+                <div class="eng-letters-row">
+                  <span class="formula-text" style="font-size:23px;">${leftLabel}</span>
+                  <div class="answer-box eng-four-line eng-wide">
+                    <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="8">
+                    <span class="answer-hint ${traceClass}">${prob.ans}</span>
+                  </div>
+                  ${rightLabel ? `<span class="formula-text" style="font-size:23px;">${rightLabel}</span>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          // word_blank / number_word (단어 내 글자 빈칸)
+          const lettersHtml = prob.word.split('').map((ch, i) => {
+            if (i === prob.blankIdx) {
+              return `
+                <div class="answer-box eng-four-line" style="width:56px; height:60px;">
+                  <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="2">
+                  <span class="answer-hint ${traceClass}">${prob.ans}</span>
+                </div>
+              `;
+            }
+            return `<div class="letter-tile">${ch}</div>`;
+          }).join('');
+
+          formulaHtml = `
+            <div class="formula-area">
+              <div class="eng-word-box">
+                <span class="eng-meaning-badge">${prob.meaning}</span>
+                <div class="eng-letters-row">
+                  ${prob.prefix ? `<span class="formula-text" style="font-size:20px; margin-right:4px;">${prob.prefix}</span>` : ''}
+                  ${lettersHtml}
+                </div>
+              </div>
+            </div>
+          `;
+        }
       }
 
-      // 화면 리사이즈 보정
+      card.innerHTML = `
+        <div class="card-num">${idx + 1}</div>
+        ${visualHtml}
+        ${formulaHtml}
+      `;
+      return card;
+    }
+
+    function renderWorksheet(customList = null) {
+      const level = document.getElementById('levelSelect').value || '2';
+      const opMode = document.getElementById('opSelect').value;
+      const count = parseInt(document.getElementById('countSelect').value, 10) || 5;
+      const customTitle = document.getElementById('titleCustom').value.trim();
+
+      // 헤더/태그 업데이트
+      const brandTag = document.getElementById('brandTag');
+      if (currentSubject === 'math') {
+        brandTag.className = 'brand-tag';
+        brandTag.innerHTML = '<span>●</span> NUMBERBLOCKS MATH (1~100 | Lv.1~Lv.20)';
+        document.getElementById('displayTitle').innerText = customTitle || '넘버블럭스 수학 교실';
+        document.getElementById('displaySubtitle').innerText = `${MATH_LEVELS[level] || ''}`;
+      } else {
+        brandTag.className = 'brand-tag eng-tag';
+        brandTag.innerHTML = '<span>★</span> ALPHABLOCKS ENGLISH (A~Z | Lv.1~Lv.20)';
+        document.getElementById('displayTitle').innerText = customTitle || '알파블럭스 영어 교실';
+        document.getElementById('displaySubtitle').innerText = `${ENG_LEVELS[level] || ''}`;
+      }
+
+      // 배지 & 배너 초기화
+      const badge = document.getElementById('scoreBadge');
+      badge.className = 'score-badge';
+      badge.innerHTML = '참 잘했어요<br>⭐';
+      document.getElementById('scoreBanner').classList.remove('visible');
+
+      const container = document.getElementById('problemsContainer');
+      container.innerHTML = '';
+
+      if (customList && customList.length > 0) {
+        currentProblems = customList;
+      } else {
+        currentProblems = [];
+        for (let i = 0; i < count; i++) {
+          const p = (currentSubject === 'math')
+            ? generateMathProblem(level, opMode)
+            : generateEngProblem(level, opMode);
+          currentProblems.push(p);
+        }
+      }
+
+      currentProblems.forEach((prob, idx) => {
+        const card = renderProblemCardDOM(prob, idx, currentProblems.length);
+        container.appendChild(card);
+      });
+
       fitA4ToScreen();
     }
 
-    // 날짜 세팅 (오늘 날짜)
-    function initDate() {
-      const now = new Date();
-      const month = now.getMonth() + 1;
-      const day = now.getDate();
-      document.getElementById('currentDate').innerText = `${month}월 ${day}일`;
+    // 즉시 채점하기 & 오답노트 추출
+    function checkAnswers() {
+      const cards = document.querySelectorAll('.problem-card');
+      let correctCount = 0;
+      wrongProblems = [];
+
+      cards.forEach((card, idx) => {
+        const input = card.querySelector('.answer-input');
+        if (!input) return;
+        const userVal = input.value.trim().toUpperCase();
+        const expected = String(input.dataset.ans || '').trim().toUpperCase();
+
+        card.classList.remove('card-correct', 'card-wrong');
+        if (userVal !== '' && userVal === expected) {
+          card.classList.add('card-correct');
+          correctCount++;
+        } else {
+          card.classList.add('card-wrong');
+          if (currentProblems[idx]) wrongProblems.push(currentProblems[idx]);
+        }
+      });
+
+      const total = cards.length;
+      const banner = document.getElementById('scoreBanner');
+      const resultText = document.getElementById('scoreResultText');
+      const retryBtn = document.getElementById('btnRetryWrong');
+      const badge = document.getElementById('scoreBadge');
+
+      banner.classList.add('visible');
+      if (correctCount === total) {
+        resultText.innerText = `🎉 만점이에요! ${total}문제 모두 정답! 최고예요!`;
+        retryBtn.style.display = 'none';
+        badge.className = 'score-badge stamped';
+        badge.innerHTML = `100점!<br>👑 최고`;
+        playSoundEffect('fanfare');
+      } else {
+        resultText.innerText = `📝 채점 결과: ${total}문제 중 ${correctCount}개 정답! (틀린 문제 ${wrongProblems.length}개)`;
+        retryBtn.style.display = 'inline-flex';
+        badge.className = 'score-badge stamped';
+        badge.innerHTML = `${correctCount}/${total}<br>👍 화이팅`;
+        playSoundEffect('tryagain');
+      }
     }
 
-    // 이벤트 리스너 등록
-    document.getElementById('btnGenerate').addEventListener('click', renderWorksheet);
-    document.getElementById('levelSelect').addEventListener('change', renderWorksheet);
-    document.getElementById('opSelect').addEventListener('change', renderWorksheet);
-    document.getElementById('countSelect').addEventListener('change', renderWorksheet);
+    // 과목 전환 핸들러
+    function switchSubject(subj) {
+      currentSubject = subj;
+      const tabMath = document.getElementById('tabMath');
+      const tabEng = document.getElementById('tabEng');
+      const titleInput = document.getElementById('titleCustom');
+
+      if (subj === 'math') {
+        tabMath.className = 'tab-btn active-math';
+        tabEng.className = 'tab-btn';
+        if (titleInput.value === '알파블럭스 영어 교실') titleInput.value = '넘버블럭스 수학 교실';
+      } else {
+        tabMath.className = 'tab-btn';
+        tabEng.className = 'tab-btn active-eng';
+        if (titleInput.value === '넘버블럭스 수학 교실') titleInput.value = '알파블럭스 영어 교실';
+      }
+
+      populateSelectors();
+      playSoundEffect('pop');
+      renderWorksheet();
+    }
+
+    function initDate() {
+      const now = new Date();
+      document.getElementById('currentDate').value = `${now.getMonth() + 1}월 ${now.getDate()}일`;
+    }
+
+    // 이벤트 바인딩
+    document.getElementById('tabMath').addEventListener('click', () => switchSubject('math'));
+    document.getElementById('tabEng').addEventListener('click', () => switchSubject('eng'));
+    document.getElementById('btnGenerate').addEventListener('click', () => {
+      playSoundEffect('pop');
+      renderWorksheet();
+    });
+    document.getElementById('btnCheckScore').addEventListener('click', checkAnswers);
+    document.getElementById('btnRetryWrong').addEventListener('click', () => {
+      if (wrongProblems.length > 0) {
+        playSoundEffect('pop');
+        renderWorksheet([...wrongProblems]);
+      }
+    });
+    document.getElementById('levelSelect').addEventListener('change', () => renderWorksheet());
+    document.getElementById('opSelect').addEventListener('change', () => renderWorksheet());
+    document.getElementById('countSelect').addEventListener('change', () => renderWorksheet());
     document.getElementById('titleCustom').addEventListener('input', (e) => {
       document.getElementById('displayTitle').innerText = e.target.value.trim() || '넘버블럭스 수학 교실';
     });
 
-    // 인쇄 버튼 (인쇄 전용 최적화)
-    document.getElementById('btnPrint').addEventListener('click', () => {
-      window.print();
+    document.getElementById('btnTimer').addEventListener('click', toggleTimer);
+    document.getElementById('btnSound').addEventListener('click', (e) => {
+      soundEnabled = !soundEnabled;
+      const btn = e.currentTarget;
+      btn.classList.toggle('active', soundEnabled);
+      document.getElementById('soundIcon').innerText = soundEnabled ? '🔊 효과음' : '🔇 음소거';
     });
 
-    // 정답 토글 버튼
+    document.getElementById('themeSelect').addEventListener('change', (e) => {
+      document.body.classList.remove('theme-warm', 'theme-eco');
+      if (e.target.value === 'warm') document.body.classList.add('theme-warm');
+      else if (e.target.value === 'eco') document.body.classList.add('theme-eco');
+    });
+
+    document.getElementById('btnPrint').addEventListener('click', () => window.print());
+
     const btnToggleAns = document.getElementById('btnToggleAns');
     btnToggleAns.addEventListener('click', () => {
       document.body.classList.toggle('show-answers');
       btnToggleAns.classList.toggle('active');
     });
 
-    // 초기 실행
+    // 초기화
     initDate();
+    populateSelectors();
     renderWorksheet();
   </script>
 </body>
