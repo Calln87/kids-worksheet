@@ -471,8 +471,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      min-width: 265px;
+      gap: 10px;
+      min-width: 225px;
       flex-shrink: 0;
       padding: 2px 4px;
     }
@@ -490,8 +490,8 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 12px;
-      font-size: 30px;
+      gap: 10px;
+      font-size: 32px;
       font-weight: 900;
       color: #1E293B;
       letter-spacing: 0.5px;
@@ -529,7 +529,7 @@
 
     .letter-tile {
       width: 48px;
-      height: 58px;
+      height: 62px;
       border: 2.5px solid #CBD5E1;
       background: #FFFFFF;
       border-radius: 12px;
@@ -541,24 +541,29 @@
       color: #1E293B;
     }
 
-    /* 정답 입력 박스 (터치/펜 필기 + 키보드 입력 + 인쇄 겸용) */
+    /* 정답 입력 박스 (만 4세 유아 터치펜 필기 맞춤 2배 대형 사이즈: 156px x 118px) */
     .answer-box {
-      width: 82px;
-      height: 68px;
-      border: 3.5px solid #0EA5E9;
+      width: 156px;
+      height: 118px;
+      border: 4px solid #0EA5E9;
       background: #FFFFFF;
-      border-radius: 14px;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
+      font-size: 48px;
       font-weight: 900;
       color: #0284C7;
       position: relative;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
       flex-shrink: 0;
       z-index: 6;
       user-select: none;
+    }
+
+    /* 6문제 모드일 때 카드 높이에 맞춰 살짝 조정 */
+    .problems-grid.count-6 .answer-box {
+      height: 102px;
     }
 
     .answer-box.blank-middle {
@@ -566,10 +571,10 @@
       color: #D97706;
     }
 
-    /* 영어 4선 노트 가이드라인 (English 4-Line Note) */
+    /* 영어 4선 노트 가이드라인 (만 4세 맞춤 2배 대형 사이즈) */
     .answer-box.eng-four-line {
-      width: 74px;
-      height: 66px;
+      width: 136px;
+      height: 112px;
       border-color: #6366F1;
       background-image: linear-gradient(
         to bottom,
@@ -589,8 +594,12 @@
       );
     }
 
+    .problems-grid.count-6 .answer-box.eng-four-line {
+      height: 98px;
+    }
+
     .answer-box.eng-wide {
-      width: 144px;
+      width: 224px;
     }
 
     .answer-box.has-ink {
@@ -605,7 +614,7 @@
       background: transparent;
       text-align: center;
       font-family: inherit;
-      font-size: 28px;
+      font-size: 48px;
       font-weight: 900;
       color: #0F172A;
       outline: none;
@@ -628,7 +637,7 @@
       width: 100%;
       height: 100%;
       z-index: 4;
-      border-radius: 10px;
+      border-radius: 14px;
       touch-action: none;
       cursor: crosshair;
       display: none;
@@ -638,18 +647,18 @@
       display: block;
     }
 
-    /* 정답 칸 개별 지우기 버튼 */
+    /* 정답 칸 개별 지우기 버튼 (유아/부모 터치 편의 26x26px) */
     .box-clear-btn {
       position: absolute;
-      top: -9px;
-      right: -9px;
-      width: 22px;
-      height: 22px;
+      top: -10px;
+      right: -10px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
-      border: 1.5px solid #CBD5E1;
+      border: 2px solid #CBD5E1;
       background: #FFFFFF;
       color: #64748B;
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 900;
       line-height: 1;
       display: none;
@@ -657,7 +666,7 @@
       justify-content: center;
       cursor: pointer;
       z-index: 8;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
       padding: 0;
     }
 
@@ -671,14 +680,16 @@
       display: flex;
     }
 
-    /* 이름 칸 펜 필기 지원 */
+    /* 이름 칸 펜 필기 지원 (여유로운 크기로 확대) */
     .name-field-wrap {
       position: relative;
       display: inline-flex;
       align-items: center;
-      width: 96px;
-      height: 32px;
-      border-bottom: 2px solid #94A3B8;
+      width: 146px;
+      height: 46px;
+      border: 2px dashed #94A3B8;
+      border-radius: 10px;
+      background: #FFFFFF;
       z-index: 6;
     }
 
@@ -896,10 +907,10 @@
     }
 
     .zoom-pad-canvas-wrap {
-      width: 280px;
-      height: 180px;
-      border: 3px dashed #38BDF8;
-      border-radius: 14px;
+      width: 340px;
+      height: 210px;
+      border: 3.5px dashed #38BDF8;
+      border-radius: 16px;
       background: #F8FAFC;
       position: relative;
       overflow: hidden;
@@ -931,7 +942,7 @@
       cursor: crosshair;
     }
 
-    /* 정답 힌트 / 따라쓰기(Tracing) 오버레이 */
+    /* 정답 힌트 / 따라쓰기(Tracing) 오버레이 (2배 커진 입력칸에 맞춰 큼직하게 표시) */
     .answer-hint {
       display: none;
       position: absolute;
@@ -939,7 +950,7 @@
       align-items: center;
       justify-content: center;
       color: #E11D48;
-      font-size: 27px;
+      font-size: 46px;
       font-weight: 900;
       pointer-events: none;
       z-index: 1;
@@ -949,7 +960,7 @@
     .answer-hint.trace-guide {
       display: flex;
       color: rgba(148, 163, 184, 0.42);
-      font-size: 30px;
+      font-size: 52px;
     }
 
     body.show-answers .answer-hint {
@@ -2499,7 +2510,7 @@
     let isPenMode = true;          // 기본값: 태블릿 펜 쓰기 모드 활성화 (키보드 팝업 차단)
     let penTool = 'draw';          // 'draw' | 'eraser'
     let penColor = '#0F172A';      // 기본 검정색
-    let penSize = 4.5;             // 기본 굵기
+    let penSize = 5.5;             // 만 4세 유아용 기본 굵기 (큼직한 2배 입력칸에 맞춘 선명한 두께)
     let scratchModeActive = false; // 여백 자유 풀이펜 토글
     let zoomPadEnabled = false;    // 빈칸 터치 시 크게 쓰기 패드 자동 열기 토글
     let activeAnswerBox = null;    // 현재 크게 쓰기 패드와 연결된 .answer-box
@@ -2511,8 +2522,8 @@
       const maxLen = opts.maxLen || 3;
       const inputMode = opts.numeric ? 'inputmode="numeric"' : '';
       const traceClass = opts.trace ? 'trace-guide' : '';
-      const cWidth = opts.wide ? 288 : 164;
-      const cHeight = 136;
+      const cWidth = opts.wide ? 448 : 312;
+      const cHeight = 236;
 
       return `
         <div class="answer-box ${extraClass}" ${styleAttr} data-ans="${ans}" data-has-ink="false">
@@ -2808,12 +2819,12 @@
             </div>
           `;
         } else {
-          // word_blank / number_word (단어 내 글자 빈칸)
+          // word_blank / number_word (단어 내 글자 빈칸 - 만 4세 맞춤 2배 크기)
           const lettersHtml = prob.word.split('').map((ch, i) => {
             if (i === prob.blankIdx) {
               return buildAnswerBoxHTML(prob.ans, {
                 extraClass: 'eng-four-line',
-                style: 'width:64px; height:62px;',
+                style: 'width:128px; height:108px;',
                 maxLen: 2,
                 trace: prob.trace
               });
@@ -2906,6 +2917,7 @@
       if (scratch) scratch.getContext('2d').clearRect(0, 0, scratch.width, scratch.height);
 
       const container = document.getElementById('problemsContainer');
+      container.classList.toggle('count-6', count === 6);
       container.innerHTML = '';
 
       if (customList && customList.length > 0) {
