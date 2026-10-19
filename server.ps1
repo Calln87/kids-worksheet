@@ -36,6 +36,7 @@ try {
             
             $bytes = [System.IO.File]::ReadAllBytes($filePath)
             $response.ContentType = $contentType
+            $response.Headers.Add("Cache-Control", "no-store, no-cache, must-revalidate")
             $response.ContentLength64 = $bytes.Length
             $response.StatusCode = 200
             $response.OutputStream.Write($bytes, 0, $bytes.Length)
