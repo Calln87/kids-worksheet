@@ -1962,28 +1962,29 @@
       const effectiveScale = isLower ? (sizeScale * 0.88) : sizeScale;
       const cfg = ALPHABLOCK_STYLES[upper] || ALPHABLOCK_STYLES.A;
 
-      const u = Math.round(44 * effectiveScale);
-      const domeH = Math.round(24 * effectiveScale);
-      const svgW = u + 16;
+      const u = Math.max(20, Math.round(44 * effectiveScale));
+      const domeH = Math.max(13, Math.round(24 * effectiveScale));
+      const padX = Math.max(3, Math.round(7 * effectiveScale));
+      const svgW = u + padX * 2;
       const svgH = u + domeH + 14;
-      const bx = 8;
+      const bx = padX;
       const by = domeH + 4;
       const cx = bx + u / 2;
       const cy = by + u / 2;
 
       // 1) 상단 투명 유리관 알파벳 모자(Letter Dome Cap) - 빈칸 대상이면 ? 표시 (정답 보기 시 글자 노출)
-      const domeW = u * 0.68;
+      const domeW = u * 0.72;
       const domeX = cx - domeW / 2;
-      const domeY = 3;
+      const domeY = 2;
       const domeFill = isMystery ? 'rgba(254,243,199,0.95)' : 'rgba(255,255,255,0.88)';
       const domeStroke = isMystery ? '#F59E0B' : '#94A3B8';
-      const fontSize = Math.round(16 * effectiveScale);
+      const fontSize = Math.max(10, Math.round(16 * effectiveScale));
       const domeTextHtml = isMystery
-        ? `<text x="${cx}" y="${by - 5}" text-anchor="middle" font-size="${fontSize}" font-weight="900" fill="#D97706"><tspan class="ab-dome-q">?</tspan><tspan class="ab-dome-ans" fill="#E11D48">${raw}</tspan></text>`
-        : `<text x="${cx}" y="${by - 5}" text-anchor="middle" font-size="${fontSize}" font-weight="900" fill="#0F172A">${raw}</text>`;
+        ? `<text x="${cx}" y="${by - 4}" text-anchor="middle" font-size="${fontSize}" font-weight="900" fill="#D97706"><tspan class="ab-dome-q">?</tspan><tspan class="ab-dome-ans" fill="#E11D48">${raw}</tspan></text>`
+        : `<text x="${cx}" y="${by - 4}" text-anchor="middle" font-size="${fontSize}" font-weight="900" fill="#0F172A">${raw}</text>`;
 
       const domeHtml = `
-        <path d="M ${domeX} ${by} L ${domeX} ${domeY + 8} Q ${cx} ${domeY - 3} ${domeX + domeW} ${domeY + 8} L ${domeX + domeW} ${by} Z"
+        <path d="M ${domeX} ${by} L ${domeX} ${domeY + 6} Q ${cx} ${domeY - 2} ${domeX + domeW} ${domeY + 6} L ${domeX + domeW} ${by} Z"
               fill="${domeFill}" stroke="${domeStroke}" stroke-width="${isMystery ? '2' : '1.5'}"/>
         ${domeTextHtml}
       `;
@@ -2024,52 +2025,55 @@
       const bodyHtml = drawSingleCell(bx, by, u, cfg.fill, cfg.stroke, bodyExtra);
 
       // 3) 알파블럭스 얼굴 (눈, 눈썹, 소품)
-      const rEye = Math.max(3.8, u * 0.12);
+      const rEye = Math.max(2.6, u * 0.12);
       const eyeOffset = u * 0.21;
       const lx = cx - eyeOffset, rx = cx + eyeOffset, ey = cy - u * 0.08;
+      const mouthW = Math.max(3, u * 0.12);
+      const mouthY = cy + u * 0.14;
 
       let faceHtml = '';
       if (cfg.prop === 'cyclops_lens') {
         // O: 커다란 돋보기 외눈
         faceHtml = `
-          <circle cx="${cx}" cy="${ey}" r="${rEye * 1.45}" fill="#FFF" stroke="${cfg.rim}" stroke-width="2.2"/>
+          <circle cx="${cx}" cy="${ey}" r="${rEye * 1.45}" fill="#FFF" stroke="${cfg.rim}" stroke-width="2"/>
           <circle cx="${cx}" cy="${ey}" r="${rEye * 0.72}" fill="#0F172A"/>
-          <circle cx="${cx - 1.5}" cy="${ey - 1.5}" r="${rEye * 0.25}" fill="#FFF"/>
-          <path d="M ${cx - 5} ${cy + 7} Q ${cx} ${cy + 12} ${cx + 5} ${cy + 7}" stroke="#0F172A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <circle cx="${cx - 1}" cy="${ey - 1}" r="${rEye * 0.25}" fill="#FFF"/>
+          <path d="M ${cx - mouthW} ${mouthY} Q ${cx} ${mouthY + 4} ${cx + mouthW} ${mouthY}" stroke="#0F172A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
         `;
       } else if (cfg.prop === 'eyepatch') {
         // R: 해적 안대
         faceHtml = `
-          <line x1="${bx + 2}" y1="${ey - 4}" x2="${bx + u - 2}" y2="${ey + 2}" stroke="#0F172A" stroke-width="1.6"/>
+          <line x1="${bx + 2}" y1="${ey - 3}" x2="${bx + u - 2}" y2="${ey + 2}" stroke="#0F172A" stroke-width="1.4"/>
           <circle cx="${lx}" cy="${ey}" r="${rEye * 1.05}" fill="#0F172A"/>
-          <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${cfg.rim}" stroke-width="1.6"/>
+          <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${cfg.rim}" stroke-width="1.4"/>
           <circle cx="${rx}" cy="${ey}" r="${rEye * 0.55}" fill="#0F172A"/>
-          <path d="M ${cx - 5} ${cy + 7} Q ${cx} ${cy + 12} ${cx + 5} ${cy + 7}" stroke="#0F172A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <path d="M ${cx - mouthW} ${mouthY} Q ${cx} ${mouthY + 4} ${cx + mouthW} ${mouthY}" stroke="#0F172A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
         `;
       } else {
         const glasses = (cfg.prop === 'glasses' || cfg.prop === 'visor') ? `
-          <rect x="${lx - rEye * 1.3}" y="${ey - rEye * 1.1}" width="${rEye * 2.6}" height="${rEye * 2.1}" rx="2" fill="none" stroke="#1E3A8A" stroke-width="1.6"/>
-          <rect x="${rx - rEye * 1.3}" y="${ey - rEye * 1.1}" width="${rEye * 2.6}" height="${rEye * 2.1}" rx="2" fill="none" stroke="#1E3A8A" stroke-width="1.6"/>
-          <line x1="${lx + rEye * 1.3}" y1="${ey}" x2="${rx - rEye * 1.3}" y2="${ey}" stroke="#1E3A8A" stroke-width="1.6"/>
+          <rect x="${lx - rEye * 1.3}" y="${ey - rEye * 1.1}" width="${rEye * 2.6}" height="${rEye * 2.1}" rx="2" fill="none" stroke="#1E3A8A" stroke-width="1.4"/>
+          <rect x="${rx - rEye * 1.3}" y="${ey - rEye * 1.1}" width="${rEye * 2.6}" height="${rEye * 2.1}" rx="2" fill="none" stroke="#1E3A8A" stroke-width="1.4"/>
+          <line x1="${lx + rEye * 1.3}" y1="${ey}" x2="${rx - rEye * 1.3}" y2="${ey}" stroke="#1E3A8A" stroke-width="1.4"/>
         ` : '';
         faceHtml = `
-          <path d="M ${lx - rEye} ${ey - rEye * 1.3} Q ${lx} ${ey - rEye * 1.8} ${lx + rEye} ${ey - rEye * 1.3}" stroke="${cfg.rim}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
-          <path d="M ${rx - rEye} ${ey - rEye * 1.3} Q ${rx} ${ey - rEye * 1.8} ${rx + rEye} ${ey - rEye * 1.3}" stroke="${cfg.rim}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
-          <circle cx="${lx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${cfg.rim}" stroke-width="1.5"/>
-          <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${cfg.rim}" stroke-width="1.5"/>
+          <path d="M ${lx - rEye} ${ey - rEye * 1.3} Q ${lx} ${ey - rEye * 1.8} ${lx + rEye} ${ey - rEye * 1.3}" stroke="${cfg.rim}" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <path d="M ${rx - rEye} ${ey - rEye * 1.3} Q ${rx} ${ey - rEye * 1.8} ${rx + rEye} ${ey - rEye * 1.3}" stroke="${cfg.rim}" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <circle cx="${lx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${cfg.rim}" stroke-width="1.3"/>
+          <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${cfg.rim}" stroke-width="1.3"/>
           <circle cx="${lx}" cy="${ey}" r="${rEye * 0.52}" fill="#0F172A"/>
           <circle cx="${rx}" cy="${ey}" r="${rEye * 0.52}" fill="#0F172A"/>
-          <circle cx="${lx - 1.2}" cy="${ey - 1.2}" r="${rEye * 0.2}" fill="#FFF"/>
-          <circle cx="${rx - 1.2}" cy="${ey - 1.2}" r="${rEye * 0.2}" fill="#FFF"/>
+          <circle cx="${lx - 0.8}" cy="${ey - 0.8}" r="${rEye * 0.2}" fill="#FFF"/>
+          <circle cx="${rx - 0.8}" cy="${ey - 0.8}" r="${rEye * 0.2}" fill="#FFF"/>
           ${glasses}
-          <path d="M ${cx - 5.5} ${cy + 6.5} Q ${cx} ${cy + 12} ${cx + 5.5} ${cy + 6.5}" stroke="#0F172A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <path d="M ${cx - mouthW} ${mouthY} Q ${cx} ${mouthY + 4.5} ${cx + mouthW} ${mouthY}" stroke="#0F172A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
         `;
       }
 
       // 4) 귀여운 발(Shoes)
+      const shoeRx = Math.max(3.5, u * 0.12);
       const shoesHtml = `
-        <ellipse cx="${cx - u * 0.22}" cy="${by + u + 3}" rx="5.5" ry="3" fill="${cfg.stroke}"/>
-        <ellipse cx="${cx + u * 0.22}" cy="${by + u + 3}" rx="5.5" ry="3" fill="${cfg.stroke}"/>
+        <ellipse cx="${cx - u * 0.22}" cy="${by + u + 3}" rx="${shoeRx}" ry="2.6" fill="${cfg.stroke}"/>
+        <ellipse cx="${cx + u * 0.22}" cy="${by + u + 3}" rx="${shoeRx}" ry="2.6" fill="${cfg.stroke}"/>
       `;
 
       return `
@@ -2123,9 +2127,9 @@
       12: "Lv.12 - 자음 블렌드 ST · FR · TR · CL 단어",
       13: "Lv.13 - 마법의 E (Magic E 장모음 단어)",
       14: "Lv.14 - 이중모음 OO · EE · EA 필수 단어",
-      15: "Lv.15 - 동물 친구들 필수 영단어 스펠링",
+      15: "Lv.15 - 동물 친구들 영단어 (ELEPHANT 등)",
       16: "Lv.16 - 숫자 영단어 (넘버블럭스×알파블럭스!)",
-      17: "Lv.17 - 색깔 & 과일 필수 영단어 완성",
+      17: "Lv.17 - 색깔 & 과일 영단어 (BANANA 등)",
       18: "Lv.18 - 알파블럭스 애너그램 (철자 순서 맞추기)",
       19: "Lv.19 - 기초 반대말·짝꿍 영단어 완성",
       20: "Lv.20 - 초등 기초 영어 문장 빈칸 완성"
@@ -2148,60 +2152,65 @@
         { w: 'BUS', m: '🚌 버스' }, { w: 'CUP', m: '🥤 컵' }, { w: 'BUG', m: '🐞 무당벌레' }
       ],
       digraph: [
+        { w: 'CHICKEN', m: '🐔 치킨/닭' }, { w: 'DOLPHIN', m: '🐬 돌고래' }, { w: 'CHEESE', m: '🧀 치즈' },
+        { w: 'CHERRY', m: '🍒 체리' }, { w: 'SHOWER', m: '🚿 샤워' }, { w: 'SHADOW', m: '👤 그림자' },
         { w: 'SHARK', m: '🦈 상어' }, { w: 'SHEEP', m: '🐑 양' }, { w: 'SHELL', m: '🐚 조개껍데기' },
         { w: 'CHAIR', m: '🪑 의자' }, { w: 'CHICK', m: '🐥 병아리' }, { w: 'BRUSH', m: '🪥 칫솔/붓' },
         { w: 'TOOTH', m: '🦷 치아/이' }, { w: 'WHALE', m: '🐳 고래' }, { w: 'SWING', m: '🎠 그네' },
-        { w: 'SHIP', m: '🚢 배' }, { w: 'FISH', m: '🐟 물고기' }, { w: 'SHOP', m: '🏪 가게' },
-        { w: 'CHIN', m: '😊 턱' }, { w: 'BATH', m: '🛁 목욕' }, { w: 'KING', m: '👑 왕' }
+        { w: 'SHIP', m: '🚢 배' }, { w: 'FISH', m: '🐟 물고기' }
       ],
       blends: [
+        { w: 'FLOWER', m: '🌸 꽃' }, { w: 'SPIDER', m: '🕷️ 거미' }, { w: 'DRAGON', m: '🐉 용(드래곤)' },
+        { w: 'FRIEND', m: '👫 친구' }, { w: 'PLANET', m: '🪐 행성' }, { w: 'BRIDGE', m: '🌉 다리' },
         { w: 'SMILE', m: '😊 미소' }, { w: 'SNAIL', m: '🐌 달팽이' }, { w: 'TRUCK', m: '🚚 트럭' },
         { w: 'TRAIN', m: '🚂 기차' }, { w: 'CLOCK', m: '⏰ 시계' }, { w: 'DRESS', m: '👗 드레스' },
         { w: 'CLOUD', m: '☁️ 구름' }, { w: 'GRASS', m: '🌿 풀/잔디' }, { w: 'BREAD', m: '🍞 빵' },
-        { w: 'STAR', m: '⭐ 별' }, { w: 'FROG', m: '🐸 개구리' }, { w: 'FLAG', m: '🚩 깃발' },
-        { w: 'DRUM', m: '🥁 북/드럼' }, { w: 'CRAB', m: '🦀 꽃게' }, { w: 'SWIM', m: '🏊 수영' }
+        { w: 'STAR', m: '⭐ 별' }, { w: 'FROG', m: '🐸 개구리' }
       ],
       magic_e: [
-        { w: 'PLANE', m: '✈️ 비행기' }, { w: 'SNAKE', m: '🐍 뱀' }, { w: 'SMILE', m: '😊 미소' },
+        { w: 'AIRPLANE', m: '✈️ 비행기' }, { w: 'ORANGE', m: '🍊 오렌지' }, { w: 'PURPLE', m: '🟣 보라색' },
+        { w: 'TURTLE', m: '🐢 거북이' }, { w: 'CHEESE', m: '🧀 치즈' }, { w: 'PRINCE', m: '🤴 왕자' },
+        { w: 'PLANE', m: '🛩️ 비행기' }, { w: 'SNAKE', m: '🐍 뱀' }, { w: 'SMILE', m: '😊 미소' },
         { w: 'SLIDE', m: '🛝 미끄럼틀' }, { w: 'WHALE', m: '🐳 고래' }, { w: 'GRAPE', m: '🍇 포도' },
         { w: 'STONE', m: '🪨 돌' }, { w: 'FLUTE', m: '🪈 플루트' }, { w: 'WHITE', m: '⚪ 하얀색' },
         { w: 'HOUSE', m: '🏡 집(하우스)' }, { w: 'MOUSE', m: '🐭 생쥐' }, { w: 'HORSE', m: '🐴 말' },
         { w: 'SKATE', m: '⛸️ 스케이트' }, { w: 'PLATE', m: '🍽️ 접시' },
-        { w: 'CAKE', m: '🎂 케이크' }, { w: 'BIKE', m: '🚲 자전거' }, { w: 'KITE', m: '🪁 연' },
-        { w: 'HOME', m: '🏠 집' }, { w: 'NOSE', m: '👃 코' }, { w: 'ROSE', m: '🌹 장미' },
-        { w: 'CUBE', m: '🧊 큐브' }, { w: 'GAME', m: '🎮 게임' }
+        { w: 'CAKE', m: '🎂 케이크' }, { w: 'BIKE', m: '🚲 자전거' }, { w: 'KITE', m: '🪁 연' }
       ],
       vowel_team: [
+        { w: 'RAINBOW', m: '🌈 무지개' }, { w: 'KANGAROO', m: '🦘 캥거루' }, { w: 'BALLOON', m: '🎈 풍선' },
+        { w: 'SCHOOL', m: '🏫 학교' }, { w: 'COOKIES', m: '🍪 쿠키' }, { w: 'PEANUT', m: '🥜 땅콩' },
         { w: 'SHEEP', m: '🐑 양' }, { w: 'SLEEP', m: '😴 잠자다' }, { w: 'QUEEN', m: '👸 여왕' },
         { w: 'GREEN', m: '🟢 초록색' }, { w: 'SPOON', m: '🥄 숟가락' }, { w: 'IGLOO', m: '🛖 이글루' },
         { w: 'BREAD', m: '🍞 빵' }, { w: 'BEACH', m: '🏖️ 해변' }, { w: 'PEACH', m: '🍑 복숭아' },
         { w: 'TRAIN', m: '🚂 기차' }, { w: 'SNAIL', m: '🐌 달팽이' }, { w: 'CLOUD', m: '☁️ 구름' },
-        { w: 'HEART', m: '❤️ 하트' }, { w: 'GOOSE', m: '🪿 거위' },
-        { w: 'BOOK', m: '📖 책' }, { w: 'MOON', m: '🌙 달' }, { w: 'FOOT', m: '🦶 발' },
-        { w: 'TREE', m: '🌳 나무' }, { w: 'SEED', m: '🌱 씨앗' }, { w: 'BOAT', m: '⛵ 보트' },
-        { w: 'RAIN', m: '🌧️ 비' }, { w: 'LEAF', m: '🍃 나뭇잎' }
+        { w: 'BOOK', m: '📖 책' }, { w: 'MOON', m: '🌙 달' }, { w: 'TREE', m: '🌳 나무' }
       ],
       animals: [
-        { w: 'TIGER', m: '🐯 호랑이' }, { w: 'ZEBRA', m: '🦓 얼룩말' }, { w: 'PANDA', m: '🐼 판다' },
-        { w: 'HORSE', m: '🐴 말' }, { w: 'MOUSE', m: '🐭 생쥐' }, { w: 'SHEEP', m: '🐑 양' },
+        { w: 'ELEPHANT', m: '🐘 코끼리' }, { w: 'DINOSAUR', m: '🦖 공룡' }, { w: 'KANGAROO', m: '🦘 캥거루' },
+        { w: 'GIRAFFE', m: '🦒 기린' }, { w: 'PENGUIN', m: '🐧 펭귄' }, { w: 'DOLPHIN', m: '🐬 돌고래' },
+        { w: 'CHICKEN', m: '🐔 닭/치킨' }, { w: 'RABBIT', m: '🐰 토끼' }, { w: 'MONKEY', m: '🐒 원숭이' },
+        { w: 'TURTLE', m: '🐢 거북이' }, { w: 'TIGER', m: '🐯 호랑이' }, { w: 'ZEBRA', m: '🦓 얼룩말' },
+        { w: 'PANDA', m: '🐼 판다' }, { w: 'HORSE', m: '🐴 말' }, { w: 'MOUSE', m: '🐭 생쥐' },
         { w: 'SNAKE', m: '🐍 뱀' }, { w: 'SHARK', m: '🦈 상어' }, { w: 'WHALE', m: '🐳 고래' },
-        { w: 'KOALA', m: '🐨 코알라' }, { w: 'CAMEL', m: '🐪 낙타' },
-        { w: 'LION', m: '🦁 사자' }, { w: 'BEAR', m: '🐻 곰' }, { w: 'DUCK', m: '🦆 오리' },
-        { w: 'BIRD', m: '🐦 새' }, { w: 'DEER', m: '🦌 사슴' }, { w: 'GOAT', m: '🐐 염소' }
+        { w: 'KOALA', m: '🐨 코알라' }, { w: 'LION', m: '🦁 사자' }, { w: 'BEAR', m: '🐻 곰' }
       ],
       numbers_eng: [
         { w: 'ONE', m: '1 (원)', num: 1 }, { w: 'TWO', m: '2 (투)', num: 2 },
         { w: 'THREE', m: '3 (쓰리)', num: 3 }, { w: 'FOUR', m: '4 (포)', num: 4 },
         { w: 'FIVE', m: '5 (파이브)', num: 5 }, { w: 'SIX', m: '6 (식스)', num: 6 },
         { w: 'SEVEN', m: '7 (세븐)', num: 7 }, { w: 'EIGHT', m: '8 (에잇)', num: 8 },
-        { w: 'NINE', m: '9 (나인)', num: 9 }, { w: 'TEN', m: '10 (텐)', num: 10 }
+        { w: 'NINE', m: '9 (나인)', num: 9 }, { w: 'TEN', m: '10 (텐)', num: 10 },
+        { w: 'ELEVEN', m: '11 (일레븐)', num: 11 }, { w: 'TWELVE', m: '12 (트웰브)', num: 12 },
+        { w: 'TWENTY', m: '20 (트웬티)', num: 20 }
       ],
       colors_fruits: [
+        { w: 'BANANA', m: '🍌 바나나' }, { w: 'ORANGE', m: '🍊 오렌지' }, { w: 'TOMATO', m: '🍅 토마토' },
+        { w: 'POTATO', m: '🥔 감자' }, { w: 'CHERRY', m: '🍒 체리' }, { w: 'YELLOW', m: '🟡 노란색' },
+        { w: 'PURPLE', m: '🟣 보라색' }, { w: 'SILVER', m: '⚪ 은색' }, { w: 'RAINBOW', m: '🌈 무지개색' },
         { w: 'APPLE', m: '🍎 사과' }, { w: 'MELON', m: '🍈 멜론' }, { w: 'GRAPE', m: '🍇 포도' },
         { w: 'LEMON', m: '🍋 레몬' }, { w: 'PEACH', m: '🍑 복숭아' }, { w: 'MANGO', m: '🥭 망고' },
-        { w: 'BERRY', m: '🍓 베리' }, { w: 'GREEN', m: '🟢 초록색' }, { w: 'BLACK', m: '⚫ 검정색' },
-        { w: 'WHITE', m: '⚪ 하얀색' }, { w: 'BROWN', m: '🟤 갈색' },
-        { w: 'BLUE', m: '🔵 파란색' }, { w: 'PINK', m: '🩷 분홍색' }
+        { w: 'GREEN', m: '🟢 초록색' }, { w: 'BLACK', m: '⚫ 검정색' }, { w: 'WHITE', m: '⚪ 하얀색' }
       ],
       opposites: [
         { q: 'HOT 🔥 ↔', w: 'COLD', m: '❄️ 추운/차가운' },
@@ -2210,20 +2219,21 @@
         { q: 'DAY ☀️ ↔', w: 'NIGHT', m: '🌙 밤' },
         { q: 'FAST 🐆 ↔', w: 'SLOW', m: '🐢 느린' },
         { q: 'LIGHT 🪶 ↔', w: 'HEAVY', m: '🏋️ 무거운' },
-        { q: 'CLEAN ✨ ↔', w: 'DIRTY', m: '泥 더러운' },
+        { q: 'CLEAN ✨ ↔', w: 'DIRTY', m: '🧹 더러운' },
         { q: 'SAD 😢 ↔', w: 'HAPPY', m: '😊 행복한' },
         { q: 'TALL 🦒 ↔', w: 'SHORT', m: '🌱 키가 작은/짧은' },
+        { q: 'WEAK 🐣 ↔', w: 'STRONG', m: '💪 강한/힘센' },
         { q: 'OPEN 🔓 ↔', w: 'CLOSE', m: '🔒 닫다' }
       ],
       sentences: [
+        { pre: 'I like', post: '!', w: 'BANANA', m: '🍌 나는 바나나를 좋아해요' },
+        { pre: 'Big gray', post: '!', w: 'ELEPHANT', m: '🐘 커다란 회색 코끼리!' },
+        { pre: 'Cute white', post: '!', w: 'RABBIT', m: '🐰 귀여운 하얀 토끼!' },
+        { pre: 'See the', post: '!', w: 'RAINBOW', m: '🌈 무지개를 보세요!' },
         { pre: 'I am', post: '!', w: 'HAPPY', m: '😊 나는 행복해요' },
         { pre: 'I eat an', post: '.', w: 'APPLE', m: '🍎 나는 사과를 먹어요' },
         { pre: 'I drink', post: '.', w: 'WATER', m: '💧 나는 물을 마셔요' },
-        { pre: 'See the', post: '!', w: 'TIGER', m: '🐯 호랑이를 보세요' },
-        { pre: 'Take the', post: '!', w: 'TRAIN', m: '🚂 기차를 타요' },
-        { pre: 'It is a', post: '.', w: 'DOG', m: '🐶 그것은 강아지예요' },
-        { pre: 'I like', post: '.', w: 'MILK', m: '🥛 나는 우유를 좋아해요' },
-        { pre: 'Look at the', post: '!', w: 'STAR', m: '⭐ 저 별을 보세요' }
+        { pre: 'See the', post: '!', w: 'TIGER', m: '🐯 호랑이를 보세요' }
       ]
     };
 
@@ -2743,15 +2753,17 @@
       const maxLen = opts.maxLen || 3;
       const inputMode = opts.numeric ? 'inputmode="numeric"' : '';
       const traceClass = opts.trace ? 'trace-guide' : '';
-      const cWidth = opts.wide ? 448 : 312;
+      const cWidth = opts.wide ? 460 : 312;
       const cHeight = 236;
+      const aLen = String(ans || '').length;
+      const fontStyle = aLen >= 7 ? 'style="font-size:28px;"' : (aLen >= 5 ? 'style="font-size:34px;"' : '');
 
       return `
         <div class="answer-box ${extraClass}" ${styleAttr} data-ans="${ans}" data-has-ink="false">
-          <input type="text" class="answer-input" data-ans="${ans}" maxlength="${maxLen}" ${inputMode} autocomplete="off">
+          <input type="text" class="answer-input" ${fontStyle} data-ans="${ans}" maxlength="${maxLen}" ${inputMode} autocomplete="off">
           <canvas class="answer-canvas" width="${cWidth}" height="${cHeight}"></canvas>
           <button type="button" class="box-clear-btn" title="이 칸 다시 쓰기">×</button>
-          <span class="answer-hint ${traceClass}">${ans}</span>
+          <span class="answer-hint ${traceClass}" ${fontStyle}>${ans}</span>
         </div>
       `;
     }
@@ -2987,23 +2999,24 @@
           `;
         }
       } else {
-        // 영어 (알파블럭스) 카드 렌더링 - 3글자 고정 제한 해제! 단어 전체 알파블럭스(2~5글자) 모두 표시
+        // 영어 (알파블럭스) 카드 렌더링 - 2~8글자(BANANA, ELEPHANT 등) 모든 알파블럭스 전원 출동!
         const charsToShow = prob.chars || (prob.word ? prob.word.split('') : ['A', 'B']);
         const cLen = charsToShow.length;
 
         if (prob.type === 'number_word') {
           // Lv.16: 넘버블럭스 + 단어 전체 알파블럭스 콜라보!
-          const abScale = svgScale * (cLen <= 3 ? 0.78 : (cLen === 4 ? 0.68 : 0.58));
+          const abScale = svgScale * (cLen <= 3 ? 0.78 : (cLen === 4 ? 0.68 : (cLen === 5 ? 0.58 : 0.52)));
           visualHtml = `
-            <div class="visual-area" style="gap:4px;">
-              ${buildNumberblockSVG(prob.num, svgScale * 0.85)}
-              <span class="operator-icon" style="font-size:20px;">=</span>
+            <div class="visual-area" style="gap:${cLen >= 5 ? 2 : 4}px;">
+              ${buildNumberblockSVG(prob.num, svgScale * 0.8)}
+              <span class="operator-icon" style="font-size:18px;">=</span>
               ${charsToShow.map((c, i) => buildAlphablockSVG(c, abScale, i === prob.blankIdx)).join('')}
             </div>
           `;
         } else {
-          const abScale = svgScale * (cLen <= 2 ? 1.04 : (cLen === 3 ? 0.94 : (cLen === 4 ? 0.78 : 0.66)));
-          const gapPx = (cLen >= 4) ? 4 : 8;
+          const scaleMap = { 1: 1.04, 2: 1.04, 3: 0.94, 4: 0.78, 5: 0.68, 6: 0.58, 7: 0.52 };
+          const abScale = svgScale * (scaleMap[cLen] || 0.47);
+          const gapPx = cLen >= 6 ? 2 : (cLen >= 4 ? 4 : 8);
           visualHtml = `
             <div class="visual-area" style="gap:${gapPx}px;">
               ${charsToShow.map((c, i) => buildAlphablockSVG(c, abScale, i === prob.blankIdx)).join('')}
@@ -3044,28 +3057,48 @@
         } else if (prob.type === 'whole_word' || prob.type === 'sentence_blank') {
           const leftLabel = (prob.type === 'sentence_blank') ? `${prob.pre}` : `${prob.promptText}`;
           const rightLabel = (prob.type === 'sentence_blank') ? `${prob.post}` : '';
+          const labelFontPx = cLen >= 6 ? 17 : 21;
           formulaHtml = `
             <div class="formula-area">
               <div class="eng-word-box">
                 <span class="eng-meaning-badge">${prob.meaning}</span>
                 <div class="eng-letters-row">
-                  <span class="formula-text" style="font-size:22px;">${leftLabel}</span>
-                  ${buildAnswerBoxHTML(prob.ans, { extraClass: 'eng-four-line eng-wide', maxLen: 8, trace: prob.trace, wide: true })}
-                  ${rightLabel ? `<span class="formula-text" style="font-size:22px;">${rightLabel}</span>` : ''}
+                  <span class="formula-text" style="font-size:${labelFontPx}px;">${leftLabel}</span>
+                  ${buildAnswerBoxHTML(prob.ans, { extraClass: 'eng-four-line eng-wide', maxLen: 10, trace: prob.trace, wide: true })}
+                  ${rightLabel ? `<span class="formula-text" style="font-size:${labelFontPx}px;">${rightLabel}</span>` : ''}
                 </div>
               </div>
             </div>
           `;
         } else {
-          // word_blank / number_word (단어 내 글자 빈칸 - 만 4세 맞춤 2배 크기, 5글자 단어도 한 줄에 쾌적하게 배치)
+          // word_blank / number_word (단어 내 글자 빈칸 - 3~8글자 단어까지 한 줄에 쾌적하게 배치 + 만 4세 2배 빈칸 유지)
           const wLen = prob.word.length;
-          const tileStyle = wLen >= 5 ? 'style="width:41px; height:58px; font-size:25px;"' : '';
-          const boxWidthPx = wLen >= 5 ? 118 : 128;
+          let tileStyle = '';
+          let boxWidthPx = 128;
+          let rowGapPx = 6;
+          if (wLen === 5) {
+            tileStyle = 'style="width:41px; height:58px; font-size:25px;"';
+            boxWidthPx = 118;
+            rowGapPx = 5;
+          } else if (wLen === 6) {
+            tileStyle = 'style="width:35px; height:52px; font-size:22px;"';
+            boxWidthPx = 114;
+            rowGapPx = 4;
+          } else if (wLen === 7) {
+            tileStyle = 'style="width:30px; height:48px; font-size:19px;"';
+            boxWidthPx = 110;
+            rowGapPx = 3;
+          } else if (wLen >= 8) {
+            tileStyle = 'style="width:27px; height:46px; font-size:18px;"';
+            boxWidthPx = 106;
+            rowGapPx = 3;
+          }
+
           const lettersHtml = prob.word.split('').map((ch, i) => {
             if (i === prob.blankIdx) {
               return buildAnswerBoxHTML(prob.ans, {
                 extraClass: 'eng-four-line',
-                style: `width:${boxWidthPx}px; height:108px;`,
+                style: `width:${boxWidthPx}px; height:106px;`,
                 maxLen: 2,
                 trace: prob.trace
               });
@@ -3077,8 +3110,8 @@
             <div class="formula-area">
               <div class="eng-word-box">
                 <span class="eng-meaning-badge">${prob.meaning}</span>
-                <div class="eng-letters-row" style="${wLen >= 5 ? 'gap:5px;' : ''}">
-                  ${prob.prefix ? `<span class="formula-text" style="font-size:18px; margin-right:3px;">${prob.prefix}</span>` : ''}
+                <div class="eng-letters-row" style="gap:${rowGapPx}px;">
+                  ${prob.prefix ? `<span class="formula-text" style="font-size:17px; margin-right:3px;">${prob.prefix}</span>` : ''}
                   ${lettersHtml}
                 </div>
               </div>
