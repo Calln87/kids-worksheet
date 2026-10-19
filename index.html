@@ -541,9 +541,9 @@
       color: #1E293B;
     }
 
-    /* 정답 입력 박스 (터치/키보드 입력 + 인쇄 겸용) */
+    /* 정답 입력 박스 (터치/펜 필기 + 키보드 입력 + 인쇄 겸용) */
     .answer-box {
-      width: 68px;
+      width: 82px;
       height: 68px;
       border: 3.5px solid #0EA5E9;
       background: #FFFFFF;
@@ -557,6 +557,8 @@
       position: relative;
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
       flex-shrink: 0;
+      z-index: 6;
+      user-select: none;
     }
 
     .answer-box.blank-middle {
@@ -566,8 +568,8 @@
 
     /* 영어 4선 노트 가이드라인 (English 4-Line Note) */
     .answer-box.eng-four-line {
-      width: 64px;
-      height: 64px;
+      width: 74px;
+      height: 66px;
       border-color: #6366F1;
       background-image: linear-gradient(
         to bottom,
@@ -588,7 +590,12 @@
     }
 
     .answer-box.eng-wide {
-      width: 128px;
+      width: 144px;
+    }
+
+    .answer-box.has-ink {
+      border-color: #2563EB;
+      background-color: #F8FAFC;
     }
 
     .answer-input {
@@ -605,6 +612,323 @@
       position: relative;
       z-index: 2;
       padding: 0;
+    }
+
+    /* 펜 쓰기 모드일 때 키보드 팝업 원천 차단 */
+    body.pen-mode .answer-input,
+    body.pen-mode .name-text-input {
+      pointer-events: none !important;
+      user-select: none !important;
+    }
+
+    /* 정답 칸 내부 펜 필기 캔버스 */
+    .answer-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 4;
+      border-radius: 10px;
+      touch-action: none;
+      cursor: crosshair;
+      display: none;
+    }
+
+    body.pen-mode .answer-canvas {
+      display: block;
+    }
+
+    /* 정답 칸 개별 지우기 버튼 */
+    .box-clear-btn {
+      position: absolute;
+      top: -9px;
+      right: -9px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid #CBD5E1;
+      background: #FFFFFF;
+      color: #64748B;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 8;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+      padding: 0;
+    }
+
+    .box-clear-btn:hover {
+      background: #FEE2E2;
+      color: #EF4444;
+      border-color: #FCA5A5;
+    }
+
+    body.pen-mode .answer-box.has-ink .box-clear-btn {
+      display: flex;
+    }
+
+    /* 이름 칸 펜 필기 지원 */
+    .name-field-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      width: 96px;
+      height: 32px;
+      border-bottom: 2px solid #94A3B8;
+      z-index: 6;
+    }
+
+    .name-field-wrap .line-input {
+      border-bottom: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    .name-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+      touch-action: none;
+      cursor: crosshair;
+      display: none;
+    }
+
+    body.pen-mode .name-canvas {
+      display: block;
+    }
+
+    /* 학습지 전체 여백 자유 풀이 캔버스 */
+    .sheet-scratch-canvas {
+      position: absolute;
+      inset: 0;
+      width: 794px;
+      height: 1122px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    body.pen-mode.scratch-active .sheet-scratch-canvas {
+      pointer-events: auto;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    /* 펜 채점 시 카드 우측 O/X 판정 컨트롤 */
+    .pen-grade-ctrl {
+      display: none;
+      flex-direction: column;
+      gap: 3px;
+      z-index: 8;
+      margin-left: 4px;
+    }
+
+    body.grading-active .pen-grade-ctrl {
+      display: flex;
+    }
+
+    .grade-ox-btn {
+      border: 1.5px solid #CBD5E1;
+      background: #FFFFFF;
+      border-radius: 7px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+      line-height: 1.2;
+      transition: all 0.15s;
+    }
+
+    .grade-ox-btn.ox-o.selected {
+      background: #10B981;
+      color: #FFFFFF;
+      border-color: #059669;
+    }
+
+    .grade-ox-btn.ox-x.selected {
+      background: #EF4444;
+      color: #FFFFFF;
+      border-color: #DC2626;
+    }
+
+    /* 펜 필기 전용 툴바 */
+    .pen-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #F0F9FF;
+      border: 2px solid #BAE6FD;
+      border-radius: 14px;
+      padding: 8px 12px;
+    }
+
+    .mode-switch-group {
+      display: inline-flex;
+      background: #E2E8F0;
+      padding: 3px;
+      border-radius: 10px;
+      gap: 3px;
+    }
+
+    .mode-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 11px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 900;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+
+    .mode-btn.active {
+      background: #0284C7;
+      color: #FFFFFF;
+      box-shadow: 0 2px 5px rgba(2, 132, 199, 0.28);
+    }
+
+    .pen-tools-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    body:not(.pen-mode) .pen-tools-wrap {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .color-palette {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #FFFFFF;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1.5px solid #CBD5E1;
+    }
+
+    .color-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.15s;
+      padding: 0;
+    }
+
+    .color-dot.active {
+      transform: scale(1.22);
+      border-color: #0F172A;
+      box-shadow: 0 0 0 2px #BAE6FD;
+    }
+
+    .pen-size-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #FFFFFF;
+      padding: 3px 6px;
+      border-radius: 10px;
+      border: 1.5px solid #CBD5E1;
+    }
+
+    .size-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 7px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #475569;
+      cursor: pointer;
+    }
+
+    .size-btn.active {
+      background: #E0F2FE;
+      color: #0369A1;
+    }
+
+    /* 확대 크게 쓰기 모달 패드 */
+    .zoom-pad-modal {
+      display: none;
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #FFFFFF;
+      border: 3px solid #0284C7;
+      border-radius: 20px;
+      padding: 12px 16px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.28);
+      z-index: 9999;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .zoom-pad-modal.open {
+      display: flex;
+    }
+
+    .zoom-pad-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #0369A1;
+      gap: 12px;
+    }
+
+    .zoom-pad-canvas-wrap {
+      width: 280px;
+      height: 180px;
+      border: 3px dashed #38BDF8;
+      border-radius: 14px;
+      background: #F8FAFC;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .zoom-pad-canvas-wrap.eng-four-line-zoom {
+      background-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 23%,
+        #FECDD3 23%,
+        #FECDD3 25%,
+        transparent 25%,
+        transparent 49%,
+        #CBD5E1 49%,
+        #CBD5E1 51%,
+        transparent 51%,
+        transparent 75%,
+        #93C5FD 75%,
+        #93C5FD 77%,
+        transparent 77%
+      );
+    }
+
+    #zoomPadCanvas {
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      cursor: crosshair;
     }
 
     /* 정답 힌트 / 따라쓰기(Tracing) 오버레이 */
@@ -631,6 +955,23 @@
     body.show-answers .answer-hint {
       display: flex;
       color: #E11D48;
+      z-index: 7;
+      background: rgba(255, 255, 255, 0.72);
+      border-radius: 10px;
+    }
+
+    /* 펜으로 손글씨를 쓴 칸은 손글씨가 가려지지 않도록 상단 미니 정답 배지로 표시 */
+    body.show-answers .answer-box.has-ink .answer-hint {
+      inset: auto;
+      top: -12px;
+      left: -6px;
+      font-size: 13px;
+      line-height: 1.1;
+      padding: 2px 7px;
+      background: #FFF1F2;
+      border: 1.5px solid #F43F5E;
+      border-radius: 999px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     /* 하단 푸터 */
@@ -667,7 +1008,10 @@
         display: block !important;
       }
 
-      .toolbar {
+      .toolbar,
+      .zoom-pad-modal,
+      .box-clear-btn,
+      .pen-grade-ctrl {
         display: none !important;
       }
 
@@ -692,7 +1036,7 @@
     }
   </style>
 </head>
-<body>
+<body class="pen-mode">
 
   <!-- 상단 컨트롤 툴바 -->
   <header class="toolbar">
@@ -754,6 +1098,51 @@
       </div>
     </div>
 
+    <!-- 태블릿 펜 필기 / 키보드 전환 및 필기 도구 바 -->
+    <div class="pen-toolbar" id="penToolbar">
+      <div class="mode-switch-group">
+        <button type="button" class="mode-btn active" id="btnModePen" title="태블릿 펜/손가락으로 직접 쓰기 (키보드 안 뜸)">
+          <span>✏️ 펜으로 쓰기</span>
+        </button>
+        <button type="button" class="mode-btn" id="btnModeKeyboard" title="키보드로 숫자/알파벳 입력하기">
+          <span>⌨️ 키보드 입력</span>
+        </button>
+      </div>
+
+      <div class="pen-tools-wrap" id="penToolsWrap">
+        <button type="button" class="chip-btn active" id="btnToolDraw" title="펜 그리기">
+          <span>✒️ 펜</span>
+        </button>
+        <button type="button" class="chip-btn" id="btnToolEraser" title="지우개 모드">
+          <span>🧽 지우개</span>
+        </button>
+
+        <div class="color-palette" title="펜 색상 선택">
+          <button type="button" class="color-dot active" data-color="#0F172A" style="background:#0F172A;" title="검정 펜"></button>
+          <button type="button" class="color-dot" data-color="#0284C7" style="background:#0284C7;" title="파란 펜"></button>
+          <button type="button" class="color-dot" data-color="#E11D48" style="background:#E11D48;" title="빨간 펜"></button>
+          <button type="button" class="color-dot" data-color="#7C3AED" style="background:#7C3AED;" title="보라 펜"></button>
+          <button type="button" class="color-dot" data-color="#059669" style="background:#059669;" title="초록 펜"></button>
+        </div>
+
+        <div class="pen-size-group" title="펜 굵기 선택">
+          <button type="button" class="size-btn" data-size="2.5">가늘게</button>
+          <button type="button" class="size-btn active" data-size="4.5">보통</button>
+          <button type="button" class="size-btn" data-size="7.5">굵게</button>
+        </div>
+
+        <button type="button" class="chip-btn" id="btnScratchMode" title="문제 카드 여백이나 블록 위에도 자유롭게 풀이 과정을 쓸 수 있어요">
+          <span>📝 여백 풀이펜</span>
+        </button>
+        <button type="button" class="chip-btn" id="btnZoomPadToggle" title="빈칸을 터치하면 화면 하단에 크게 쓸 수 있는 확대 패드가 열려요">
+          <span>🔍 크게 쓰기 창</span>
+        </button>
+        <button type="button" class="chip-btn" id="btnClearAllInk" title="작성한 모든 손글씨를 깨끗하게 지웁니다">
+          <span>🗑️ 손글씨 모두 지우기</span>
+        </button>
+      </div>
+    </div>
+
     <!-- 3열: 주요 액션 버튼 -->
     <div class="action-row">
       <button type="button" class="btn btn-new" id="btnGenerate">
@@ -779,9 +1168,25 @@
     </div>
   </header>
 
+  <!-- 확대 크게 쓰기 플로팅 모달 (선택 활성화) -->
+  <div class="zoom-pad-modal" id="zoomPadModal">
+    <div class="zoom-pad-header">
+      <span id="zoomPadTitle">✏️ 크게 쓰기 패드 (여기에 쓰면 정답 칸에 그대로 들어가요!)</span>
+      <div style="display:flex; gap:6px;">
+        <button type="button" class="chip-btn" id="btnZoomClear" style="padding:4px 9px;">🧽 지우기</button>
+        <button type="button" class="chip-btn active" id="btnZoomClose" style="padding:4px 9px;">완료 ✕</button>
+      </div>
+    </div>
+    <div class="zoom-pad-canvas-wrap" id="zoomPadWrap">
+      <canvas id="zoomPadCanvas" width="560" height="360"></canvas>
+    </div>
+  </div>
+
   <!-- 모바일 반응형 스케일링 래퍼 -->
   <main class="sheet-wrapper" id="sheetWrapper">
     <div class="a4-sheet" id="a4Sheet">
+      <!-- 학습지 전체 자유 필기(여백 연습장) 캔버스 -->
+      <canvas id="sheetScratchCanvas" class="sheet-scratch-canvas" width="1588" height="2244"></canvas>
       
       <!-- 학습지 헤더 -->
       <section class="sheet-header">
@@ -798,7 +1203,11 @@
             날짜: <input type="text" class="line-input" id="currentDate" readonly>
           </div>
           <div class="meta-field">
-            이름: <input type="text" class="line-input" placeholder="이름 쓰기">
+            이름:
+            <div class="name-field-wrap" id="nameFieldWrap">
+              <input type="text" class="line-input name-text-input" id="nameInput" placeholder="이름 쓰기">
+              <canvas id="nameCanvas" class="name-canvas" width="192" height="64"></canvas>
+            </div>
           </div>
           <div class="score-badge" id="scoreBadge">
             참 잘했어요<br>⭐
@@ -2084,6 +2493,202 @@
       }
     }
 
+    /* =====================================================================
+       4-B. 태블릿 펜 필기(Stylus/Touch Canvas) 엔진
+       ===================================================================== */
+    let isPenMode = true;          // 기본값: 태블릿 펜 쓰기 모드 활성화 (키보드 팝업 차단)
+    let penTool = 'draw';          // 'draw' | 'eraser'
+    let penColor = '#0F172A';      // 기본 검정색
+    let penSize = 4.5;             // 기본 굵기
+    let scratchModeActive = false; // 여백 자유 풀이펜 토글
+    let zoomPadEnabled = false;    // 빈칸 터치 시 크게 쓰기 패드 자동 열기 토글
+    let activeAnswerBox = null;    // 현재 크게 쓰기 패드와 연결된 .answer-box
+
+    // 정답 박스 공통 HTML 빌더 (키보드 input + 태블릿 펜 canvas + 개별 지우개 + 정답 힌트)
+    function buildAnswerBoxHTML(ans, opts = {}) {
+      const extraClass = opts.extraClass || '';
+      const styleAttr = opts.style ? `style="${opts.style}"` : '';
+      const maxLen = opts.maxLen || 3;
+      const inputMode = opts.numeric ? 'inputmode="numeric"' : '';
+      const traceClass = opts.trace ? 'trace-guide' : '';
+      const cWidth = opts.wide ? 288 : 164;
+      const cHeight = 136;
+
+      return `
+        <div class="answer-box ${extraClass}" ${styleAttr} data-ans="${ans}" data-has-ink="false">
+          <input type="text" class="answer-input" data-ans="${ans}" maxlength="${maxLen}" ${inputMode} autocomplete="off">
+          <canvas class="answer-canvas" width="${cWidth}" height="${cHeight}"></canvas>
+          <button type="button" class="box-clear-btn" title="이 칸 다시 쓰기">×</button>
+          <span class="answer-hint ${traceClass}">${ans}</span>
+        </div>
+      `;
+    }
+
+    // 개별 캔버스(정답 칸 / 이름 칸 / 여백 캔버스 / 확대 패드)에 부드러운 펜 드로잉 바인딩
+    function bindCanvasDrawing(canvas, options = {}) {
+      if (!canvas || canvas.dataset.bound === 'true') return;
+      canvas.dataset.bound = 'true';
+
+      const ctx = canvas.getContext('2d');
+      let drawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      function getCanvasCoords(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / (rect.width || 1);
+        const scaleY = canvas.height / (rect.height || 1);
+        return {
+          x: (e.clientX - rect.left) * scaleX,
+          y: (e.clientY - rect.top) * scaleY
+        };
+      }
+
+      function applyBrushSettings(e) {
+        const rect = canvas.getBoundingClientRect();
+        const resRatio = canvas.width / (rect.width || 1);
+        const pressure = (e && e.pointerType === 'pen' && e.pressure > 0) ? (0.65 + e.pressure * 0.7) : 1;
+
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        if (penTool === 'eraser') {
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.lineWidth = penSize * 4.2 * resRatio;
+          ctx.strokeStyle = 'rgba(0,0,0,1)';
+        } else {
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.lineWidth = penSize * pressure * resRatio;
+          ctx.strokeStyle = penColor;
+        }
+      }
+
+      canvas.addEventListener('pointerdown', (e) => {
+        if (!isPenMode) return;
+        if (options.onlyPenOrScratch && e.pointerType !== 'pen' && !scratchModeActive) return;
+
+        // 크게 쓰기 창 모드가 켜져 있고 일반 정답 칸을 터치한 경우 확대 창 오픈
+        if (options.answerBox && zoomPadEnabled && !options.isZoomCanvas) {
+          openZoomPadForBox(options.answerBox);
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+        if (canvas.setPointerCapture) {
+          try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+        }
+
+        drawing = true;
+        const pt = getCanvasCoords(e);
+        lastX = pt.x;
+        lastY = pt.y;
+
+        applyBrushSettings(e);
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(lastX + 0.01, lastY + 0.01);
+        ctx.stroke();
+
+        if (options.answerBox && penTool !== 'eraser') {
+          options.answerBox.dataset.hasInk = 'true';
+          options.answerBox.classList.add('has-ink');
+        }
+        if (options.onStroke) options.onStroke();
+      });
+
+      canvas.addEventListener('pointermove', (e) => {
+        if (!drawing || !isPenMode) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        const pt = getCanvasCoords(e);
+        applyBrushSettings(e);
+
+        const midX = (lastX + pt.x) / 2;
+        const midY = (lastY + pt.y) / 2;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.quadraticCurveTo(lastX, lastY, midX, midY);
+        ctx.lineTo(pt.x, pt.y);
+        ctx.stroke();
+
+        lastX = pt.x;
+        lastY = pt.y;
+
+        if (options.onStroke) options.onStroke();
+      });
+
+      function endStroke(e) {
+        if (!drawing) return;
+        drawing = false;
+        if (e && canvas.releasePointerCapture) {
+          try { canvas.releasePointerCapture(e.pointerId); } catch (_) {}
+        }
+        if (options.onStroke) options.onStroke();
+      }
+
+      canvas.addEventListener('pointerup', endStroke);
+      canvas.addEventListener('pointercancel', endStroke);
+      canvas.addEventListener('pointerleave', endStroke);
+    }
+
+    // 개별 정답 칸 지우기
+    function clearAnswerBoxInk(box) {
+      if (!box) return;
+      const canvas = box.querySelector('.answer-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      box.dataset.hasInk = 'false';
+      box.classList.remove('has-ink');
+      const input = box.querySelector('.answer-input');
+      if (input) input.value = '';
+
+      if (activeAnswerBox === box) {
+        const zoomCanvas = document.getElementById('zoomPadCanvas');
+        if (zoomCanvas) {
+          zoomCanvas.getContext('2d').clearRect(0, 0, zoomCanvas.width, zoomCanvas.height);
+        }
+      }
+    }
+
+    // 학습지 내 모든 손글씨 초기화
+    function clearAllHandwriting() {
+      document.querySelectorAll('.answer-box').forEach(box => clearAnswerBoxInk(box));
+      const scratch = document.getElementById('sheetScratchCanvas');
+      if (scratch) scratch.getContext('2d').clearRect(0, 0, scratch.width, scratch.height);
+      const nameCanvas = document.getElementById('nameCanvas');
+      if (nameCanvas) nameCanvas.getContext('2d').clearRect(0, 0, nameCanvas.width, nameCanvas.height);
+      const zoomCanvas = document.getElementById('zoomPadCanvas');
+      if (zoomCanvas) zoomCanvas.getContext('2d').clearRect(0, 0, zoomCanvas.width, zoomCanvas.height);
+      document.body.classList.remove('grading-active');
+      document.querySelectorAll('.problem-card').forEach(c => c.classList.remove('card-correct', 'card-wrong'));
+      document.getElementById('scoreBanner').classList.remove('visible');
+      playSoundEffect('pop');
+    }
+
+    // 확대 크게 쓰기 패드 열기 및 대상 정답 칸과 실시간 미러링
+    function openZoomPadForBox(box) {
+      activeAnswerBox = box;
+      const modal = document.getElementById('zoomPadModal');
+      const wrap = document.getElementById('zoomPadWrap');
+      const zoomCanvas = document.getElementById('zoomPadCanvas');
+      const zoomCtx = zoomCanvas.getContext('2d');
+      const boxCanvas = box.querySelector('.answer-canvas');
+
+      wrap.classList.toggle('eng-four-line-zoom', box.classList.contains('eng-four-line'));
+      zoomCtx.clearRect(0, 0, zoomCanvas.width, zoomCanvas.height);
+      if (boxCanvas) {
+        zoomCtx.drawImage(boxCanvas, 0, 0, zoomCanvas.width, zoomCanvas.height);
+      }
+
+      const card = box.closest('.problem-card');
+      const probNum = card ? (parseInt(card.dataset.index, 10) + 1) : '';
+      document.getElementById('zoomPadTitle').innerText = `✏️ ${probNum ? probNum + '번 문제 ' : ''}크게 쓰기 패드 (여기에 쓰면 정답 칸에 그대로 들어가요!)`;
+      modal.classList.add('open');
+    }
+
     function renderProblemCardDOM(prob, idx, count) {
       const card = document.createElement('div');
       card.className = 'problem-card';
@@ -2107,10 +2712,7 @@
           formulaHtml = `
             <div class="formula-area">
               <span class="formula-text">${prob.a} ${prob.op1} ${prob.b} ${prob.op2} ${prob.c} =</span>
-              <div class="answer-box">
-                <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="3" inputmode="numeric">
-                <span class="answer-hint">${prob.ans}</span>
-              </div>
+              ${buildAnswerBoxHTML(prob.ans, { numeric: true, maxLen: 3 })}
             </div>
           `;
         } else if (prob.type === 'blank_right') {
@@ -2124,10 +2726,7 @@
           formulaHtml = `
             <div class="formula-area">
               <span class="formula-text">${prob.a} ${prob.op}</span>
-              <div class="answer-box blank-middle">
-                <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="3" inputmode="numeric">
-                <span class="answer-hint">${prob.ans}</span>
-              </div>
+              ${buildAnswerBoxHTML(prob.ans, { extraClass: 'blank-middle', numeric: true, maxLen: 3 })}
               <span class="formula-text">= ${prob.target}</span>
             </div>
           `;
@@ -2142,17 +2741,12 @@
           formulaHtml = `
             <div class="formula-area">
               <span class="formula-text">${prob.a} ${prob.op} ${prob.b} =</span>
-              <div class="answer-box">
-                <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="3" inputmode="numeric">
-                <span class="answer-hint">${prob.ans}</span>
-              </div>
+              ${buildAnswerBoxHTML(prob.ans, { numeric: true, maxLen: 3 })}
             </div>
           `;
         }
       } else {
         // 영어 (알파블럭스) 카드 렌더링
-        const traceClass = prob.trace ? 'trace-guide' : '';
-
         if (prob.type === 'number_word') {
           // Lv.16: 넘버블럭스 + 알파블럭스 콜라보!
           visualHtml = `
@@ -2178,10 +2772,7 @@
                 <span class="eng-meaning-badge">${prob.meaning}</span>
                 <div class="eng-letters-row">
                   <span class="formula-text" style="font-size:24px;">${prob.promptLeft}</span>
-                  <div class="answer-box eng-four-line">
-                    <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="2">
-                    <span class="answer-hint ${traceClass}">${prob.ans}</span>
-                  </div>
+                  ${buildAnswerBoxHTML(prob.ans, { extraClass: 'eng-four-line', maxLen: 2, trace: prob.trace })}
                 </div>
               </div>
             </div>
@@ -2194,10 +2785,7 @@
                 <div class="eng-letters-row">
                   <div class="letter-tile">${prob.seq[0]}</div>
                   <span class="operator-icon">→</span>
-                  <div class="answer-box eng-four-line">
-                    <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="2">
-                    <span class="answer-hint ${traceClass}">${prob.ans}</span>
-                  </div>
+                  ${buildAnswerBoxHTML(prob.ans, { extraClass: 'eng-four-line', maxLen: 2, trace: prob.trace })}
                   <span class="operator-icon">→</span>
                   <div class="letter-tile">${prob.seq[2]}</div>
                 </div>
@@ -2213,10 +2801,7 @@
                 <span class="eng-meaning-badge">${prob.meaning}</span>
                 <div class="eng-letters-row">
                   <span class="formula-text" style="font-size:23px;">${leftLabel}</span>
-                  <div class="answer-box eng-four-line eng-wide">
-                    <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="8">
-                    <span class="answer-hint ${traceClass}">${prob.ans}</span>
-                  </div>
+                  ${buildAnswerBoxHTML(prob.ans, { extraClass: 'eng-four-line eng-wide', maxLen: 8, trace: prob.trace, wide: true })}
                   ${rightLabel ? `<span class="formula-text" style="font-size:23px;">${rightLabel}</span>` : ''}
                 </div>
               </div>
@@ -2226,12 +2811,12 @@
           // word_blank / number_word (단어 내 글자 빈칸)
           const lettersHtml = prob.word.split('').map((ch, i) => {
             if (i === prob.blankIdx) {
-              return `
-                <div class="answer-box eng-four-line" style="width:56px; height:60px;">
-                  <input type="text" class="answer-input" data-ans="${prob.ans}" maxlength="2">
-                  <span class="answer-hint ${traceClass}">${prob.ans}</span>
-                </div>
-              `;
+              return buildAnswerBoxHTML(prob.ans, {
+                extraClass: 'eng-four-line',
+                style: 'width:64px; height:62px;',
+                maxLen: 2,
+                trace: prob.trace
+              });
             }
             return `<div class="letter-tile">${ch}</div>`;
           }).join('');
@@ -2253,8 +2838,41 @@
       card.innerHTML = `
         <div class="card-num">${idx + 1}</div>
         ${visualHtml}
-        ${formulaHtml}
+        <div style="display:flex; align-items:center; gap:6px; flex:1; justify-content:flex-end;">
+          ${formulaHtml}
+          <div class="pen-grade-ctrl">
+            <button type="button" class="grade-ox-btn ox-o" data-ox="o" title="맞았어요">⭕</button>
+            <button type="button" class="grade-ox-btn ox-x" data-ox="x" title="틀렸어요">❌</button>
+          </div>
+        </div>
       `;
+
+      // 카드 내 정답 빈칸 캔버스 및 개별 지우기/O-X 판정 이벤트 바인딩
+      const box = card.querySelector('.answer-box');
+      if (box) {
+        const canvas = box.querySelector('.answer-canvas');
+        bindCanvasDrawing(canvas, { answerBox: box });
+
+        const clearBtn = box.querySelector('.box-clear-btn');
+        if (clearBtn) {
+          clearBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            clearAnswerBoxInk(box);
+          });
+        }
+      }
+
+      card.querySelectorAll('.grade-ox-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const isO = btn.dataset.ox === 'o';
+          card.querySelectorAll('.grade-ox-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          card.classList.toggle('card-correct', isO);
+          card.classList.toggle('card-wrong', !isO);
+          recalculateGradingSummary();
+        });
+      });
+
       return card;
     }
 
@@ -2278,11 +2896,14 @@
         document.getElementById('displaySubtitle').innerText = `${ENG_LEVELS[level] || ''}`;
       }
 
-      // 배지 & 배너 초기화
+      // 배지 & 배너 & 여백 연습장 초기화
       const badge = document.getElementById('scoreBadge');
       badge.className = 'score-badge';
       badge.innerHTML = '참 잘했어요<br>⭐';
       document.getElementById('scoreBanner').classList.remove('visible');
+      document.body.classList.remove('grading-active');
+      const scratch = document.getElementById('sheetScratchCanvas');
+      if (scratch) scratch.getContext('2d').clearRect(0, 0, scratch.width, scratch.height);
 
       const container = document.getElementById('problemsContainer');
       container.innerHTML = '';
@@ -2307,24 +2928,16 @@
       fitA4ToScreen();
     }
 
-    // 즉시 채점하기 & 오답노트 추출
-    function checkAnswers() {
+    // 채점 요약 및 칭찬 도장/오답노트 업데이트
+    function recalculateGradingSummary() {
       const cards = document.querySelectorAll('.problem-card');
       let correctCount = 0;
       wrongProblems = [];
 
       cards.forEach((card, idx) => {
-        const input = card.querySelector('.answer-input');
-        if (!input) return;
-        const userVal = input.value.trim().toUpperCase();
-        const expected = String(input.dataset.ans || '').trim().toUpperCase();
-
-        card.classList.remove('card-correct', 'card-wrong');
-        if (userVal !== '' && userVal === expected) {
-          card.classList.add('card-correct');
+        if (card.classList.contains('card-correct')) {
           correctCount++;
         } else {
-          card.classList.add('card-wrong');
           if (currentProblems[idx]) wrongProblems.push(currentProblems[idx]);
         }
       });
@@ -2343,12 +2956,57 @@
         badge.innerHTML = `100점!<br>👑 최고`;
         playSoundEffect('fanfare');
       } else {
-        resultText.innerText = `📝 채점 결과: ${total}문제 중 ${correctCount}개 정답! (틀린 문제 ${wrongProblems.length}개)`;
+        const penNotice = isPenMode ? ' (손글씨가 틀렸다면 카드 우측 ❌ 버튼을 눌러주세요)' : '';
+        resultText.innerText = `📝 채점 결과: ${total}문제 중 ${correctCount}개 정답!${penNotice}`;
         retryBtn.style.display = 'inline-flex';
         badge.className = 'score-badge stamped';
         badge.innerHTML = `${correctCount}/${total}<br>👍 화이팅`;
         playSoundEffect('tryagain');
       }
+    }
+
+    // 즉시 채점하기 (키보드 자동 비교 + 태블릿 손글씨 채점 연동)
+    function checkAnswers() {
+      const cards = document.querySelectorAll('.problem-card');
+      document.body.classList.add('grading-active');
+      if (isPenMode) {
+        document.body.classList.add('show-answers');
+        document.getElementById('btnToggleAns').classList.add('active');
+      }
+
+      cards.forEach((card) => {
+        const box = card.querySelector('.answer-box');
+        const input = card.querySelector('.answer-input');
+        if (!box || !input) return;
+
+        const userVal = input.value.trim().toUpperCase();
+        const expected = String(input.dataset.ans || '').trim().toUpperCase();
+        const hasInk = box.dataset.hasInk === 'true';
+
+        const btnO = card.querySelector('.ox-o');
+        const btnX = card.querySelector('.ox-x');
+        card.classList.remove('card-correct', 'card-wrong');
+        if (btnO) btnO.classList.remove('selected');
+        if (btnX) btnX.classList.remove('selected');
+
+        let isCorrect = false;
+        if (userVal !== '') {
+          isCorrect = (userVal === expected);
+        } else if (hasInk) {
+          // 펜으로 손글씨를 작성한 경우 기본 ⭕로 표시하고 정답 힌트와 함께 즉시 대조 가능하게 지원
+          isCorrect = true;
+        }
+
+        if (isCorrect) {
+          card.classList.add('card-correct');
+          if (btnO) btnO.classList.add('selected');
+        } else {
+          card.classList.add('card-wrong');
+          if (btnX) btnX.classList.add('selected');
+        }
+      });
+
+      recalculateGradingSummary();
     }
 
     // 과목 전환 핸들러
@@ -2371,6 +3029,18 @@
       populateSelectors();
       playSoundEffect('pop');
       renderWorksheet();
+    }
+
+    // 입력 모드 전환 (펜 쓰기 vs 키보드)
+    function setInputMode(mode) {
+      isPenMode = (mode === 'pen');
+      document.body.classList.toggle('pen-mode', isPenMode);
+      document.getElementById('btnModePen').classList.toggle('active', isPenMode);
+      document.getElementById('btnModeKeyboard').classList.toggle('active', !isPenMode);
+      if (!isPenMode) {
+        document.getElementById('zoomPadModal').classList.remove('open');
+      }
+      playSoundEffect('pop');
     }
 
     function initDate() {
@@ -2398,6 +3068,92 @@
     document.getElementById('titleCustom').addEventListener('input', (e) => {
       document.getElementById('displayTitle').innerText = e.target.value.trim() || '넘버블럭스 수학 교실';
     });
+
+    // 펜 툴바 이벤트 바인딩
+    document.getElementById('btnModePen').addEventListener('click', () => setInputMode('pen'));
+    document.getElementById('btnModeKeyboard').addEventListener('click', () => setInputMode('keyboard'));
+
+    document.getElementById('btnToolDraw').addEventListener('click', () => {
+      penTool = 'draw';
+      document.getElementById('btnToolDraw').classList.add('active');
+      document.getElementById('btnToolEraser').classList.remove('active');
+    });
+    document.getElementById('btnToolEraser').addEventListener('click', () => {
+      penTool = 'eraser';
+      document.getElementById('btnToolEraser').classList.add('active');
+      document.getElementById('btnToolDraw').classList.remove('active');
+    });
+
+    document.querySelectorAll('.color-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        penColor = dot.dataset.color;
+        penTool = 'draw';
+        document.getElementById('btnToolDraw').classList.add('active');
+        document.getElementById('btnToolEraser').classList.remove('active');
+        document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        penSize = parseFloat(btn.dataset.size) || 4.5;
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    document.getElementById('btnScratchMode').addEventListener('click', (e) => {
+      scratchModeActive = !scratchModeActive;
+      e.currentTarget.classList.toggle('active', scratchModeActive);
+      document.body.classList.toggle('scratch-active', scratchModeActive);
+      playSoundEffect('pop');
+    });
+
+    document.getElementById('btnZoomPadToggle').addEventListener('click', (e) => {
+      zoomPadEnabled = !zoomPadEnabled;
+      e.currentTarget.classList.toggle('active', zoomPadEnabled);
+      if (zoomPadEnabled) {
+        const firstBox = document.querySelector('.answer-box');
+        if (firstBox) openZoomPadForBox(firstBox);
+      } else {
+        document.getElementById('zoomPadModal').classList.remove('open');
+      }
+      playSoundEffect('pop');
+    });
+
+    document.getElementById('btnClearAllInk').addEventListener('click', clearAllHandwriting);
+
+    // 크게 쓰기 모달 이벤트
+    document.getElementById('btnZoomClear').addEventListener('click', () => {
+      if (activeAnswerBox) clearAnswerBoxInk(activeAnswerBox);
+    });
+    document.getElementById('btnZoomClose').addEventListener('click', () => {
+      document.getElementById('zoomPadModal').classList.remove('open');
+    });
+
+    // 크게 쓰기 캔버스 -> 활성 정답 칸 실시간 복제
+    bindCanvasDrawing(document.getElementById('zoomPadCanvas'), {
+      isZoomCanvas: true,
+      onStroke: () => {
+        if (!activeAnswerBox) return;
+        const targetCanvas = activeAnswerBox.querySelector('.answer-canvas');
+        const zoomCanvas = document.getElementById('zoomPadCanvas');
+        if (targetCanvas && zoomCanvas) {
+          const tCtx = targetCanvas.getContext('2d');
+          tCtx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+          tCtx.drawImage(zoomCanvas, 0, 0, targetCanvas.width, targetCanvas.height);
+          if (penTool !== 'eraser') {
+            activeAnswerBox.dataset.hasInk = 'true';
+            activeAnswerBox.classList.add('has-ink');
+          }
+        }
+      }
+    });
+
+    // 이름 칸 캔버스 및 학습지 여백 캔버스 바인딩
+    bindCanvasDrawing(document.getElementById('nameCanvas'));
+    bindCanvasDrawing(document.getElementById('sheetScratchCanvas'), { onlyPenOrScratch: true });
 
     document.getElementById('btnTimer').addEventListener('click', toggleTimer);
     document.getElementById('btnSound').addEventListener('click', (e) => {
