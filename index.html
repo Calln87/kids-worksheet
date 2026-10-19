@@ -262,51 +262,43 @@
       line-height: 1.1;
     }
 
-    /* 문제 목록 컨테이너 (6문제 또는 8문제 그리드) */
+    /* 문제 목록 컨테이너 (가로 1줄에 1문제) */
     .problems-grid {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 14px;
       flex: 1;
-      margin: 18px 0;
+      margin: 16px 0;
+      justify-content: space-between;
     }
 
-    .grid-6 {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(3, 1fr);
-    }
-
-    .grid-8 {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(4, 1fr);
-    }
-
-    /* 개별 문제 카드 */
+    /* 개별 문제 카드 (가로형 와이드 카드) */
     .problem-card {
       background: #F8FAFC;
       border: 2px solid #E2E8F0;
-      border-radius: 16px;
-      padding: 12px 14px;
+      border-radius: 18px;
+      padding: 12px 24px 12px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 20px;
       position: relative;
+      flex: 1;
+      min-height: 0;
     }
 
     .card-num {
-      position: absolute;
-      top: 8px;
-      left: 10px;
-      font-size: 13px;
+      font-size: 16px;
       font-weight: 900;
-      color: #94A3B8;
-      width: 20px;
-      height: 20px;
-      border-radius: 6px;
-      background: #EDF2F7;
+      color: #64748B;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: #E2E8F0;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     /* 넘버블럭스 캐릭터 시각화 영역 */
@@ -314,14 +306,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      min-width: 140px;
+      gap: 14px;
+      min-width: 170px;
       flex-shrink: 0;
-      padding-top: 4px;
     }
 
     .operator-icon {
-      font-size: 18px;
+      font-size: 24px;
       font-weight: 900;
       color: #64748B;
     }
@@ -332,11 +323,11 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 8px;
-      font-size: 26px;
+      gap: 16px;
+      font-size: 32px;
       font-weight: 900;
       color: #1E293B;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
 
     .formula-text {
@@ -344,19 +335,20 @@
     }
 
     .answer-box {
-      width: 58px;
-      height: 58px;
-      border: 3px solid #0EA5E9;
+      width: 68px;
+      height: 68px;
+      border: 3.5px solid #0EA5E9;
       background: #FFFFFF;
-      border-radius: 12px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 900;
       color: #0284C7;
       position: relative;
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+      flex-shrink: 0;
     }
 
     .answer-box.blank-middle {
@@ -461,10 +453,11 @@
       </div>
 
       <div class="ctrl-box">
-        <label for="countSelect">📝 문제 수</label>
+        <label for="countSelect">📝 문제 수 (한 줄에 1문제)</label>
         <select id="countSelect">
-          <option value="6" selected>6문제 (큼직하게)</option>
-          <option value="8">8문제 (알차게)</option>
+          <option value="5" selected>5문제 (추천 - 큼직하고 여유있게)</option>
+          <option value="6">6문제 (알차게)</option>
+          <option value="4">4문제 (아주 큼직하게)</option>
         </select>
       </div>
 
@@ -831,7 +824,7 @@
        ===================================================================== */
     function renderWorksheet() {
       const level = document.getElementById('levelSelect').value;
-      const count = parseInt(document.getElementById('countSelect').value, 10) || 6;
+      const count = parseInt(document.getElementById('countSelect').value, 10) || 5;
       const customTitle = document.getElementById('titleCustom').value.trim() || '넘버블럭스 수학 교실';
 
       // 텍스트 업데이트
@@ -839,9 +832,9 @@
       const info = LEVEL_INFOS[level] || LEVEL_INFOS[2];
       document.getElementById('displaySubtitle').innerText = info.name;
 
-      // 그리드 클래스 조정 (6문제 vs 8문제)
+      // 문제 컨테이너 초기화
       const container = document.getElementById('problemsContainer');
-      container.className = `problems-grid grid-${count}`;
+      container.className = 'problems-grid';
       container.innerHTML = '';
 
       for (let i = 1; i <= count; i++) {
@@ -849,14 +842,16 @@
         const card = document.createElement('div');
         card.className = 'problem-card';
 
-        // 시각화 (넘버블럭스 SVG)
+        // 시각화 (넘버블럭스 SVG) - 가로형 카드에 알맞게 크기 최적화
         let visualHtml = '';
         if (prob.type === 'triple') {
           visualHtml = `
             <div class="visual-area">
-              ${renderNumberblockSVG(prob.a, 12)}
+              ${renderNumberblockSVG(prob.a, 13)}
               <span class="operator-icon">${prob.op1}</span>
-              ${renderNumberblockSVG(prob.b, 12)}
+              ${renderNumberblockSVG(prob.b, 13)}
+              <span class="operator-icon">${prob.op2}</span>
+              ${renderNumberblockSVG(prob.c, 13)}
             </div>
           `;
         } else {
@@ -864,9 +859,9 @@
           const displayB = (prob.b <= 10) ? prob.b : 10;
           visualHtml = `
             <div class="visual-area">
-              ${renderNumberblockSVG(prob.a, 14)}
+              ${renderNumberblockSVG(prob.a, 16)}
               <span class="operator-icon">${prob.op}</span>
-              ${renderNumberblockSVG(displayB, 14)}
+              ${renderNumberblockSVG(displayB, 16)}
             </div>
           `;
         }
