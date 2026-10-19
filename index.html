@@ -301,20 +301,22 @@
       flex-shrink: 0;
     }
 
-    /* 넘버블럭스 캐릭터 시각화 영역 */
+    /* 넘버블럭스 캐릭터 시각화 영역 (크고 시원하게) */
     .visual-area {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      min-width: 170px;
+      gap: 16px;
+      min-width: 280px;
       flex-shrink: 0;
+      padding: 2px 6px;
     }
 
     .operator-icon {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 900;
-      color: #64748B;
+      color: #475569;
+      margin: 0 2px;
     }
 
     /* 수식 및 정답 입력 영역 */
@@ -323,11 +325,11 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 16px;
+      gap: 14px;
       font-size: 32px;
       font-weight: 900;
       color: #1E293B;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
 
     .formula-text {
@@ -335,8 +337,8 @@
     }
 
     .answer-box {
-      width: 68px;
-      height: 68px;
+      width: 70px;
+      height: 70px;
       border: 3.5px solid #0EA5E9;
       background: #FFFFFF;
       border-radius: 14px;
@@ -360,7 +362,7 @@
     .answer-hint {
       display: none;
       color: #E11D48;
-      font-size: 24px;
+      font-size: 28px;
     }
 
     body.show-answers .answer-hint {
@@ -437,18 +439,18 @@
   <header class="toolbar">
     <div class="toolbar-grid">
       <div class="ctrl-box">
-        <label for="levelSelect">⭐ 학습 단계 (Lv.1 ~ Lv.10)</label>
+        <label for="levelSelect">⭐ 학습 단계 (Lv.1 ~ Lv.10 | 숫자 1~100)</label>
         <select id="levelSelect">
-          <option value="1">Lv.1 - 5 이하 수 모으기와 가르기 (1~4)</option>
-          <option value="2" selected>Lv.2 - 10 이하 한 자리 덧셈</option>
-          <option value="3">Lv.3 - 10 이하 한 자리 뺄셈</option>
-          <option value="4">Lv.4 - 10 모으기 (합이 10인 짝꿍 수)</option>
-          <option value="5">Lv.5 - 10이 넘는 한 자리 덧셈 (받아올림)</option>
-          <option value="6">Lv.6 - 두 자리 + 한 자리 (받아올림 없음)</option>
-          <option value="7">Lv.7 - 십 몇에서 빼기 (11~18 뺄셈)</option>
-          <option value="8">Lv.8 - 20 이하 덧셈과 뺄셈 종합</option>
-          <option value="9">Lv.9 - 세 수의 연산 (3+4+2 / 9-3+2)</option>
-          <option value="10">Lv.10 - 빈칸 채우기 도전 (A + □ = C)</option>
+          <option value="1">Lv.1 - 5 이하 수 모으기와 덧셈 (1~5)</option>
+          <option value="2" selected>Lv.2 - 10 이하 한 자리 덧셈과 뺄셈 (1~10)</option>
+          <option value="3">Lv.3 - 10 모으기 짝꿍 수 찾기 (합이 10)</option>
+          <option value="4">Lv.4 - 20 이하 받아올림 덧셈 (11~18)</option>
+          <option value="5">Lv.5 - 20 이하 받아내림 뺄셈 (11~19)</option>
+          <option value="6">Lv.6 - 30 이하 두 자리 + 한 자리 연산 (11~30)</option>
+          <option value="7">Lv.7 - 50 이하 두 자리 수 덧셈과 뺄셈 (10~50)</option>
+          <option value="8">Lv.8 - 몇십 + 몇십 / 몇십 - 몇십 (10~100)</option>
+          <option value="9">Lv.9 - 100 이하 두 자리 수 덧셈 (11~100)</option>
+          <option value="10">Lv.10 - 100 이하 두 자리 뺄셈 및 빈칸 도전 (1~100)</option>
         </select>
       </div>
 
@@ -488,10 +490,10 @@
       <section class="sheet-header">
         <div class="title-group">
           <div class="brand-tag">
-            <span>●</span> NUMBERBLOCKS MATH
+            <span>●</span> NUMBERBLOCKS MATH (1~100)
           </div>
           <h1 class="main-title" id="displayTitle">넘버블럭스 수학 교실</h1>
-          <p class="subtitle" id="displaySubtitle">Lv.2 - 10 이하 한 자리 덧셈</p>
+          <p class="subtitle" id="displaySubtitle">Lv.2 - 10 이하 한 자리 덧셈과 뺄셈</p>
         </div>
 
         <div class="meta-box">
@@ -508,13 +510,13 @@
       </section>
 
       <!-- 문제 카드 목록 -->
-      <section class="problems-grid grid-6" id="problemsContainer">
+      <section class="problems-grid" id="problemsContainer">
         <!-- JS로 동적 생성 -->
       </section>
 
       <!-- 학습지 푸터 -->
       <footer class="sheet-footer">
-        <div>Numberblocks © Learning Blocks Ltd. | 창의력과 수 감각을 기르는 매일 수학</div>
+        <div>Numberblocks 1~100 © Learning Blocks Ltd. | 창의력과 수 감각을 기르는 매일 수학</div>
         <div class="footer-cheer">오늘도 스스로 멋지게 해냈어요! 👍</div>
       </footer>
 
@@ -554,133 +556,335 @@
     document.addEventListener('DOMContentLoaded', fitA4ToScreen);
 
     /* =====================================================================
-       2. 순수 내장형 SVG 넘버블럭스 렌더링 엔진 (외부 라이브러리/이미지 없음)
-       - 1~10번 캐릭터별 공식 고유 색상 및 얼굴/눈/표정 벡터화
+       2. 순수 내장형 SVG 넘버블럭스 1~100 렌더링 엔진 (외부 의존성 없음)
+       - 1~9 일의 자리 고유 색상/패턴 + 10~100 십의 자리 공식 테마 컬러
+       - 상단 넘버링(Numberling) 및 캐릭터별 시그니처 얼굴(눈/안경/별/가면/무지개)
        ===================================================================== */
-    const BLOCK_COLORS = {
-      1: '#EF4444', // Red
-      2: '#F97316', // Orange
-      3: '#FACC15', // Yellow
-      4: '#22C55E', // Green
-      5: '#06B6D4', // Cyan/Sky
-      6: '#6366F1', // Indigo
-      7: '#A855F7', // Rainbow/Purple
-      8: '#EC4899', // Pink/Magenta (Octoblock)
-      9: '#94A3B8', // Grey/Slate
-      10: '#FFFFFF' // White with Red border
+    const UNIT_COLORS = {
+      1: { fill: '#EF4444', stroke: '#B91C1C' }, // Red
+      2: { fill: '#F97316', stroke: '#C2410C' }, // Orange
+      3: { fill: '#FACC15', stroke: '#CA8A04' }, // Yellow
+      4: { fill: '#22C55E', stroke: '#15803D' }, // Green
+      5: { fill: '#06B6D4', stroke: '#0E7490' }, // Cyan
+      6: { fill: '#6366F1', stroke: '#4338CA' }, // Indigo
+      7: { fill: '#A855F7', stroke: '#6B21A8' }, // Rainbow / Violet
+      8: { fill: '#EC4899', stroke: '#BE185D' }, // Magenta (Octoblock)
+      9: { fill: '#94A3B8', stroke: '#475569' }  // 3-tone Grey
     };
 
-    function renderNumberblockSVG(num, blockUnit = 16) {
-      const n = Math.max(1, Math.min(10, Number(num) || 1));
-      const col = BLOCK_COLORS[n] || '#3B82F6';
+    const TEN_THEMES = {
+      1: { fill: '#FFFFFF', stroke: '#EF4444' }, // 10s: White + Red border
+      2: { fill: '#FED7AA', stroke: '#EA580C' }, // 20s: Light Orange + Orange border
+      3: { fill: '#FEF08A', stroke: '#CA8A04' }, // 30s: Light Yellow + Gold border
+      4: { fill: '#BBF7D0', stroke: '#16A34A' }, // 40s: Light Green + Green border
+      5: { fill: '#BAE6FD', stroke: '#0284C7' }, // 50s: Light Sky + Blue border
+      6: { fill: '#DDD6FE', stroke: '#6D28D9' }, // 60s: Light Lavender + Indigo border
+      7: { fill: 'RAINBOW_PASTEL', stroke: '#7E22CE' }, // 70s: Pastel Rainbow
+      8: { fill: '#FBCFE8', stroke: '#DB2777' }, // 80s: Light Pink + Magenta border
+      9: { fill: 'GREY_TEN', stroke: '#475569' }, // 90s: 3-tone Grey + Slate border
+      10: { fill: '#FEE2E2', stroke: '#DC2626' } // 100: Red/White Checkerboard
+    };
 
-      // 형태별 그리드 결정 (가로 x 세로)
-      let wBlocks = 1;
-      let hBlocks = n;
+    const RAINBOW_7 = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#6366F1', '#A855F7'];
+    const PASTEL_RAINBOW = ['#FCA5A5', '#FDBA74', '#FEF08A', '#86EFAC', '#7DD3FC', '#A5B4FC', '#D8B4FE', '#F9A8D4', '#FECDD3', '#E9D5FF'];
+    const GREY_3 = ['#64748B', '#94A3B8', '#CBD5E1'];
 
-      if (n === 4) { wBlocks = 2; hBlocks = 2; }
-      else if (n === 6) { wBlocks = 2; hBlocks = 3; }
-      else if (n === 8) { wBlocks = 2; hBlocks = 4; }
-      else if (n === 9) { wBlocks = 3; hBlocks = 3; }
-      else if (n === 10) { wBlocks = 2; hBlocks = 5; }
-      else if (n > 5) { wBlocks = 2; hBlocks = Math.ceil(n / 2); }
+    function drawSingleCell(x, y, u, fill, stroke, extra = '') {
+      const inset = Math.max(1.5, u * 0.14);
+      const rx = Math.max(1.5, u * 0.16);
+      const sw = Math.max(1, u * 0.08);
+      return `
+        <rect x="${x}" y="${y}" width="${u}" height="${u}" rx="${rx}"
+              fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>
+        <rect x="${x + inset}" y="${y + inset}" width="${Math.max(1, u - inset * 2)}" height="${Math.max(1, u - inset * 2)}" rx="${rx * 0.6}"
+              fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="${Math.max(0.7, sw * 0.6)}"/>
+        ${extra}
+      `;
+    }
 
-      const svgW = wBlocks * blockUnit + 4;
-      const svgH = hBlocks * blockUnit + 4;
+    function renderFaceFeatures(n, cx, cy, u, faceWidth) {
+      const rEye = Math.max(2.6, Math.min(6, u * 0.24));
+      const rPupil = rEye * 0.52;
+      const eyeOffset = Math.max(rEye + 1.5, Math.min(faceWidth * 0.24, rEye * 2.1));
+      const isSquare = [4, 9, 16, 25, 36, 49, 64, 81, 100].includes(n);
+
+      // 1: 외눈박이
+      if (n === 1) {
+        return `
+          <circle cx="${cx}" cy="${cy - u * 0.06}" r="${rEye * 1.25}" fill="#FFF" stroke="#1E293B" stroke-width="1.3"/>
+          <circle cx="${cx}" cy="${cy - u * 0.06}" r="${rPupil * 1.25}" fill="#0F172A"/>
+          <circle cx="${cx - rPupil * 0.4}" cy="${cy - u * 0.12}" r="${rPupil * 0.35}" fill="#FFF"/>
+          <path d="M ${cx - rEye} ${cy + rEye * 0.95} Q ${cx} ${cy + rEye * 1.7} ${cx + rEye} ${cy + rEye * 0.95}"
+                stroke="#0F172A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        `;
+      }
+
+      // 2, 20: 보라/주황 안경
+      if (n === 2 || n === 20) {
+        const gColor = (n === 2) ? '#7E22CE' : '#EA580C';
+        const gw = rEye * 2.1;
+        const gh = rEye * 1.7;
+        return `
+          <rect x="${cx - eyeOffset - gw / 2}" y="${cy - gh * 0.65}" width="${gw}" height="${gh}" rx="2.5" fill="#FFF" stroke="${gColor}" stroke-width="1.6"/>
+          <rect x="${cx + eyeOffset - gw / 2}" y="${cy - gh * 0.65}" width="${gw}" height="${gh}" rx="2.5" fill="#FFF" stroke="${gColor}" stroke-width="1.6"/>
+          <line x1="${cx - eyeOffset + gw / 2}" y1="${cy - gh * 0.1}" x2="${cx + eyeOffset - gw / 2}" y2="${cy - gh * 0.1}" stroke="${gColor}" stroke-width="1.6"/>
+          <circle cx="${cx - eyeOffset}" cy="${cy - gh * 0.1}" r="${rPupil}" fill="#0F172A"/>
+          <circle cx="${cx + eyeOffset}" cy="${cy - gh * 0.1}" r="${rPupil}" fill="#0F172A"/>
+          <path d="M ${cx - rEye} ${cy + rEye * 1.0} Q ${cx} ${cy + rEye * 1.6} ${cx + rEye} ${cy + rEye * 1.0}"
+                stroke="#0F172A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        `;
+      }
+
+      // 5, 15, 50: 스타 글래스 (별 눈)
+      if (n === 5 || n === 15 || n === 50) {
+        const sr = rEye * 1.8;
+        const sx = cx - eyeOffset;
+        const sy = cy - rEye * 0.2;
+        return `
+          <polygon points="${sx},${sy - sr} ${sx + sr * 0.35},${sy - sr * 0.35} ${sx + sr},${sy - sr * 0.3} ${sx + sr * 0.45},${sy + sr * 0.2} ${sx + sr * 0.65},${sy + sr * 0.9} ${sx},${sy + sr * 0.5} ${sx - sr * 0.65},${sy + sr * 0.9} ${sx - sr * 0.45},${sy + sr * 0.2} ${sx - sr},${sy - sr * 0.3} ${sx - sr * 0.35},${sy - sr * 0.35}"
+                   fill="#38BDF8" stroke="#0284C7" stroke-width="1.2"/>
+          <circle cx="${sx}" cy="${sy}" r="${rEye}" fill="#FFF" stroke="#0284C7" stroke-width="1"/>
+          <circle cx="${cx + eyeOffset}" cy="${sy}" r="${rEye}" fill="#FFF" stroke="#0F172A" stroke-width="1.1"/>
+          <circle cx="${sx}" cy="${sy}" r="${rPupil}" fill="#0F172A"/>
+          <circle cx="${cx + eyeOffset}" cy="${sy}" r="${rPupil}" fill="#0F172A"/>
+          <path d="M ${cx - rEye} ${cy + rEye * 1.0} Q ${cx} ${cy + rEye * 1.65} ${cx + rEye} ${cy + rEye * 1.0}"
+                stroke="#0F172A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        `;
+      }
+
+      // 8, 18, 80: 옥토블록 히어로 마스크
+      if (n === 8 || n === 18 || n === 80) {
+        const mw = eyeOffset * 2 + rEye * 2.8;
+        const mh = rEye * 2.1;
+        return `
+          <rect x="${cx - mw / 2}" y="${cy - mh * 0.65}" width="${mw}" height="${mh}" rx="${mh / 2}" fill="#311042" stroke="#1E1B4B" stroke-width="1"/>
+          <circle cx="${cx - eyeOffset}" cy="${cy - mh * 0.15}" r="${rEye}" fill="#FFF"/>
+          <circle cx="${cx + eyeOffset}" cy="${cy - mh * 0.15}" r="${rEye}" fill="#FFF"/>
+          <circle cx="${cx - eyeOffset}" cy="${cy - mh * 0.15}" r="${rPupil}" fill="#0F172A"/>
+          <circle cx="${cx + eyeOffset}" cy="${cy - mh * 0.15}" r="${rPupil}" fill="#0F172A"/>
+          <path d="M ${cx - rEye} ${cy + rEye * 1.05} Q ${cx} ${cy + rEye * 1.65} ${cx + rEye} ${cy + rEye * 1.05}"
+                stroke="#0F172A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        `;
+      }
+
+      // 10, 100: 빨간 별 눈
+      if (n === 10 || n === 100) {
+        const sr = rEye * 1.55;
+        const sy = cy - rEye * 0.15;
+        const star = (sx) => `
+          <polygon points="${sx},${sy - sr} ${sx + sr * 0.35},${sy - sr * 0.35} ${sx + sr},${sy - sr * 0.3} ${sx + sr * 0.45},${sy + sr * 0.2} ${sx + sr * 0.65},${sy + sr * 0.9} ${sx},${sy + sr * 0.5} ${sx - sr * 0.65},${sy + sr * 0.9} ${sx - sr * 0.45},${sy + sr * 0.2} ${sx - sr},${sy - sr * 0.3} ${sx - sr * 0.35},${sy - sr * 0.35}"
+                   fill="#FECACA" stroke="#DC2626" stroke-width="1"/>
+          <circle cx="${sx}" cy="${sy}" r="${rEye * 0.85}" fill="#FFF" stroke="#DC2626" stroke-width="0.9"/>
+          <circle cx="${sx}" cy="${sy}" r="${rPupil * 0.9}" fill="#0F172A"/>
+        `;
+        return `
+          ${star(cx - eyeOffset)}
+          ${star(cx + eyeOffset)}
+          <path d="M ${cx - rEye} ${cy + rEye * 1.0} Q ${cx} ${cy + rEye * 1.65} ${cx + rEye} ${cy + rEye * 1.0}"
+                stroke="#DC2626" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        `;
+      }
+
+      // 제곱수(4, 9, 16, 25, 36, 49, 64, 81): 네모 눈
+      if (isSquare) {
+        const sq = rEye * 1.85;
+        return `
+          <rect x="${cx - eyeOffset - sq / 2}" y="${cy - sq * 0.65}" width="${sq}" height="${sq}" rx="1.5" fill="#FFF" stroke="#0F172A" stroke-width="1.3"/>
+          <rect x="${cx + eyeOffset - sq / 2}" y="${cy - sq * 0.65}" width="${sq}" height="${sq}" rx="1.5" fill="#FFF" stroke="#0F172A" stroke-width="1.3"/>
+          <circle cx="${cx - eyeOffset}" cy="${cy - sq * 0.15}" r="${rPupil}" fill="#0F172A"/>
+          <circle cx="${cx + eyeOffset}" cy="${cy - sq * 0.15}" r="${rPupil}" fill="#0F172A"/>
+          <path d="M ${cx - rEye} ${cy + rEye * 1.05} Q ${cx} ${cy + rEye * 1.6} ${cx + rEye} ${cy + rEye * 1.05}"
+                stroke="#0F172A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        `;
+      }
+
+      // 기본 친근한 눈 + 미소 (나머지 1~100 캐릭터)
+      return `
+        <circle cx="${cx - eyeOffset}" cy="${cy - rEye * 0.2}" r="${rEye}" fill="#FFF" stroke="#0F172A" stroke-width="1.2"/>
+        <circle cx="${cx + eyeOffset}" cy="${cy - rEye * 0.2}" r="${rEye}" fill="#FFF" stroke="#0F172A" stroke-width="1.2"/>
+        <circle cx="${cx - eyeOffset}" cy="${cy - rEye * 0.2}" r="${rPupil}" fill="#0F172A"/>
+        <circle cx="${cx + eyeOffset}" cy="${cy - rEye * 0.2}" r="${rPupil}" fill="#0F172A"/>
+        <circle cx="${cx - eyeOffset - rPupil * 0.3}" cy="${cy - rEye * 0.35}" r="${rPupil * 0.3}" fill="#FFF"/>
+        <circle cx="${cx + eyeOffset - rPupil * 0.3}" cy="${cy - rEye * 0.35}" r="${rPupil * 0.3}" fill="#FFF"/>
+        <path d="M ${cx - rEye} ${cy + rEye * 0.9} Q ${cx} ${cy + rEye * 1.6} ${cx + rEye} ${cy + rEye * 0.9}"
+              stroke="#0F172A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      `;
+    }
+
+    function renderNumberblockSVG(num, sizeScale = 1) {
+      const n = Math.max(1, Math.min(100, Math.round(Number(num) || 1)));
+      const labelH = 20; // 상단 Numberling(숫자 머리표) 영역 높이
+
+      // -----------------------------------------------------------------
+      // A. 1 ~ 10번 캐릭터 (크고 선명한 블록 비율)
+      // -----------------------------------------------------------------
+      if (n <= 10) {
+        let cols = 1, rows = n, u = 22;
+        if (n === 1) { cols = 1; rows = 1; u = 42; }
+        else if (n === 2) { cols = 1; rows = 2; u = 34; }
+        else if (n === 3) { cols = 1; rows = 3; u = 26; }
+        else if (n === 4) { cols = 2; rows = 2; u = 32; }
+        else if (n === 5) { cols = 1; rows = 5; u = 17; }
+        else if (n === 6) { cols = 2; rows = 3; u = 25; }
+        else if (n === 7) { cols = 1; rows = 7; u = 13; }
+        else if (n === 8) { cols = 2; rows = 4; u = 20; }
+        else if (n === 9) { cols = 3; rows = 3; u = 24; }
+        else if (n === 10) { cols = 2; rows = 5; u = 17; }
+
+        u = Math.round(u * sizeScale);
+        const padX = 8;
+        const svgW = Math.max(46, cols * u + padX * 2);
+        const svgH = rows * u + labelH + 6;
+        const startX = (svgW - cols * u) / 2;
+        const startY = labelH + 2;
+
+        let blocksHtml = '';
+        let idx = 0;
+        for (let r = rows - 1; r >= 0; r--) {
+          for (let c = 0; c < cols; c++) {
+            if (idx >= n) break;
+            const x = startX + c * u;
+            const y = startY + r * u;
+
+            let fill = UNIT_COLORS[n] ? UNIT_COLORS[n].fill : '#FFFFFF';
+            let stroke = UNIT_COLORS[n] ? UNIT_COLORS[n].stroke : '#EF4444';
+
+            if (n === 7) {
+              fill = RAINBOW_7[idx % 7];
+              stroke = 'rgba(0,0,0,0.3)';
+            } else if (n === 9) {
+              fill = GREY_3[r % 3];
+              stroke = '#475569';
+            } else if (n === 10) {
+              fill = '#FFFFFF';
+              stroke = '#EF4444';
+            }
+
+            // 3번 빨간 저글링 단추 / 6번 주사위 눈 장식
+            let extra = '';
+            if (n === 3) {
+              extra = `<circle cx="${x + u / 2}" cy="${y + u * 0.72}" r="${Math.max(2, u * 0.11)}" fill="#EF4444"/>`;
+            } else if (n === 6 && r > 0) {
+              extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${Math.max(2, u * 0.12)}" fill="#312E81"/>`;
+            }
+
+            blocksHtml += drawSingleCell(x, y, u, fill, stroke, extra);
+            idx++;
+          }
+        }
+
+        const faceCx = startX + (cols * u) / 2;
+        const faceCy = startY + u * 0.52;
+        const faceHtml = renderFaceFeatures(n, faceCx, faceCy, u, cols * u);
+
+        // 상단 Numberling (숫자 머리표)
+        const numberlingHtml = `
+          <line x1="${faceCx}" y1="${startY - 5}" x2="${faceCx}" y2="${startY}" stroke="#0F172A" stroke-width="2"/>
+          <text x="${faceCx}" y="${startY - 6}" text-anchor="middle" font-size="14" font-weight="900" fill="#0F172A">${n}</text>
+        `;
+
+        return `
+          <svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" class="nb-svg" style="filter: drop-shadow(0 3px 4px rgba(15,23,42,0.14));">
+            ${numberlingHtml}
+            ${blocksHtml}
+            ${faceHtml}
+          </svg>
+        `;
+      }
+
+      // -----------------------------------------------------------------
+      // B. 11 ~ 100번 캐릭터 (십의 자리 기둥 + 일의 자리 블록 조합)
+      // -----------------------------------------------------------------
+      const tens = Math.floor(n / 10); // 1 ~ 10
+      const ones = n % 10;             // 0 ~ 9
+      const totalCols = tens + (ones > 0 ? 1 : 0);
+
+      // 숫자 크기에 맞춰 한 칸(unit) 크기를 큼직하게 자동 조절
+      let baseU = 9.5;
+      if (totalCols <= 2) baseU = 10.5;
+      else if (totalCols <= 4) baseU = 10;
+      else if (totalCols <= 6) baseU = 9.2;
+      else baseU = 8.4;
+
+      const u = Math.max(7, baseU * sizeScale);
+      const rows = 10;
+      const padX = 6;
+      const svgW = Math.max(44, totalCols * u + padX * 2 + (ones > 0 ? 2 : 0));
+      const svgH = rows * u + labelH + 6;
+      const startX = (svgW - (totalCols * u + (ones > 0 ? 2 : 0))) / 2;
+      const startY = labelH + 2;
 
       let blocksHtml = '';
-      let blockCount = 0;
+      const tenTheme = TEN_THEMES[tens] || TEN_THEMES[1];
 
-      // 7번 무지개 블록용 컬러 배열
-      const rainbow = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#6366F1', '#A855F7'];
+      // 1) 십의 자리 기둥들 (각 기둥은 10칸 높이)
+      for (let c = 0; c < tens; c++) {
+        for (let r = 0; r < 10; r++) {
+          const x = startX + c * u;
+          const y = startY + r * u;
+          const rowFromBottom = 9 - r;
 
-      for (let r = hBlocks - 1; r >= 0; r--) {
-        for (let c = 0; c < wBlocks; c++) {
-          if (blockCount >= n) break;
-          const x = 2 + c * blockUnit;
-          const y = 2 + r * blockUnit;
-          const fill = (n === 7) ? rainbow[blockCount % 7] : col;
-          const stroke = (n === 10) ? '#DC2626' : 'rgba(0,0,0,0.25)';
-          const strokeW = (n === 10) ? '2' : '1.5';
+          let fill = tenTheme.fill;
+          let stroke = tenTheme.stroke;
 
-          blocksHtml += `
-            <rect x="${x}" y="${y}" width="${blockUnit}" height="${blockUnit}" rx="3"
-                  fill="${fill}" stroke="${stroke}" stroke-width="${strokeW}"/>
-            <rect x="${x + 2}" y="${y + 2}" width="${blockUnit - 4}" height="${blockUnit - 4}" rx="2"
-                  fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-          `;
-          blockCount++;
+          if (n === 100) {
+            // 100: 빨강 & 연분홍 체크무늬 10x10 정사각형
+            fill = ((r + c) % 2 === 0) ? '#FEE2E2' : '#FCA5A5';
+            stroke = '#EF4444';
+          } else if (tenTheme.fill === 'RAINBOW_PASTEL') {
+            fill = PASTEL_RAINBOW[rowFromBottom % 10];
+          } else if (tenTheme.fill === 'GREY_TEN') {
+            fill = GREY_3[r % 3];
+          }
+
+          blocksHtml += drawSingleCell(x, y, u, fill, stroke);
         }
       }
 
-      // 얼굴 및 특징 (상단 블록에 눈/입 배치)
-      let faceHtml = '';
-      const topX = 2;
-      const topY = 2;
-      const faceW = wBlocks * blockUnit;
-      const centerX = topX + faceW / 2;
-      const centerY = topY + blockUnit / 2;
+      // 2) 일의 자리 기둥 (바닥부터 ones칸 만큼 쌓음, 고유 1~9 색상 적용)
+      if (ones > 0) {
+        const oneColX = startX + tens * u + 2; // 십의 자리 기둥 바로 옆
+        const unitTheme = UNIT_COLORS[ones];
 
-      if (n === 1) {
-        // One: 커다란 외눈박이, 귀여운 미소
-        faceHtml = `
-          <circle cx="${centerX}" cy="${centerY - 1}" r="4" fill="#FFFFFF" stroke="#000" stroke-width="1"/>
-          <circle cx="${centerX}" cy="${centerY - 1}" r="2" fill="#000000"/>
-          <path d="M ${centerX - 3} ${centerY + 3} Q ${centerX} ${centerY + 6} ${centerX + 3} ${centerY + 3}"
-                stroke="#000" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        `;
-      } else if (n === 2) {
-        // Two: 주황색 + 안경
-        faceHtml = `
-          <rect x="${centerX - 6}" y="${centerY - 3}" width="5" height="4" rx="1.5" fill="#FFF" stroke="#6D28D9" stroke-width="1"/>
-          <rect x="${centerX + 1}" y="${centerY - 3}" width="5" height="4" rx="1.5" fill="#FFF" stroke="#6D28D9" stroke-width="1"/>
-          <line x1="${centerX - 1}" y1="${centerY - 1}" x2="${centerX + 1}" y2="${centerY - 1}" stroke="#6D28D9" stroke-width="1.2"/>
-          <circle cx="${centerX - 3.5}" cy="${centerY - 1}" r="1" fill="#000"/>
-          <circle cx="${centerX + 3.5}" cy="${centerY - 1}" r="1" fill="#000"/>
-          <path d="M ${centerX - 2.5} ${centerY + 3.5} Q ${centerX} ${centerY + 5.5} ${centerX + 2.5} ${centerY + 3.5}"
-                stroke="#000" stroke-width="1" fill="none" stroke-linecap="round"/>
-        `;
-      } else if (n === 3) {
-        // Three: 노란색 삼색 단추
-        faceHtml = `
-          <circle cx="${centerX - 3.5}" cy="${centerY - 2}" r="1.8" fill="#FFF" stroke="#000" stroke-width="0.8"/>
-          <circle cx="${centerX + 3.5}" cy="${centerY - 2}" r="1.8" fill="#FFF" stroke="#000" stroke-width="0.8"/>
-          <circle cx="${centerX - 3.5}" cy="${centerY - 2}" r="1" fill="#000"/>
-          <circle cx="${centerX + 3.5}" cy="${centerY - 2}" r="1" fill="#000"/>
-          <path d="M ${centerX - 3} ${centerY + 2.5} Q ${centerX} ${centerY + 5.5} ${centerX + 3} ${centerY + 2.5}"
-                stroke="#000" stroke-width="1" fill="none" stroke-linecap="round"/>
-        `;
-      } else if (n === 4) {
-        // Four: 정사각형 눈썹
-        faceHtml = `
-          <rect x="${centerX - 5}" y="${centerY - 2.5}" width="3.5" height="3.5" fill="#FFF" stroke="#000" stroke-width="0.8"/>
-          <rect x="${centerX + 1.5}" y="${centerY - 2.5}" width="3.5" height="3.5" fill="#FFF" stroke="#000" stroke-width="0.8"/>
-          <circle cx="${centerX - 3.2}" cy="${centerY - 0.7}" r="0.9" fill="#000"/>
-          <circle cx="${centerX + 3.2}" cy="${centerY - 0.7}" r="0.9" fill="#000"/>
-          <line x1="${centerX - 2}" y1="${centerY + 3.5}" x2="${centerX + 2}" y2="${centerY + 3.5}" stroke="#000" stroke-width="1.2" stroke-linecap="round"/>
-        `;
-      } else if (n === 5) {
-        // Five: 스타 글래스
-        faceHtml = `
-          <polygon points="${centerX},${centerY-5} ${centerX+1.5},${centerY-2} ${centerX+4},${centerY-2} ${centerX+2},${centerY} ${centerX+3},${centerY+3} ${centerX},${centerY+1.5} ${centerX-3},${centerY+3} ${centerX-2},${centerY} ${centerX-4},${centerY-2} ${centerX-1.5},${centerY-2}"
-                   fill="#3B82F6" stroke="#1D4ED8" stroke-width="0.7"/>
-          <circle cx="${centerX}" cy="${centerY}" r="1.5" fill="#FFF"/>
-          <circle cx="${centerX}" cy="${centerY}" r="0.8" fill="#000"/>
-        `;
-      } else {
-        // 일반 공통 친근한 표정 (6, 7, 8, 9, 10)
-        faceHtml = `
-          <circle cx="${centerX - 4}" cy="${centerY - 1.5}" r="2" fill="#FFF" stroke="#000" stroke-width="0.8"/>
-          <circle cx="${centerX + 4}" cy="${centerY - 1.5}" r="2" fill="#FFF" stroke="#000" stroke-width="0.8"/>
-          <circle cx="${centerX - 4}" cy="${centerY - 1.5}" r="1" fill="#000"/>
-          <circle cx="${centerX + 4}" cy="${centerY - 1.5}" r="1" fill="#000"/>
-          <path d="M ${centerX - 3} ${centerY + 3} Q ${centerX} ${centerY + 5.5} ${centerX + 3} ${centerY + 3}"
-                stroke="#000" stroke-width="1" fill="none" stroke-linecap="round"/>
-        `;
+        for (let i = 0; i < ones; i++) {
+          const r = 9 - i; // 바닥(9)부터 위로
+          const y = startY + r * u;
+          let fill = unitTheme.fill;
+          let stroke = unitTheme.stroke;
+
+          if (ones === 7) {
+            fill = RAINBOW_7[i % 7];
+          } else if (ones === 9) {
+            fill = GREY_3[i % 3];
+          }
+
+          let extra = '';
+          if (ones === 6) {
+            extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.14)}" fill="#312E81"/>`;
+          } else if (ones === 3) {
+            extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.14)}" fill="#EF4444"/>`;
+          }
+
+          blocksHtml += drawSingleCell(oneColX, y, u, fill, stroke, extra);
+        }
       }
 
+      // 3) 상단 얼굴 배치 (십의 자리 상단 중앙에 큼직하고 귀여운 표정)
+      const tensWidth = tens * u;
+      const faceCx = startX + tensWidth / 2;
+      const faceCy = startY + u * 1.15;
+      const faceHtml = renderFaceFeatures(n, faceCx, faceCy, u * 1.55, Math.max(u * 2.2, tensWidth));
+
+      // 4) 상단 Numberling (11 ~ 100 숫자 머리표)
+      const labelCx = startX + (totalCols * u) / 2;
+      const numberlingHtml = `
+        <line x1="${labelCx}" y1="${startY - 5}" x2="${labelCx}" y2="${startY}" stroke="#0F172A" stroke-width="2"/>
+        <text x="${labelCx}" y="${startY - 6}" text-anchor="middle" font-size="14" font-weight="900" fill="#0F172A">${n}</text>
+      `;
+
       return `
-        <svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" class="nb-svg" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));">
+        <svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" class="nb-svg" style="filter: drop-shadow(0 3px 4px rgba(15,23,42,0.14));">
+          ${numberlingHtml}
           ${blocksHtml}
           ${faceHtml}
         </svg>
@@ -688,19 +892,19 @@
     }
 
     /* =====================================================================
-       3. Lv.1 ~ Lv.10 수학 문제 생성기
+       3. Lv.1 ~ Lv.10 수학 문제 생성기 (1 ~ 100 전 범위 지원)
        ===================================================================== */
     const LEVEL_INFOS = {
-      1: { name: "Lv.1 - 5 이하 수 모으기와 가르기", desc: "넘버블럭스와 함께 5 이하 수의 덧셈 기초를 배워요." },
-      2: { name: "Lv.2 - 10 이하 한 자리 덧셈", desc: "블록을 합치면 모두 몇 개가 될까요?" },
-      3: { name: "Lv.3 - 10 이하 한 자리 뺄셈", desc: "블록을 빼고 남은 개수를 구해요." },
-      4: { name: "Lv.4 - 10 모으기 (짝꿍 수)", desc: "합이 10이 되려면 몇 개가 더 필요할까요?" },
-      5: { name: "Lv.5 - 10이 넘는 한 자리 덧셈", desc: "10보다 큰 수로 변신하는 넘버블럭스!" },
-      6: { name: "Lv.6 - 두 자리 + 한 자리 덧셈", desc: "받아올림 없는 십 몇과 한 자리의 덧셈." },
-      7: { name: "Lv.7 - 십 몇에서 빼기", desc: "11~18에서 한 자리를 쏙 빼보아요." },
-      8: { name: "Lv.8 - 20 이하 덧셈과 뺄셈", desc: "더하기와 빼기를 골고루 연습해요." },
-      9: { name: "Lv.9 - 세 수의 연산", desc: "세 친구가 모여서 계산해 보아요." },
-      10: { name: "Lv.10 - 빈칸 채우기 도전", desc: "네모 상자에 들어갈 알맞은 수를 맞춰보세요!" }
+      1: { name: "Lv.1 - 5 이하 수 모으기와 덧셈 (1~5)", desc: "넘버블럭스 1~5 친구들과 함께 덧셈 기초를 배워요." },
+      2: { name: "Lv.2 - 10 이하 한 자리 덧셈과 뺄셈 (1~10)", desc: "1부터 10까지 블록을 더하고 빼보아요." },
+      3: { name: "Lv.3 - 10 모으기 짝꿍 수 찾기 (합이 10)", desc: "합이 10이 되려면 어떤 넘버블럭스가 필요할까요?" },
+      4: { name: "Lv.4 - 20 이하 받아올림 덧셈 (11~18)", desc: "10보다 큰 십몇 넘버블럭스로 변신!" },
+      5: { name: "Lv.5 - 20 이하 받아내림 뺄셈 (11~19)", desc: "십몇 넘버블럭스에서 한 자리를 빼보아요." },
+      6: { name: "Lv.6 - 30 이하 두 자리와 한 자리 연산 (11~30)", desc: "11~30 사이의 넘버블럭스 친구들과 계산해요." },
+      7: { name: "Lv.7 - 50 이하 두 자리 수 덧셈과 뺄셈 (10~50)", desc: "십의 자리 기둥과 일의 자리 블록을 맞춰보아요." },
+      8: { name: "Lv.8 - 몇십 + 몇십 / 몇십 - 몇십 (10~100)", desc: "10, 20, 30... 100까지 큼직한 십의 자리 블록 연산!" },
+      9: { name: "Lv.9 - 100 이하 두 자리 수 덧셈 (11~100)", desc: "1부터 100까지 모든 넘버블럭스가 총출동해요!" },
+      10: { name: "Lv.10 - 100 이하 뺄셈 및 빈칸 도전 (1~100)", desc: "100 이하의 수에서 네모 상자 속 알맞은 수를 찾아보세요!" }
     };
 
     function rand(min, max) {
@@ -712,105 +916,112 @@
 
       switch (Number(level)) {
         case 1: {
-          // 5 이하의 수 모으기 (합 <= 5)
+          // 5 이하의 덧셈 (합 <= 5)
           const a = rand(1, 4);
           const b = rand(1, 5 - a);
           p = { a, b, op: '+', ans: a + b, type: 'normal' };
           break;
         }
         case 2: {
-          // 10 이하 덧셈 (합 <= 10)
-          const a = rand(1, 8);
-          const b = rand(1, 10 - a);
-          p = { a, b, op: '+', ans: a + b, type: 'normal' };
+          // 10 이하 덧셈과 뺄셈
+          if (Math.random() > 0.4) {
+            const a = rand(1, 8);
+            const b = rand(1, 10 - a);
+            p = { a, b, op: '+', ans: a + b, type: 'normal' };
+          } else {
+            const a = rand(3, 10);
+            const b = rand(1, a - 1);
+            p = { a, b, op: '-', ans: a - b, type: 'normal' };
+          }
           break;
         }
         case 3: {
-          // 10 이하 뺄셈
-          const a = rand(2, 10);
-          const b = rand(1, a - 1);
-          p = { a, b, op: '-', ans: a - b, type: 'normal' };
-          break;
-        }
-        case 4: {
           // 10 모으기 (A + □ = 10 또는 A + B = 10)
           const a = rand(1, 9);
           const b = 10 - a;
-          const makeBlank = Math.random() > 0.4;
-          if (makeBlank) {
+          if (Math.random() > 0.4) {
             p = { a, b, op: '+', ans: b, target: 10, type: 'blank_right' };
           } else {
             p = { a, b, op: '+', ans: 10, type: 'normal' };
           }
           break;
         }
-        case 5: {
-          // 10이 넘는 한 자리 덧셈 (합 11~18)
+        case 4: {
+          // 20 이하 받아올림 덧셈 (합 11~18)
           const a = rand(4, 9);
           const b = rand(11 - a, 9);
           p = { a, b, op: '+', ans: a + b, type: 'normal' };
           break;
         }
-        case 6: {
-          // 두 자리 + 한 자리 (받아올림 없음: 11~16 + 1~3, 일의 자리 합 < 10)
-          const tens = 10;
-          const onesA = rand(1, 6);
-          const a = tens + onesA;
-          const b = rand(1, 9 - onesA);
-          p = { a, b, op: '+', ans: a + b, type: 'normal' };
-          break;
-        }
-        case 7: {
-          // 십 몇에서 빼기 (11~18 - 2~9)
-          const a = rand(11, 18);
-          const b = rand(Math.max(2, a - 9), 9);
+        case 5: {
+          // 20 이하 받아내림 뺄셈 (11~19 - 한 자리)
+          const a = rand(11, 19);
+          const b = rand(2, 9);
           p = { a, b, op: '-', ans: a - b, type: 'normal' };
           break;
         }
-        case 8: {
-          // 20 이하 덧셈과 뺄셈 혼합
-          const isAdd = Math.random() > 0.5;
-          if (isAdd) {
-            const a = rand(3, 12);
-            const b = rand(2, 19 - a);
+        case 6: {
+          // 30 이하 두 자리 + 한 자리 또는 두 자리 - 한 자리
+          if (Math.random() > 0.4) {
+            const a = rand(11, 24);
+            const b = rand(2, 30 - a);
             p = { a, b, op: '+', ans: a + b, type: 'normal' };
           } else {
-            const a = rand(7, 19);
-            const b = rand(2, Math.min(9, a - 1));
+            const a = rand(15, 30);
+            const b = rand(2, 9);
+            p = { a, b, op: '-', ans: a - b, type: 'normal' };
+          }
+          break;
+        }
+        case 7: {
+          // 50 이하 두 자리 수 덧셈과 뺄셈
+          if (Math.random() > 0.45) {
+            const a = rand(12, 34);
+            const b = rand(11, 50 - a);
+            p = { a, b, op: '+', ans: a + b, type: 'normal' };
+          } else {
+            const a = rand(25, 50);
+            const b = rand(11, a - 5);
+            p = { a, b, op: '-', ans: a - b, type: 'normal' };
+          }
+          break;
+        }
+        case 8: {
+          // 몇십 + 몇십 / 몇십 - 몇십 (10 ~ 100)
+          if (Math.random() > 0.4) {
+            const ta = rand(1, 8);
+            const tb = rand(1, 10 - ta);
+            const a = ta * 10;
+            const b = tb * 10;
+            p = { a, b, op: '+', ans: a + b, type: 'normal' };
+          } else {
+            const ta = rand(3, 10);
+            const tb = rand(1, ta - 1);
+            const a = ta * 10;
+            const b = tb * 10;
             p = { a, b, op: '-', ans: a - b, type: 'normal' };
           }
           break;
         }
         case 9: {
-          // 세 수의 연산
-          const isAddAll = Math.random() > 0.5;
-          if (isAddAll) {
-            const a = rand(1, 5);
-            const b = rand(1, 5);
-            const c = rand(1, 5);
-            p = { a, b, c, op1: '+', op2: '+', ans: a + b + c, type: 'triple' };
-          } else {
-            const a = rand(6, 12);
-            const b = rand(1, 4);
-            const c = rand(1, 4);
-            p = { a, b, c, op1: '-', op2: '+', ans: a - b + c, type: 'triple' };
-          }
+          // 100 이하 두 자리 수 덧셈 (합 <= 100)
+          const a = rand(14, 75);
+          const b = rand(12, 100 - a);
+          p = { a, b, op: '+', ans: a + b, type: 'normal' };
           break;
         }
         case 10:
         default: {
-          // 빈칸 채우기 (A + □ = C 또는 □ - B = C)
-          const isAdd = Math.random() > 0.4;
-          if (isAdd) {
-            const a = rand(2, 10);
-            const b = rand(2, 9);
-            const sum = a + b;
-            p = { a, b, op: '+', ans: b, target: sum, type: 'blank_right' };
+          // 100 이하 두 자리 뺄셈 및 빈칸 채우기
+          const mode = Math.random();
+          if (mode > 0.5) {
+            const a = rand(35, 100);
+            const b = rand(12, a - 10);
+            p = { a, b, op: '-', ans: a - b, type: 'normal' };
           } else {
-            const ans = rand(3, 9);
-            const b = rand(2, 8);
-            const total = ans + b;
-            p = { a: total, b, op: '-', ans: b, target: ans, type: 'blank_right' };
+            const a = rand(15, 65);
+            const b = rand(11, 100 - a);
+            p = { a, b, op: '+', ans: b, target: a + b, type: 'blank_right' };
           }
           break;
         }
@@ -832,6 +1043,9 @@
       const info = LEVEL_INFOS[level] || LEVEL_INFOS[2];
       document.getElementById('displaySubtitle').innerText = info.name;
 
+      // 문제 수에 따라 캐릭터 스케일 최적화 (4문제는 아주 크게, 5문제는 크게, 6문제는 알맞게)
+      const svgScale = (count === 4) ? 1.18 : (count === 5 ? 1.05 : 0.88);
+
       // 문제 컨테이너 초기화
       const container = document.getElementById('problemsContainer');
       container.className = 'problems-grid';
@@ -842,26 +1056,24 @@
         const card = document.createElement('div');
         card.className = 'problem-card';
 
-        // 시각화 (넘버블럭스 SVG) - 가로형 카드에 알맞게 크기 최적화
+        // 시각화 (1~100 모든 넘버블럭스 SVG 렌더링)
         let visualHtml = '';
         if (prob.type === 'triple') {
           visualHtml = `
             <div class="visual-area">
-              ${renderNumberblockSVG(prob.a, 13)}
+              ${renderNumberblockSVG(prob.a, svgScale * 0.85)}
               <span class="operator-icon">${prob.op1}</span>
-              ${renderNumberblockSVG(prob.b, 13)}
+              ${renderNumberblockSVG(prob.b, svgScale * 0.85)}
               <span class="operator-icon">${prob.op2}</span>
-              ${renderNumberblockSVG(prob.c, 13)}
+              ${renderNumberblockSVG(prob.c, svgScale * 0.85)}
             </div>
           `;
         } else {
-          // 일반 / 빈칸 문제
-          const displayB = (prob.b <= 10) ? prob.b : 10;
           visualHtml = `
             <div class="visual-area">
-              ${renderNumberblockSVG(prob.a, 16)}
+              ${renderNumberblockSVG(prob.a, svgScale)}
               <span class="operator-icon">${prob.op}</span>
-              ${renderNumberblockSVG(displayB, 16)}
+              ${renderNumberblockSVG(prob.b, svgScale)}
             </div>
           `;
         }
