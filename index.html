@@ -461,11 +461,15 @@
       </div>
 
       <div class="ctrl-box">
-        <label for="opSelect">➕➖ 연산 종류</label>
+        <label for="opSelect">➕➖✖️➗ 연산 종류</label>
         <select id="opSelect">
           <option value="add">덧셈 (+)</option>
           <option value="sub">뺄셈 (-)</option>
-          <option value="mix" selected>혼합 (+/-)</option>
+          <option value="mul">곱셈 (×)</option>
+          <option value="div">나눗셈 (÷)</option>
+          <option value="mix" selected>덧셈·뺄셈 혼합 (+/-)</option>
+          <option value="mix_md">곱셈·나눗셈 혼합 (×/÷)</option>
+          <option value="mix_all">사칙연산 전체 혼합 (+/-/×/÷)</option>
         </select>
       </div>
 
@@ -572,33 +576,34 @@
 
     /* =====================================================================
        2. 순수 내장형 SVG 넘버블럭스 1~100 렌더링 엔진 (buildNumberblockSVG)
-       - 1~9 일의 자리 고유 색상/패턴 + 10~100 십의 자리 공식 테마 컬러
-       - 32(골든 크라운 & 눈썹 & 더블러 엠블럼), 80(슈퍼 옥토블록 크레스트 & 영웅 눈썹 & 바이저) 등
-         캐릭터별 왕관, 모자, 눈썹, 수염, 안경, 별 디테일 정밀 구현
+       - 실제 넘버블럭스 애니메이션의 컬러 눈 테두리(Eye Rim), 속눈썹, 땀방울,
+         분홍 코(9), 광대 모자(3), 별 안경(5/15/50), 주사위 점(6/60), 무지개 머리(7/17/70),
+         옥토블록 촉수 가면(8/18/80), 베레모(17), 보더 헬멧(14), 신사 모자&나비넥타이(20/90),
+         탐험가 모자(21), 로열 골든 크라운(32/100) 등 정밀 구현
        ===================================================================== */
     const UNIT_COLORS = {
-      1: { fill: '#EF4444', stroke: '#B91C1C' }, // Red
-      2: { fill: '#F97316', stroke: '#C2410C' }, // Orange
-      3: { fill: '#FACC15', stroke: '#CA8A04' }, // Yellow
-      4: { fill: '#22C55E', stroke: '#15803D' }, // Green
-      5: { fill: '#06B6D4', stroke: '#0E7490' }, // Cyan
-      6: { fill: '#6366F1', stroke: '#4338CA' }, // Indigo
-      7: { fill: '#A855F7', stroke: '#6B21A8' }, // Rainbow / Violet
-      8: { fill: '#EC4899', stroke: '#BE185D' }, // Magenta (Octoblock)
-      9: { fill: '#94A3B8', stroke: '#475569' }  // 3-tone Grey
+      1: { fill: '#EF4444', stroke: '#B91C1C', rim: '#DC2626' }, // Red
+      2: { fill: '#F97316', stroke: '#C2410C', rim: '#7E22CE' }, // Orange (Purple glasses)
+      3: { fill: '#FACC15', stroke: '#CA8A04', rim: '#EF4444' }, // Yellow (Red eye rims)
+      4: { fill: '#22C55E', stroke: '#15803D', rim: '#15803D' }, // Green (Square dark green rims)
+      5: { fill: '#06B6D4', stroke: '#0E7490', rim: '#1D4ED8' }, // Cyan (Blue star rim)
+      6: { fill: '#6366F1', stroke: '#4338CA', rim: '#4338CA' }, // Indigo (Violet lashed rims)
+      7: { fill: '#A855F7', stroke: '#6B21A8', rim: '#7E22CE' }, // Rainbow / Violet
+      8: { fill: '#EC4899', stroke: '#BE185D', rim: '#9D174D' }, // Magenta (Octoblock mask)
+      9: { fill: '#94A3B8', stroke: '#475569', rim: '#334155' }  // 3-tone Grey (Square grey rims)
     };
 
     const TEN_THEMES = {
-      1: { fill: '#FFFFFF', stroke: '#EF4444' }, // 10s: White + Red border
-      2: { fill: '#FED7AA', stroke: '#EA580C' }, // 20s: Light Orange + Orange border
-      3: { fill: '#FEF08A', stroke: '#CA8A04' }, // 30s: Light Yellow + Gold border
-      4: { fill: '#BBF7D0', stroke: '#16A34A' }, // 40s: Light Green + Green border
-      5: { fill: '#BAE6FD', stroke: '#0284C7' }, // 50s: Light Sky + Blue border
-      6: { fill: '#DDD6FE', stroke: '#6D28D9' }, // 60s: Light Lavender + Indigo border
-      7: { fill: 'RAINBOW_PASTEL', stroke: '#7E22CE' }, // 70s: Pastel Rainbow
-      8: { fill: '#FBCFE8', stroke: '#DB2777' }, // 80s: Light Pink + Magenta border
-      9: { fill: 'GREY_TEN', stroke: '#475569' }, // 90s: 3-tone Grey + Slate border
-      10: { fill: '#FEE2E2', stroke: '#DC2626' } // 100: Red/White Checkerboard
+      1: { fill: '#FFFFFF', stroke: '#EF4444', rim: '#DC2626' }, // 10s: White + Red border
+      2: { fill: '#FED7AA', stroke: '#EA580C', rim: '#EA580C' }, // 20s: Light Orange + Orange border
+      3: { fill: '#FEF08A', stroke: '#CA8A04', rim: '#D97706' }, // 30s: Light Yellow + Gold border
+      4: { fill: '#BBF7D0', stroke: '#16A34A', rim: '#15803D' }, // 40s: Light Green + Green border
+      5: { fill: '#BAE6FD', stroke: '#0284C7', rim: '#0284C7' }, // 50s: Light Sky + Blue border
+      6: { fill: '#DDD6FE', stroke: '#6D28D9', rim: '#5B21B6' }, // 60s: Light Lavender + Indigo border
+      7: { fill: 'RAINBOW_PASTEL', stroke: '#7E22CE', rim: '#7E22CE' }, // 70s: Pastel Rainbow
+      8: { fill: '#FBCFE8', stroke: '#DB2777', rim: '#9D174D' }, // 80s: Light Pink + Magenta border
+      9: { fill: 'GREY_TEN', stroke: '#475569', rim: '#334155' }, // 90s: 3-tone Grey + Slate border
+      10: { fill: '#FEE2E2', stroke: '#DC2626', rim: '#DC2626' } // 100: Red/White Checkerboard
     };
 
     const RAINBOW_7 = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#6366F1', '#A855F7'];
@@ -606,58 +611,71 @@
     const GREY_3 = ['#64748B', '#94A3B8', '#CBD5E1'];
 
     function drawSingleCell(x, y, u, fill, stroke, extra = '') {
-      const inset = Math.max(1.5, u * 0.14);
+      const inset = Math.max(1.4, u * 0.13);
       const rx = Math.max(1.5, u * 0.16);
       const sw = Math.max(1, u * 0.08);
       return `
         <rect x="${x}" y="${y}" width="${u}" height="${u}" rx="${rx}"
               fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>
         <rect x="${x + inset}" y="${y + inset}" width="${Math.max(1, u - inset * 2)}" height="${Math.max(1, u - inset * 2)}" rx="${rx * 0.6}"
-              fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="${Math.max(0.7, sw * 0.6)}"/>
+              fill="none" stroke="rgba(255,255,255,0.48)" stroke-width="${Math.max(0.7, sw * 0.6)}"/>
         ${extra}
       `;
     }
 
-    // 머리 위 왕관 / 모자 / 무지개 머리결 / 헬멧 장식 렌더링
+    // 머리 위 왕관 / 모자 / 무지개 머리결 / 헬멧 / 베레모 장식 렌더링
     function renderHeadAccessory(n, cx, topY, headWidth) {
       const cw = Math.max(18, Math.min(38, headWidth * 0.85));
       const ch = Math.max(9, cw * 0.42);
       const baseY = topY;
 
-      // 32 (로열 골든 5각 보석 왕관), 3, 30, 33, 60, 100: 왕관 캐릭터
-      if ([3, 30, 32, 33, 60, 100].includes(n)) {
-        const isRoyal32 = (n === 32 || n === 100);
-        const w = isRoyal32 ? Math.max(24, cw * 1.05) : cw * 0.85;
-        const h = isRoyal32 ? Math.max(11, ch * 1.15) : ch;
+      // 3: 노란 광대 왕관 (빨간 방울 3개 달린 3각 모자)
+      if (n === 3) {
+        const w = Math.max(20, cw * 0.9);
+        const h = Math.max(9, ch);
+        const l = cx - w / 2;
+        const r = cx + w / 2;
+        return `
+          <polygon points="${l + 2},${baseY} ${l - 1},${baseY - h * 0.85} ${cx - w * 0.2},${baseY - h * 0.35} ${cx},${baseY - h * 1.05} ${cx + w * 0.2},${baseY - h * 0.35} ${r + 1},${baseY - h * 0.85} ${r - 2},${baseY}"
+                   fill="#FACC15" stroke="#CA8A04" stroke-width="1.2" stroke-linejoin="round"/>
+          <circle cx="${l - 1}" cy="${baseY - h * 0.9}" r="2" fill="#EF4444"/>
+          <circle cx="${cx}" cy="${baseY - h * 1.1}" r="2.2" fill="#EF4444"/>
+          <circle cx="${r + 1}" cy="${baseY - h * 0.9}" r="2" fill="#EF4444"/>
+        `;
+      }
+
+      // 32 (로열 골든 5각 보석 왕관), 30, 33, 60, 100: 왕관 캐릭터
+      if ([30, 32, 33, 60, 100].includes(n)) {
+        const isRoyal = (n === 32 || n === 100);
+        const w = isRoyal ? Math.max(24, cw * 1.08) : cw * 0.88;
+        const h = isRoyal ? Math.max(11, ch * 1.18) : ch;
         const left = cx - w / 2;
         const right = cx + w / 2;
         return `
-          <!-- 로열 골든 크라운 (왕관) -->
-          <polygon points="${left + 2},${baseY} ${left},${baseY - h * 0.85} ${cx - w * 0.25},${baseY - h * 0.4} ${cx},${baseY - h * 1.1} ${cx + w * 0.25},${baseY - h * 0.4} ${right},${baseY - h * 0.85} ${right - 2},${baseY}"
+          <polygon points="${left + 2},${baseY} ${left},${baseY - h * 0.85} ${cx - w * 0.25},${baseY - h * 0.4} ${cx},${baseY - h * 1.15} ${cx + w * 0.25},${baseY - h * 0.4} ${right},${baseY - h * 0.85} ${right - 2},${baseY}"
                    fill="#FACC15" stroke="#B45309" stroke-width="1.3" stroke-linejoin="round"/>
           <rect x="${left + 1.5}" y="${baseY - 3}" width="${w - 3}" height="3" rx="1" fill="#DC2626" stroke="#991B1B" stroke-width="0.7"/>
-          <circle cx="${left}" cy="${baseY - h * 0.88}" r="1.8" fill="#EF4444" stroke="#991B1B" stroke-width="0.6"/>
-          <circle cx="${cx}" cy="${baseY - h * 1.15}" r="2.2" fill="#06B6D4" stroke="#0E7490" stroke-width="0.7"/>
-          <circle cx="${right}" cy="${baseY - h * 0.88}" r="1.8" fill="#EF4444" stroke="#991B1B" stroke-width="0.6"/>
+          <circle cx="${left}" cy="${baseY - h * 0.88}" r="1.9" fill="#EF4444" stroke="#991B1B" stroke-width="0.6"/>
+          <circle cx="${cx}" cy="${baseY - h * 1.18}" r="2.3" fill="#06B6D4" stroke="#0E7490" stroke-width="0.7"/>
+          <circle cx="${right}" cy="${baseY - h * 0.88}" r="1.9" fill="#EF4444" stroke="#991B1B" stroke-width="0.6"/>
         `;
       }
 
       // 80 (슈퍼 로보-옥토블록 히어로 크레스트 왕관 & 안테나), 88
       if (n === 80 || n === 88) {
-        const w = Math.max(26, cw * 1.05);
-        const h = Math.max(11, ch * 1.1);
+        const w = Math.max(26, cw * 1.08);
+        const h = Math.max(11, ch * 1.15);
         return `
-          <!-- 80 슈퍼 옥토블록 히어로 골드-마젠타 크레스트 -->
-          <polygon points="${cx - w * 0.48},${baseY} ${cx - w * 0.56},${baseY - h * 0.85} ${cx - w * 0.18},${baseY - h * 0.45} ${cx},${baseY - h * 1.15} ${cx + w * 0.18},${baseY - h * 0.45} ${cx + w * 0.56},${baseY - h * 0.85} ${cx + w * 0.48},${baseY}"
+          <polygon points="${cx - w * 0.48},${baseY} ${cx - w * 0.56},${baseY - h * 0.85} ${cx - w * 0.18},${baseY - h * 0.45} ${cx},${baseY - h * 1.18} ${cx + w * 0.18},${baseY - h * 0.45} ${cx + w * 0.56},${baseY - h * 0.85} ${cx + w * 0.48},${baseY}"
                    fill="#EC4899" stroke="#831843" stroke-width="1.3" stroke-linejoin="round"/>
-          <polygon points="${cx - w * 0.22},${baseY - 1} ${cx},${baseY - h * 0.9} ${cx + w * 0.22},${baseY - 1}"
+          <polygon points="${cx - w * 0.22},${baseY - 1} ${cx},${baseY - h * 0.92} ${cx + w * 0.22},${baseY - 1}"
                    fill="#FACC15" stroke="#B45309" stroke-width="0.9"/>
-          <circle cx="${cx}" cy="${baseY - h * 0.35}" r="2" fill="#38BDF8" stroke="#0284C7" stroke-width="0.7"/>
+          <circle cx="${cx}" cy="${baseY - h * 0.35}" r="2.1" fill="#38BDF8" stroke="#0284C7" stroke-width="0.7"/>
         `;
       }
 
-      // 7, 17, 70, 77: 행운의 무지개 머리결
-      if ([7, 17, 70, 77].includes(n)) {
+      // 7, 70, 77, 49: 행운의 7색 무지개 머리결
+      if ([7, 49, 70, 77].includes(n) || (n > 20 && n % 10 === 7)) {
         const w = Math.max(18, cw * 0.85);
         const seg = w / 7;
         let tufts = '';
@@ -668,209 +686,300 @@
         return tufts;
       }
 
-      // 14, 24, 44: 스케이트보더 무지개 헬멧 밴드
-      if ([14, 24, 44].includes(n)) {
-        const w = Math.max(20, cw * 0.9);
+      // 17: 화가 보라색 베레모 (Painter Beret)
+      if (n === 17) {
         return `
-          <path d="M ${cx - w / 2} ${baseY} Q ${cx} ${baseY - 11} ${cx + w / 2} ${baseY} Z"
+          <ellipse cx="${cx + 2}" cy="${baseY - 4}" rx="12" ry="5" fill="#7E22CE" stroke="#4C1D95" stroke-width="1.1" transform="rotate(-8 ${cx} ${baseY})"/>
+          <line x1="${cx + 2}" y1="${baseY - 9}" x2="${cx + 4}" y2="${baseY - 12}" stroke="#4C1D95" stroke-width="1.8" stroke-linecap="round"/>
+        `;
+      }
+
+      // 14, 24, 44: 스케이트보더 무지개 헬멧
+      if ([14, 24, 44].includes(n)) {
+        const w = Math.max(20, cw * 0.92);
+        return `
+          <path d="M ${cx - w / 2} ${baseY} Q ${cx} ${baseY - 12} ${cx + w / 2} ${baseY} Z"
                 fill="#38BDF8" stroke="#0369A1" stroke-width="1.2"/>
           <rect x="${cx - w / 2}" y="${baseY - 3}" width="${w}" height="3" rx="1.5" fill="#FACC15" stroke="#B45309" stroke-width="0.7"/>
         `;
       }
 
+      // 15: 비밀요원 페도라 모자
+      if (n === 15) {
+        return `
+          <ellipse cx="${cx}" cy="${baseY - 1.5}" rx="13" ry="2.5" fill="#1E293B"/>
+          <path d="M ${cx - 8} ${baseY - 2} L ${cx - 6} ${baseY - 9} L ${cx + 6} ${baseY - 9} L ${cx + 8} ${baseY - 2} Z" fill="#334155" stroke="#0F172A" stroke-width="0.9"/>
+          <rect x="${cx - 7}" y="${baseY - 4}" width="14" height="2" fill="#06B6D4"/>
+        `;
+      }
+
       // 20, 90: 신사/마술사 실크 모자 (Top Hat)
       if (n === 20 || n === 90) {
-        const hatCol = (n === 20) ? '#EA580C' : '#334155';
+        const hatCol = (n === 20) ? '#EA580C' : '#1E293B';
         const bandCol = (n === 20) ? '#FACC15' : '#EF4444';
         return `
           <rect x="${cx - 12}" y="${baseY - 2.5}" width="24" height="2.8" rx="1.2" fill="${hatCol}" stroke="#0F172A" stroke-width="0.9"/>
-          <rect x="${cx - 8}" y="${baseY - 10}" width="16" height="8" rx="1.5" fill="${hatCol}" stroke="#0F172A" stroke-width="0.9"/>
+          <rect x="${cx - 8}" y="${baseY - 10.5}" width="16" height="8.5" rx="1.5" fill="${hatCol}" stroke="#0F172A" stroke-width="0.9"/>
           <rect x="${cx - 8}" y="${baseY - 4.5}" width="16" height="2.2" fill="${bandCol}"/>
+        `;
+      }
+
+      // 21: 탐험가 모자 & 빨간 깃털
+      if (n === 21) {
+        return `
+          <ellipse cx="${cx}" cy="${baseY - 1.5}" rx="13" ry="2.5" fill="#D97706" stroke="#78350F" stroke-width="0.9"/>
+          <path d="M ${cx - 8} ${baseY - 2} Q ${cx} ${baseY - 11} ${cx + 8} ${baseY - 2} Z" fill="#F59E0B" stroke="#78350F" stroke-width="0.9"/>
+          <path d="M ${cx + 5} ${baseY - 5} Q ${cx + 12} ${baseY - 13} ${cx + 9} ${baseY - 3}" fill="#EF4444" stroke="#991B1B" stroke-width="0.7"/>
+        `;
+      }
+
+      // 50: 슈퍼스타 락스타 골드 스파이크 헤어
+      if (n === 50) {
+        const w = Math.max(22, cw * 0.95);
+        return `
+          <polygon points="${cx - w * 0.45},${baseY} ${cx - w * 0.55},${baseY - 8} ${cx - w * 0.2},${baseY - 4} ${cx},${baseY - 11} ${cx + w * 0.2},${baseY - 4} ${cx + w * 0.55},${baseY - 8} ${cx + w * 0.45},${baseY}"
+                   fill="#FACC15" stroke="#0284C7" stroke-width="1.1" stroke-linejoin="round"/>
         `;
       }
 
       return '';
     }
 
-    // 얼굴 표정(눈, 눈썹, 입, 안경, 가면, 볼터치) 렌더링
+    // 실제 넘버블럭스 애니메이션 스타일의 눈(컬러 테두리 + 반사광 눈동자), 눈썹, 코, 입, 안경, 가면 렌더링
     function renderFaceFeatures(n, cx, cy, u, faceWidth) {
-      const rEye = Math.max(2.8, Math.min(6.2, u * 0.25));
+      const rEye = Math.max(2.9, Math.min(6.4, u * 0.25));
       const rPupil = rEye * 0.52;
-      const eyeOffset = Math.max(rEye + 1.8, Math.min(faceWidth * 0.24, rEye * 2.15));
-      const isSquare = [4, 9, 16, 25, 36, 49, 64, 81, 100].includes(n);
+      const eyeOffset = Math.max(rEye + 1.9, Math.min(faceWidth * 0.24, rEye * 2.15));
+      const isSquare = [4, 9, 16, 25, 36, 49, 64, 81].includes(n);
+      const ones = n % 10;
+      const tens = Math.floor(n / 10);
 
-      // 1: 외눈박이 + 진한 일자/아치 눈썹
-      if (n === 1) {
-        const browW = rEye * 1.5;
+      // 캐릭터 고유 눈 테두리(Eye Rim) 색상 결정
+      let rimColor = '#1E293B';
+      if (n <= 10) {
+        rimColor = UNIT_COLORS[n] ? UNIT_COLORS[n].rim : '#DC2626';
+      } else {
+        rimColor = (ones > 0 && UNIT_COLORS[ones]) ? UNIT_COLORS[ones].rim : (TEN_THEMES[tens] ? TEN_THEMES[tens].rim : '#DC2626');
+      }
+
+      // 공통 눈동자 + 반짝이는 하이라이트 2개 헬퍼
+      const drawPupil = (px, py, scale = 1) => {
+        const pr = rPupil * scale;
         return `
-          <path d="M ${cx - browW} ${cy - rEye * 1.55} Q ${cx} ${cy - rEye * 2.1} ${cx + browW} ${cy - rEye * 1.55}"
-                stroke="#7F1D1D" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <circle cx="${cx}" cy="${cy - u * 0.05}" r="${rEye * 1.28}" fill="#FFF" stroke="#1E293B" stroke-width="1.3"/>
-          <circle cx="${cx}" cy="${cy - u * 0.05}" r="${rPupil * 1.25}" fill="#0F172A"/>
-          <circle cx="${cx - rPupil * 0.4}" cy="${cy - u * 0.12}" r="${rPupil * 0.38}" fill="#FFF"/>
-          <path d="M ${cx - rEye} ${cy + rEye * 0.95} Q ${cx} ${cy + rEye * 1.7} ${cx + rEye} ${cy + rEye * 0.95}"
-                stroke="#0F172A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <circle cx="${px}" cy="${py}" r="${pr}" fill="#0F172A"/>
+          <circle cx="${px - pr * 0.35}" cy="${py - pr * 0.35}" r="${pr * 0.38}" fill="#FFFFFF"/>
+          <circle cx="${px + pr * 0.3}" cy="${py + pr * 0.3}" r="${pr * 0.18}" fill="#FFFFFF"/>
+        `;
+      };
+
+      // 1: 외눈박이 (진한 빨간색 두꺼운 눈 테두리 + 반짝이는 눈동자 + 귀여운 입)
+      if (n === 1) {
+        const browW = rEye * 1.45;
+        return `
+          <path d="M ${cx - browW} ${cy - rEye * 1.6} Q ${cx} ${cy - rEye * 2.15} ${cx + browW} ${cy - rEye * 1.6}"
+                stroke="#991B1B" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <circle cx="${cx}" cy="${cy - u * 0.05}" r="${rEye * 1.32}" fill="#FFF" stroke="#DC2626" stroke-width="2.2"/>
+          ${drawPupil(cx, cy - u * 0.05, 1.28)}
+          <path d="M ${cx - rEye * 1.05} ${cy + rEye * 0.95} Q ${cx} ${cy + rEye * 1.75} ${cx + rEye * 1.05} ${cy + rEye * 0.95}"
+                stroke="#991B1B" stroke-width="1.8" fill="none" stroke-linecap="round"/>
         `;
       }
 
-      // 32: 특별 디테일! 늠름하고 귀여운 아치형 왕족 눈썹 + 속눈썹 + 반짝이는 눈 + 활짝 웃는 입
+      // 32: 로열 더블러 (왕족 아치형 볼드 눈썹 + 주황/골드 눈 테두리 + 속눈썹 + 볼터치 + 활짝 웃는 입)
       if (n === 32) {
         const lx = cx - eyeOffset;
         const rx = cx + eyeOffset;
         const ey = cy - rEye * 0.15;
         return `
-          <!-- 32번 시그니처 볼드 눈썹 -->
           <path d="M ${lx - rEye * 1.15} ${ey - rEye * 1.25} Q ${lx} ${ey - rEye * 1.85} ${lx + rEye * 1.1} ${ey - rEye * 1.15}"
                 stroke="#92400E" stroke-width="2.2" fill="none" stroke-linecap="round"/>
           <path d="M ${rx - rEye * 1.1} ${ey - rEye * 1.15} Q ${rx} ${ey - rEye * 1.85} ${rx + rEye * 1.15} ${ey - rEye * 1.25}"
                 stroke="#92400E" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-          <!-- 반짝이는 눈 -->
-          <circle cx="${lx}" cy="${ey}" r="${rEye * 1.08}" fill="#FFF" stroke="#0F172A" stroke-width="1.3"/>
-          <circle cx="${rx}" cy="${ey}" r="${rEye * 1.08}" fill="#FFF" stroke="#0F172A" stroke-width="1.3"/>
-          <circle cx="${lx}" cy="${ey}" r="${rPupil * 1.05}" fill="#0F172A"/>
-          <circle cx="${rx}" cy="${ey}" r="${rPupil * 1.05}" fill="#0F172A"/>
-          <circle cx="${lx - rPupil * 0.35}" cy="${ey - rPupil * 0.35}" r="${rPupil * 0.38}" fill="#FFF"/>
-          <circle cx="${rx - rPupil * 0.35}" cy="${ey - rPupil * 0.35}" r="${rPupil * 0.38}" fill="#FFF"/>
-          <!-- 핑크 볼터치 & 자신감 넘치는 미소 -->
-          <ellipse cx="${lx - rEye * 0.9}" cy="${ey + rEye * 1.1}" rx="${rEye * 0.55}" ry="${rEye * 0.32}" fill="rgba(244,63,94,0.35)"/>
-          <ellipse cx="${rx + rEye * 0.9}" cy="${ey + rEye * 1.1}" rx="${rEye * 0.55}" ry="${rEye * 0.32}" fill="rgba(244,63,94,0.35)"/>
+          <circle cx="${lx}" cy="${ey}" r="${rEye * 1.08}" fill="#FFF" stroke="#EA580C" stroke-width="1.7"/>
+          <circle cx="${rx}" cy="${ey}" r="${rEye * 1.08}" fill="#FFF" stroke="#EA580C" stroke-width="1.7"/>
+          ${drawPupil(lx, ey, 1.05)}
+          ${drawPupil(rx, ey, 1.05)}
+          <ellipse cx="${lx - rEye * 0.9}" cy="${ey + rEye * 1.1}" rx="${rEye * 0.55}" ry="${rEye * 0.32}" fill="rgba(244,63,94,0.38)"/>
+          <ellipse cx="${rx + rEye * 0.9}" cy="${ey + rEye * 1.1}" rx="${rEye * 0.55}" ry="${rEye * 0.32}" fill="rgba(244,63,94,0.38)"/>
           <path d="M ${cx - rEye * 1.15} ${cy + rEye * 0.95} Q ${cx} ${cy + rEye * 1.85} ${cx + rEye * 1.15} ${cy + rEye * 0.95} Z"
-                fill="#EF4444" stroke="#0F172A" stroke-width="1.2" stroke-linejoin="round"/>
+                fill="#EF4444" stroke="#991B1B" stroke-width="1.2" stroke-linejoin="round"/>
         `;
       }
 
-      // 8, 18, 80, 88: 옥토블록 & 80번 슈퍼 옥토블록 (히어로 마스크 + 굵고 멋진 V자 영웅 눈썹!)
+      // 8, 18, 80, 88 (또는 일의 자리가 8인 옥토 패밀리): 옥토블록 촉수 가면 & V자 영웅 눈썹!
       if ([8, 18, 80, 88].includes(n)) {
-        const mw = eyeOffset * 2 + rEye * 2.9;
-        const mh = rEye * 2.15;
+        const mw = eyeOffset * 2 + rEye * 3.0;
+        const mh = rEye * 2.2;
         const lx = cx - eyeOffset;
         const rx = cx + eyeOffset;
         const ey = cy - mh * 0.15;
         const isSuper80 = (n === 80 || n === 88);
-        const maskFill = isSuper80 ? '#4A044E' : '#311042';
-        const maskStroke = isSuper80 ? '#FACC15' : '#1E1B4B';
-        const browCol = isSuper80 ? '#FACC15' : '#9D174D';
+        const maskFill = isSuper80 ? '#4A044E' : '#831843';
+        const maskStroke = isSuper80 ? '#FACC15' : '#F472B6';
+        const browCol = isSuper80 ? '#FACC15' : '#FBCFE8';
         return `
-          <!-- 옥토블록 히어로 마스크 -->
+          <!-- 옥토블록 가면 좌우 촉수 포인트 -->
+          <line x1="${cx - mw / 2 - 3}" y1="${ey - 3}" x2="${cx - mw / 2 + 1}" y2="${ey - 1}" stroke="${maskStroke}" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="${cx - mw / 2 - 3}" y1="${ey + 3}" x2="${cx - mw / 2 + 1}" y2="${ey + 1}" stroke="${maskStroke}" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="${cx + mw / 2 + 3}" y1="${ey - 3}" x2="${cx + mw / 2 - 1}" y2="${ey - 1}" stroke="${maskStroke}" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="${cx + mw / 2 + 3}" y1="${ey + 3}" x2="${cx + mw / 2 - 1}" y2="${ey + 1}" stroke="${maskStroke}" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- 옥토블록 히어로 마스크 본체 -->
           <rect x="${cx - mw / 2}" y="${cy - mh * 0.65}" width="${mw}" height="${mh}" rx="${mh / 2}"
-                fill="${maskFill}" stroke="${maskStroke}" stroke-width="${isSuper80 ? 1.5 : 1}"/>
+                fill="${maskFill}" stroke="${maskStroke}" stroke-width="1.4"/>
           <!-- 히어로 V자 각진 눈썹 -->
-          <path d="M ${lx - rEye * 1.2} ${ey - rEye * 1.15} L ${lx + rEye * 0.95} ${ey - rEye * 0.65}"
+          <path d="M ${lx - rEye * 1.2} ${ey - rEye * 1.1} L ${lx + rEye * 0.95} ${ey - rEye * 0.6}"
                 stroke="${browCol}" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M ${rx + rEye * 1.2} ${ey - rEye * 1.15} L ${rx - rEye * 0.95} ${ey - rEye * 0.65}"
+          <path d="M ${rx + rEye * 1.2} ${ey - rEye * 1.1} L ${rx - rEye * 0.95} ${ey - rEye * 0.6}"
                 stroke="${browCol}" stroke-width="2.2" stroke-linecap="round"/>
-          <!-- 눈 & 눈동자 -->
           <circle cx="${lx}" cy="${ey}" r="${rEye}" fill="#FFF"/>
           <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF"/>
-          <circle cx="${lx}" cy="${ey}" r="${rPupil}" fill="#0F172A"/>
-          <circle cx="${rx}" cy="${ey}" r="${rPupil}" fill="#0F172A"/>
-          <circle cx="${lx - rPupil * 0.3}" cy="${ey - rPupil * 0.3}" r="${rPupil * 0.32}" fill="#FFF"/>
-          <circle cx="${rx - rPupil * 0.3}" cy="${ey - rPupil * 0.3}" r="${rPupil * 0.32}" fill="#FFF"/>
-          <!-- 당당한 영웅 미소 -->
+          ${drawPupil(lx, ey)}
+          ${drawPupil(rx, ey)}
           <path d="M ${cx - rEye * 1.1} ${cy + rEye * 1.05} Q ${cx} ${cy + rEye * 1.75} ${cx + rEye * 1.1} ${cy + rEye * 1.05}"
-                stroke="#0F172A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                stroke="#831843" stroke-width="1.6" fill="none" stroke-linecap="round"/>
         `;
       }
 
-      // 2, 20, 22, 40: 안경 캐릭터 + 귀여운 눈썹
+      // 2, 20, 22, 40: 실제 캐릭터 안경 (2=보라 안경, 20=주황 안경+나비넥타이, 40=초록 직사각형 안경)
       if ([2, 20, 22, 40].includes(n)) {
-        const gColor = (n === 2) ? '#7E22CE' : (n === 40 ? '#15803D' : '#EA580C');
-        const gw = rEye * 2.1;
-        const gh = rEye * 1.7;
+        const gColor = (n === 2 || n === 22) ? '#7E22CE' : (n === 40 ? '#15803D' : '#EA580C');
+        const gw = rEye * 2.15;
+        const gh = rEye * 1.75;
         const lx = cx - eyeOffset;
         const rx = cx + eyeOffset;
+        const bowTie = (n === 20) ? `
+          <polygon points="${cx},${cy + rEye * 1.9} ${cx - 5},${cy + rEye * 1.5} ${cx - 5},${cy + rEye * 2.3}" fill="#EA580C"/>
+          <polygon points="${cx},${cy + rEye * 1.9} ${cx + 5},${cy + rEye * 1.5} ${cx + 5},${cy + rEye * 2.3}" fill="#EA580C"/>
+          <circle cx="${cx}" cy="${cy + rEye * 1.9}" r="1.4" fill="#FACC15"/>
+        ` : '';
         return `
           <path d="M ${lx - rEye} ${cy - gh * 0.95} Q ${lx} ${cy - gh * 1.35} ${lx + rEye} ${cy - gh * 0.95}"
-                stroke="${gColor}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                stroke="${gColor}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
           <path d="M ${rx - rEye} ${cy - gh * 0.95} Q ${rx} ${cy - gh * 1.35} ${rx + rEye} ${cy - gh * 0.95}"
-                stroke="${gColor}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-          <rect x="${lx - gw / 2}" y="${cy - gh * 0.65}" width="${gw}" height="${gh}" rx="2.5" fill="#FFF" stroke="${gColor}" stroke-width="1.6"/>
-          <rect x="${rx - gw / 2}" y="${cy - gh * 0.65}" width="${gw}" height="${gh}" rx="2.5" fill="#FFF" stroke="${gColor}" stroke-width="1.6"/>
-          <line x1="${lx + gw / 2}" y1="${cy - gh * 0.1}" x2="${rx - gw / 2}" y2="${cy - gh * 0.1}" stroke="${gColor}" stroke-width="1.6"/>
-          <circle cx="${lx}" cy="${cy - gh * 0.1}" r="${rPupil}" fill="#0F172A"/>
-          <circle cx="${rx}" cy="${cy - gh * 0.1}" r="${rPupil}" fill="#0F172A"/>
+                stroke="${gColor}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+          <rect x="${lx - gw / 2}" y="${cy - gh * 0.65}" width="${gw}" height="${gh}" rx="${n === 40 ? 1.5 : 3}" fill="#FFF" stroke="${gColor}" stroke-width="1.8"/>
+          <rect x="${rx - gw / 2}" y="${cy - gh * 0.65}" width="${gw}" height="${gh}" rx="${n === 40 ? 1.5 : 3}" fill="#FFF" stroke="${gColor}" stroke-width="1.8"/>
+          <line x1="${lx + gw / 2}" y1="${cy - gh * 0.1}" x2="${rx - gw / 2}" y2="${cy - gh * 0.1}" stroke="${gColor}" stroke-width="1.8"/>
+          ${drawPupil(lx, cy - gh * 0.1)}
+          ${drawPupil(rx, cy - gh * 0.1)}
           <path d="M ${cx - rEye} ${cy + rEye * 1.0} Q ${cx} ${cy + rEye * 1.6} ${cx + rEye} ${cy + rEye * 1.0}"
-                stroke="#0F172A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                stroke="#9A3412" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          ${bowTie}
         `;
       }
 
-      // 5, 15, 50, 55: 스타 글래스 (별 눈) + 오른쪽 눈썹
-      if ([5, 15, 50, 55].includes(n)) {
-        const sr = rEye * 1.8;
+      // 5, 15, 25, 50, 55 (또는 일의 자리가 5인 캐릭터): 한쪽 눈에 큰 별 안경(Star Glass)!
+      if ([5, 15, 50, 55].includes(n) || ones === 5) {
+        const sr = rEye * 1.85;
         const sx = cx - eyeOffset;
         const rx = cx + eyeOffset;
         const sy = cy - rEye * 0.2;
-        const starStroke = (n === 50) ? '#CA8A04' : '#0284C7';
-        const starFill = (n === 50) ? '#FEF08A' : '#38BDF8';
+        const isGold50 = (n === 50);
+        const starStroke = isGold50 ? '#CA8A04' : '#1D4ED8';
+        const starFill = isGold50 ? '#FEF08A' : '#38BDF8';
         return `
           <polygon points="${sx},${sy - sr} ${sx + sr * 0.35},${sy - sr * 0.35} ${sx + sr},${sy - sr * 0.3} ${sx + sr * 0.45},${sy + sr * 0.2} ${sx + sr * 0.65},${sy + sr * 0.9} ${sx},${sy + sr * 0.5} ${sx - sr * 0.65},${sy + sr * 0.9} ${sx - sr * 0.45},${sy + sr * 0.2} ${sx - sr},${sy - sr * 0.3} ${sx - sr * 0.35},${sy - sr * 0.35}"
-                   fill="${starFill}" stroke="${starStroke}" stroke-width="1.2"/>
+                   fill="${starFill}" stroke="${starStroke}" stroke-width="1.3"/>
           <path d="M ${rx - rEye} ${sy - rEye * 1.3} Q ${rx} ${sy - rEye * 1.75} ${rx + rEye} ${sy - rEye * 1.25}"
-                stroke="#0E7490" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-          <circle cx="${sx}" cy="${sy}" r="${rEye}" fill="#FFF" stroke="${starStroke}" stroke-width="1"/>
-          <circle cx="${rx}" cy="${sy}" r="${rEye}" fill="#FFF" stroke="#0F172A" stroke-width="1.1"/>
-          <circle cx="${sx}" cy="${sy}" r="${rPupil}" fill="#0F172A"/>
-          <circle cx="${rx}" cy="${sy}" r="${rPupil}" fill="#0F172A"/>
+                stroke="${starStroke}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <circle cx="${sx}" cy="${sy}" r="${rEye}" fill="#FFF" stroke="${starStroke}" stroke-width="1.2"/>
+          <circle cx="${rx}" cy="${sy}" r="${rEye}" fill="#FFF" stroke="${starStroke}" stroke-width="1.5"/>
+          ${drawPupil(sx, sy)}
+          ${drawPupil(rx, sy)}
           <path d="M ${cx - rEye} ${cy + rEye * 1.0} Q ${cx} ${cy + rEye * 1.65} ${cx + rEye} ${cy + rEye * 1.0}"
-                stroke="#0F172A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                stroke="#0E7490" stroke-width="1.5" fill="none" stroke-linecap="round"/>
         `;
       }
 
-      // 10, 100: 빨간 별 눈 + 눈썹
+      // 10, 100: 양쪽 모두 빨간 별 눈 (Ten / One Hundred Star Eyes)
       if (n === 10 || n === 100) {
-        const sr = rEye * 1.55;
+        const sr = rEye * 1.6;
         const sy = cy - rEye * 0.15;
         const star = (sx) => `
           <polygon points="${sx},${sy - sr} ${sx + sr * 0.35},${sy - sr * 0.35} ${sx + sr},${sy - sr * 0.3} ${sx + sr * 0.45},${sy + sr * 0.2} ${sx + sr * 0.65},${sy + sr * 0.9} ${sx},${sy + sr * 0.5} ${sx - sr * 0.65},${sy + sr * 0.9} ${sx - sr * 0.45},${sy + sr * 0.2} ${sx - sr},${sy - sr * 0.3} ${sx - sr * 0.35},${sy - sr * 0.35}"
-                   fill="#FECACA" stroke="#DC2626" stroke-width="1"/>
-          <circle cx="${sx}" cy="${sy}" r="${rEye * 0.85}" fill="#FFF" stroke="#DC2626" stroke-width="0.9"/>
-          <circle cx="${sx}" cy="${sy}" r="${rPupil * 0.9}" fill="#0F172A"/>
+                   fill="#FECACA" stroke="#DC2626" stroke-width="1.1"/>
+          <circle cx="${sx}" cy="${sy}" r="${rEye * 0.88}" fill="#FFF" stroke="#DC2626" stroke-width="1.1"/>
+          ${drawPupil(sx, sy, 0.9)}
         `;
         return `
           ${star(cx - eyeOffset)}
           ${star(cx + eyeOffset)}
           <path d="M ${cx - rEye} ${cy + rEye * 1.0} Q ${cx} ${cy + rEye * 1.65} ${cx + rEye} ${cy + rEye * 1.0}"
-                stroke="#DC2626" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                stroke="#DC2626" stroke-width="1.6" fill="none" stroke-linecap="round"/>
         `;
       }
 
-      // 제곱수(4, 9, 16, 25, 36, 49, 64, 81): 굵은 네모 눈썹 + 네모 눈!
+      // 제곱수(4, 9, 16, 36, 49, 64, 81): 각진 네모 눈썹 + 네모 눈 + (9, 81은 귀여운 분홍 코 '에취!' 추가)
       if (isSquare) {
-        const sq = rEye * 1.85;
+        const sq = rEye * 1.88;
         const lx = cx - eyeOffset;
         const rx = cx + eyeOffset;
-        const browColor = (n === 4) ? '#14532D' : (n === 9 ? '#334155' : '#1E293B');
+        const browColor = (n === 4) ? '#14532D' : (n === 9 || n === 81 ? '#334155' : rimColor);
+        const pinkNose = (n === 9 || n === 81) ? `
+          <ellipse cx="${cx}" cy="${cy + rEye * 0.45}" rx="${rEye * 0.48}" ry="${rEye * 0.34}" fill="#F43F5E" stroke="#9F1239" stroke-width="0.8"/>
+        ` : '';
         return `
-          <!-- 제곱수 시그니처 각진 네모 눈썹 -->
-          <rect x="${lx - sq * 0.55}" y="${cy - sq * 1.05}" width="${sq * 1.1}" height="${Math.max(2.2, sq * 0.26)}" rx="1" fill="${browColor}"/>
-          <rect x="${rx - sq * 0.55}" y="${cy - sq * 1.05}" width="${sq * 1.1}" height="${Math.max(2.2, sq * 0.26)}" rx="1" fill="${browColor}"/>
-          <rect x="${lx - sq / 2}" y="${cy - sq * 0.65}" width="${sq}" height="${sq}" rx="1.5" fill="#FFF" stroke="#0F172A" stroke-width="1.3"/>
-          <rect x="${rx - sq / 2}" y="${cy - sq * 0.65}" width="${sq}" height="${sq}" rx="1.5" fill="#FFF" stroke="#0F172A" stroke-width="1.3"/>
-          <circle cx="${lx}" cy="${cy - sq * 0.15}" r="${rPupil}" fill="#0F172A"/>
-          <circle cx="${rx}" cy="${cy - sq * 0.15}" r="${rPupil}" fill="#0F172A"/>
-          <path d="M ${cx - rEye} ${cy + rEye * 1.05} Q ${cx} ${cy + rEye * 1.6} ${cx + rEye} ${cy + rEye * 1.05}"
+          <rect x="${lx - sq * 0.55}" y="${cy - sq * 1.05}" width="${sq * 1.1}" height="${Math.max(2.3, sq * 0.27)}" rx="1" fill="${browColor}"/>
+          <rect x="${rx - sq * 0.55}" y="${cy - sq * 1.05}" width="${sq * 1.1}" height="${Math.max(2.3, sq * 0.27)}" rx="1" fill="${browColor}"/>
+          <rect x="${lx - sq / 2}" y="${cy - sq * 0.65}" width="${sq}" height="${sq}" rx="1.5" fill="#FFF" stroke="${browColor}" stroke-width="1.6"/>
+          <rect x="${rx - sq / 2}" y="${cy - sq * 0.65}" width="${sq}" height="${sq}" rx="1.5" fill="#FFF" stroke="${browColor}" stroke-width="1.6"/>
+          ${drawPupil(lx, cy - sq * 0.15)}
+          ${drawPupil(rx, cy - sq * 0.15)}
+          ${pinkNose}
+          <path d="M ${cx - rEye} ${cy + rEye * 1.05} Q ${cx} ${cy + rEye * 1.65} ${cx + rEye} ${cy + rEye * 1.05}"
                 stroke="#0F172A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
         `;
       }
 
-      // 기본 친근한 눈 + 아치형 눈썹 + 미소 (나머지 모든 캐릭터)
+      // 13: 덜렁이 13번 (짝짝이 눈썹 + 파란 땀방울 💧 + 익살스러운 입)
+      if (n === 13) {
+        const lx = cx - eyeOffset;
+        const rx = cx + eyeOffset;
+        const ey = cy - rEye * 0.2;
+        return `
+          <path d="M ${lx - rEye} ${ey - rEye * 1.5} Q ${lx} ${ey - rEye * 2.0} ${lx + rEye} ${ey - rEye * 1.4}" stroke="#CA8A04" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M ${rx - rEye} ${ey - rEye * 1.1} Q ${rx} ${ey - rEye * 1.4} ${rx + rEye} ${ey - rEye * 1.2}" stroke="#CA8A04" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M ${rx + rEye * 1.55} ${ey - rEye * 1.2} Q ${rx + rEye * 1.9} ${ey - rEye * 0.2} ${rx + rEye * 1.55} ${ey} Q ${rx + rEye * 1.2} ${ey - rEye * 0.2} ${rx + rEye * 1.55} ${ey - rEye * 1.2} Z" fill="#38BDF8" stroke="#0284C7" stroke-width="0.7"/>
+          <circle cx="${lx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="#CA8A04" stroke-width="1.5"/>
+          <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="#CA8A04" stroke-width="1.5"/>
+          ${drawPupil(lx, ey)}
+          ${drawPupil(rx, ey)}
+          <path d="M ${cx - rEye} ${cy + rEye * 1.0} Q ${cx - rEye * 0.3} ${cy + rEye * 0.7} ${cx + rEye} ${cy + rEye * 1.15}" stroke="#0F172A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        `;
+      }
+
+      // 기본 캐릭터 (3, 6, 7 및 나머지 모든 숫자):
+      // - 6, 60 (또는 일의 자리 6): 귀여운 속눈썹 3개 추가
+      // - 9, 19, 29... (일의 자리 9): 귀여운 분홍 코 추가
       const lx = cx - eyeOffset;
       const rx = cx + eyeOffset;
       const ey = cy - rEye * 0.2;
+      const hasLashes = (n === 6 || n === 60 || ones === 6 || n === 3 || n === 30);
+      const lashesHtml = hasLashes ? `
+        <line x1="${lx - rEye * 0.8}" y1="${ey - rEye * 0.8}" x2="${lx - rEye * 1.15}" y2="${ey - rEye * 1.2}" stroke="${rimColor}" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="${lx}" y1="${ey - rEye}" x2="${lx}" y2="${ey - rEye * 1.4}" stroke="${rimColor}" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="${rx}" y1="${ey - rEye}" x2="${rx}" y2="${ey - rEye * 1.4}" stroke="${rimColor}" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="${rx + rEye * 0.8}" y1="${ey - rEye * 0.8}" x2="${rx + rEye * 1.15}" y2="${ey - rEye * 1.2}" stroke="${rimColor}" stroke-width="1.3" stroke-linecap="round"/>
+      ` : '';
+      const noseHtml = (ones === 9) ? `
+        <ellipse cx="${cx}" cy="${cy + rEye * 0.42}" rx="${rEye * 0.42}" ry="${rEye * 0.28}" fill="#F43F5E"/>
+      ` : '';
+
       return `
-        <!-- 친근한 아치형 눈썹 -->
-        <path d="M ${lx - rEye * 0.95} ${ey - rEye * 1.25} Q ${lx} ${ey - rEye * 1.7} ${lx + rEye * 0.95} ${ey - rEye * 1.25}"
-              stroke="#1E293B" stroke-width="1.7" fill="none" stroke-linecap="round"/>
-        <path d="M ${rx - rEye * 0.95} ${ey - rEye * 1.25} Q ${rx} ${ey - rEye * 1.7} ${rx + rEye * 0.95} ${ey - rEye * 1.25}"
-              stroke="#1E293B" stroke-width="1.7" fill="none" stroke-linecap="round"/>
-        <circle cx="${lx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="#0F172A" stroke-width="1.2"/>
-        <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="#0F172A" stroke-width="1.2"/>
-        <circle cx="${lx}" cy="${ey}" r="${rPupil}" fill="#0F172A"/>
-        <circle cx="${rx}" cy="${ey}" r="${rPupil}" fill="#0F172A"/>
-        <circle cx="${lx - rPupil * 0.3}" cy="${ey - rPupil * 0.3}" r="${rPupil * 0.32}" fill="#FFF"/>
-        <circle cx="${rx - rPupil * 0.3}" cy="${ey - rPupil * 0.3}" r="${rPupil * 0.32}" fill="#FFF"/>
-        <path d="M ${cx - rEye} ${cy + rEye * 0.9} Q ${cx} ${cy + rEye * 1.6} ${cx + rEye} ${cy + rEye * 0.9}"
-              stroke="#0F172A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <!-- 캐릭터 컬러 눈썹 -->
+        <path d="M ${lx - rEye * 0.95} ${ey - rEye * 1.3} Q ${lx} ${ey - rEye * 1.75} ${lx + rEye * 0.95} ${ey - rEye * 1.3}"
+              stroke="${rimColor}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M ${rx - rEye * 0.95} ${ey - rEye * 1.3} Q ${rx} ${ey - rEye * 1.75} ${rx + rEye * 0.95} ${ey - rEye * 1.3}"
+              stroke="${rimColor}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        ${lashesHtml}
+        <!-- 실제 넘버블럭스 특유의 두꺼운 컬러 눈 테두리(Eye Rim) -->
+        <circle cx="${lx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${rimColor}" stroke-width="1.6"/>
+        <circle cx="${rx}" cy="${ey}" r="${rEye}" fill="#FFF" stroke="${rimColor}" stroke-width="1.6"/>
+        ${drawPupil(lx, ey)}
+        ${drawPupil(rx, ey)}
+        ${noseHtml}
+        <path d="M ${cx - rEye} ${cy + rEye * 0.95} Q ${cx} ${cy + rEye * 1.65} ${cx + rEye} ${cy + rEye * 0.95}"
+              stroke="#0F172A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
       `;
     }
 
@@ -923,12 +1032,12 @@
               stroke = '#EF4444';
             }
 
-            // 3번 빨간 저글링 단추 / 6번 주사위 눈 장식
+            // 3번 빨간 저글링 단추 3개 / 6번 주사위 눈(Pips) 장식
             let extra = '';
             if (n === 3) {
-              extra = `<circle cx="${x + u / 2}" cy="${y + u * 0.72}" r="${Math.max(2, u * 0.11)}" fill="#EF4444"/>`;
+              extra = `<circle cx="${x + u / 2}" cy="${y + u * 0.72}" r="${Math.max(2.2, u * 0.12)}" fill="#EF4444" stroke="#991B1B" stroke-width="0.6"/>`;
             } else if (n === 6 && r > 0) {
-              extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${Math.max(2, u * 0.12)}" fill="#312E81"/>`;
+              extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${Math.max(2.2, u * 0.13)}" fill="#312E81"/>`;
             }
 
             blocksHtml += drawSingleCell(x, y, u, fill, stroke, extra);
@@ -1003,12 +1112,16 @@
             fill = GREY_3[r % 3];
           }
 
-          // 32번 로열 엠블럼 포인트 / 80번 옥토 벨트 디테일
+          // 캐릭터별 바디 디테일 (12/24/32 어레이 엠블럼, 30 서커스 단추, 60 주사위 점, 80 옥토 벨트)
           let extra = '';
-          if (n === 32 && r === 4 && c === 1) {
-            extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${u * 0.25}" fill="#F59E0B"/>`;
+          if ((n === 12 || n === 24 || n === 32) && (r === 4 || r === 5)) {
+            extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${u * 0.22}" fill="#F97316"/>`;
+          } else if (n === 30 && c === 1 && (r === 4 || r === 6 || r === 8)) {
+            extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${u * 0.24}" fill="#EF4444"/>`;
+          } else if (n === 60 && r >= 4) {
+            extra = `<circle cx="${x + u / 2}" cy="${y + u / 2}" r="${u * 0.16}" fill="#4C1D95"/>`;
           } else if (n === 80 && r === 9) {
-            extra = `<circle cx="${x + u / 2}" cy="${y + u * 0.75}" r="${u * 0.18}" fill="#BE185D"/>`;
+            extra = `<circle cx="${x + u / 2}" cy="${y + u * 0.75}" r="${u * 0.2}" fill="#BE185D"/>`;
           }
 
           blocksHtml += drawSingleCell(x, y, u, fill, stroke, extra);
@@ -1034,9 +1147,9 @@
 
           let extra = '';
           if (ones === 6) {
-            extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.14)}" fill="#312E81"/>`;
+            extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.15)}" fill="#312E81"/>`;
           } else if (ones === 3) {
-            extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.14)}" fill="#EF4444"/>`;
+            extra = `<circle cx="${oneColX + u / 2}" cy="${y + u / 2}" r="${Math.max(1.2, u * 0.15)}" fill="#EF4444"/>`;
           }
 
           blocksHtml += drawSingleCell(oneColX, y, u, fill, stroke, extra);
@@ -1046,13 +1159,13 @@
       // 3) 상단 왕관/모자 액세서리 + 얼굴 배치
       const tensWidth = tens * u;
       const faceCx = startX + tensWidth / 2;
-      const faceCy = startY + u * 1.25;
+      const faceCy = startY + u * 1.28;
       const accessoryHtml = renderHeadAccessory(n, faceCx, startY, Math.max(u * 2.5, tensWidth));
       const faceHtml = renderFaceFeatures(n, faceCx, faceCy, u * 1.55, Math.max(u * 2.2, tensWidth));
 
       // 4) 상단 Numberling (11 ~ 100 숫자 머리표)
       const labelCx = startX + (totalCols * u) / 2;
-      const hasTallAccessory = [14, 17, 20, 24, 30, 32, 33, 44, 60, 70, 77, 80, 88, 90, 100].includes(n);
+      const hasTallAccessory = [14, 15, 17, 20, 21, 24, 30, 32, 33, 44, 49, 50, 60, 70, 77, 80, 88, 90, 100].includes(n) || (n > 20 && n % 10 === 7);
       const numY = hasTallAccessory ? (startY - 13) : (startY - 6);
       const numberlingHtml = `
         <line x1="${labelCx}" y1="${numY + 1}" x2="${labelCx}" y2="${startY}" stroke="#0F172A" stroke-width="1.8"/>
@@ -1073,38 +1186,127 @@
     const renderNumberblockSVG = buildNumberblockSVG;
 
     /* =====================================================================
-       3. Lv.1 ~ Lv.10 수학 문제 생성기 (연산 종류: 덧셈 / 뺄셈 / 혼합 완벽 연동)
+       3. Lv.1 ~ Lv.10 수학 문제 생성기 (덧셈 / 뺄셈 / 곱셈 / 나눗셈 / 혼합 완벽 지원)
        ===================================================================== */
     const LEVEL_INFOS = {
-      1: { name: "Lv.1 - 5 이하 기초 연산 (1~5)" },
-      2: { name: "Lv.2 - 10 이하 한 자리 연산 (1~10)" },
-      3: { name: "Lv.3 - 10 모으기와 가르기 (10의 보수)" },
-      4: { name: "Lv.4 - 20 이하 받아올림/내림 기초 (11~18)" },
-      5: { name: "Lv.5 - 20 이하 한·두 자리 연산 (11~20)" },
-      6: { name: "Lv.6 - 30 이하 두 자리와 한 자리 (11~30)" },
-      7: { name: "Lv.7 - 50 이하 두 자리 수 연산 (10~50)" },
-      8: { name: "Lv.8 - 몇십끼리 연산 (10, 20... 100)" },
-      9: { name: "Lv.9 - 100 이하 두 자리 수 연산 (11~100)" },
+      1: { name: "Lv.1 - 기초 수 감각 연산 (1~6)" },
+      2: { name: "Lv.2 - 10 이하 기본 연산 (1~12)" },
+      3: { name: "Lv.3 - 10 모으기·가르기 / 2·5단 (1~20)" },
+      4: { name: "Lv.4 - 20 이하 연산 / 2~4단 (1~24)" },
+      5: { name: "Lv.5 - 20 이하 심화 / 3~5단 (1~30)" },
+      6: { name: "Lv.6 - 30 이하 연산 / 2~6단 (1~42)" },
+      7: { name: "Lv.7 - 50 이하 연산 / 4~7단 (1~56)" },
+      8: { name: "Lv.8 - 몇십 연산 / 6~9단 구구단 (1~90)" },
+      9: { name: "Lv.9 - 100 이하 두 자리 종합 연산 (1~100)" },
       10: { name: "Lv.10 - 100 이하 빈칸 채우기 도전 (1~100)" }
     };
 
     const OP_LABELS = {
       add: "덧셈 집중 (+)",
       sub: "뺄셈 집중 (-)",
-      mix: "덧셈·뺄셈 혼합 (+/-)"
+      mul: "곱셈 집중 (×)",
+      div: "나눗셈 집중 (÷)",
+      mix: "덧셈·뺄셈 혼합 (+/-)",
+      mix_md: "곱셈·나눗셈 혼합 (×/÷)",
+      mix_all: "사칙연산 전체 혼합 (+/-/×/÷)"
     };
 
     function rand(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    function pickActualOp(opMode) {
+      if (opMode === 'add' || opMode === 'sub' || opMode === 'mul' || opMode === 'div') return opMode;
+      if (opMode === 'mix_md') return (Math.random() < 0.5) ? 'mul' : 'div';
+      if (opMode === 'mix_all') {
+        const list = ['add', 'sub', 'mul', 'div'];
+        return list[rand(0, 3)];
+      }
+      return (Math.random() < 0.5) ? 'add' : 'sub';
+    }
+
+    // 곱셈 & 나눗셈 레벨별 문제 생성 (결과 및 피연산자 모두 1~100 자연수 보장)
+    function generateMulDivProblem(level, actualOp) {
+      const lv = Number(level);
+      const isDiv = (actualOp === 'div');
+      let f1 = 2, f2 = 2;
+
+      switch (lv) {
+        case 1:
+          f1 = rand(1, 3);
+          f2 = rand(1, 2);
+          break;
+        case 2:
+          f1 = rand(2, 3);
+          f2 = rand(1, 4);
+          break;
+        case 3: {
+          const bases = [2, 5];
+          f1 = bases[rand(0, 1)];
+          f2 = rand(1, 5);
+          break;
+        }
+        case 4:
+          f1 = rand(2, 4);
+          f2 = rand(2, 6);
+          break;
+        case 5:
+          f1 = rand(3, 5);
+          f2 = rand(2, 6);
+          break;
+        case 6:
+          f1 = rand(2, 6);
+          f2 = rand(3, 7);
+          break;
+        case 7:
+          f1 = rand(4, 7);
+          f2 = rand(3, 8);
+          break;
+        case 8:
+          f1 = rand(6, 9);
+          f2 = rand(2, 9);
+          break;
+        case 9:
+          if (Math.random() < 0.6) {
+            f1 = rand(6, 9);
+            f2 = rand(4, 9);
+          } else {
+            f1 = rand(11, 24);
+            f2 = rand(2, Math.floor(100 / f1));
+          }
+          break;
+        case 10:
+        default:
+          f1 = rand(2, 10);
+          f2 = rand(2, 10);
+          if (!isDiv) {
+            return { a: f1, b: f2, op: '×', ans: f2, target: f1 * f2, type: 'blank_right' };
+          } else {
+            const prod = f1 * f2;
+            return { a: prod, b: f1, op: '÷', ans: f1, target: f2, type: 'blank_right' };
+          }
+      }
+
+      const product = f1 * f2;
+      if (!isDiv) {
+        return { a: f1, b: f2, op: '×', ans: product, type: 'normal' };
+      } else {
+        return { a: product, b: f1, op: '÷', ans: f2, type: 'normal' };
+      }
+    }
+
     function generateProblem(level, opMode = 'mix') {
-      const isSub = (opMode === 'sub') ? true : (opMode === 'add' ? false : (Math.random() < 0.5));
+      const actualOp = pickActualOp(opMode);
+
+      if (actualOp === 'mul' || actualOp === 'div') {
+        return generateMulDivProblem(level, actualOp);
+      }
+
+      const isSub = (actualOp === 'sub');
       let p = {};
 
       switch (Number(level)) {
         case 1: {
-          // 5 이하의 덧셈 / 뺄셈
           if (!isSub) {
             const a = rand(1, 4);
             const b = rand(1, 5 - a);
@@ -1117,7 +1319,6 @@
           break;
         }
         case 2: {
-          // 10 이하 한 자리 덧셈 / 뺄셈
           if (!isSub) {
             const a = rand(1, 8);
             const b = rand(1, 10 - a);
@@ -1130,7 +1331,6 @@
           break;
         }
         case 3: {
-          // 10 모으기(덧셈) & 10에서 빼기(뺄셈)
           const a = rand(1, 9);
           const b = 10 - a;
           if (!isSub) {
@@ -1145,7 +1345,6 @@
           break;
         }
         case 4: {
-          // 20 이하 받아올림 덧셈 / 받아내림 뺄셈 기초 (11~18)
           if (!isSub) {
             const a = rand(4, 9);
             const b = rand(11 - a, 9);
@@ -1158,7 +1357,6 @@
           break;
         }
         case 5: {
-          // 20 이하 한·두 자리 연산 (11~20)
           if (!isSub) {
             const a = rand(7, 14);
             const b = rand(3, 20 - a);
@@ -1171,7 +1369,6 @@
           break;
         }
         case 6: {
-          // 30 이하 두 자리와 한 자리 연산 (11~30)
           if (!isSub) {
             const a = rand(11, 24);
             const b = rand(2, 30 - a);
@@ -1184,7 +1381,6 @@
           break;
         }
         case 7: {
-          // 50 이하 두 자리 수 연산 (10~50)
           if (!isSub) {
             const a = rand(12, 34);
             const b = rand(11, 50 - a);
@@ -1197,7 +1393,6 @@
           break;
         }
         case 8: {
-          // 몇십 + 몇십 / 몇십 - 몇십 (10 ~ 100)
           if (!isSub) {
             const ta = rand(1, 8);
             const tb = rand(1, 10 - ta);
@@ -1214,7 +1409,6 @@
           break;
         }
         case 9: {
-          // 100 이하 두 자리 수 연산 (11~100)
           if (!isSub) {
             const a = rand(14, 75);
             const b = rand(12, 100 - a);
@@ -1228,7 +1422,6 @@
         }
         case 10:
         default: {
-          // 100 이하 빈칸 채우기 도전 (덧셈 빈칸 / 뺄셈 빈칸)
           if (!isSub) {
             const a = rand(14, 68);
             const b = rand(11, 100 - a);
