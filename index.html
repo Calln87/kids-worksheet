@@ -2202,20 +2202,69 @@
     };
 
     const WORD_BANKS = {
+      alphabet_words: {
+        A: [{ w: 'ANT', m: '🐜 개미' }, { w: 'APPLE', m: '🍎 사과' }, { w: 'ALLIGATOR', m: '🐊 악어' }],
+        B: [{ w: 'BEAR', m: '🐻 곰' }, { w: 'BUS', m: '🚌 버스' }, { w: 'BANANA', m: '🍌 바나나' }],
+        C: [{ w: 'CAT', m: '🐱 고양이' }, { w: 'CAKE', m: '🎂 케이크' }, { w: 'CAR', m: '🚗 자동차' }],
+        D: [{ w: 'DOG', m: '🐶 강아지' }, { w: 'DUCK', m: '🦆 오리' }, { w: 'DRUM', m: '🥁 드럼' }],
+        E: [{ w: 'EGG', m: '🥚 달걀' }, { w: 'ELEPHANT', m: '🐘 코끼리' }, { w: 'ELF', m: '🧝 요정' }],
+        F: [{ w: 'FOX', m: '🦊 여우' }, { w: 'FISH', m: '🐟 물고기' }, { w: 'FROG', m: '🐸 개구리' }],
+        G: [{ w: 'GOAT', m: '🐐 염소' }, { w: 'GRAPE', m: '🍇 포도' }, { w: 'GIFT', m: '🎁 선물' }],
+        H: [{ w: 'HAT', m: '🎩 모자' }, { w: 'HORSE', m: '🐴 말' }, { w: 'HOUSE', m: '🏡 집' }],
+        I: [{ w: 'IGLOO', m: '🛖 이글루' }, { w: 'INK', m: '🖋️ 잉크' }, { w: 'ICE', m: '🧊 얼음' }],
+        J: [{ w: 'JAM', m: '🍓 잼' }, { w: 'JET', m: '✈️ 제트기' }, { w: 'JUICE', m: '🧃 주스' }],
+        K: [{ w: 'KING', m: '👑 왕' }, { w: 'KITE', m: '🪁 연' }, { w: 'KOALA', m: '🐨 코알라' }],
+        L: [{ w: 'LION', m: '🦁 사자' }, { w: 'LEAF', m: '🍃 나뭇잎' }, { w: 'LEMON', m: '🍋 레몬' }],
+        M: [{ w: 'MOON', m: '🌙 달' }, { w: 'MILK', m: '🥛 우유' }, { w: 'MONKEY', m: '🐒 원숭이' }],
+        N: [{ w: 'NET', m: '🥅 그물' }, { w: 'NOSE', m: '👃 코' }, { w: 'NEST', m: '🪺 둥지' }],
+        O: [{ w: 'OWL', m: '🦉 부엉이' }, { w: 'ORANGE', m: '🍊 오렌지' }, { w: 'OX', m: '🐂 황소' }],
+        P: [{ w: 'PIG', m: '🐷 돼지' }, { w: 'PANDA', m: '🐼 판다' }, { w: 'PEACH', m: '🍑 복숭아' }],
+        Q: [{ w: 'QUEEN', m: '👸 여왕' }, { w: 'QUILT', m: '🛏️ 퀼트이불' }, { w: 'QUIZ', m: '❓ 퀴즈' }],
+        R: [{ w: 'RABBIT', m: '🐰 토끼' }, { w: 'RAIN', m: '🌧️ 비' }, { w: 'ROBOT', m: '🤖 로봇' }],
+        S: [{ w: 'SUN', m: '☀️ 태양' }, { w: 'STAR', m: '⭐ 별' }, { w: 'SNAKE', m: '🐍 뱀' }],
+        T: [{ w: 'TREE', m: '🌳 나무' }, { w: 'TIGER', m: '🐯 호랑이' }, { w: 'TRAIN', m: '🚂 기차' }],
+        U: [{ w: 'UP', m: '⬆️ 위로' }, { w: 'UNCLE', m: '👨 삼촌' }, { w: 'UMBRELLA', m: '☂️ 우산' }],
+        V: [{ w: 'VAN', m: '🚐 승합차' }, { w: 'VEST', m: '🦺 조끼' }, { w: 'VIOLIN', m: '🎻 바이올린' }],
+        W: [{ w: 'WOLF', m: '🐺 늑대' }, { w: 'WHALE', m: '🐳 고래' }, { w: 'WATER', m: '💧 물' }],
+        X: [{ w: 'BOX', m: '📦 상자' }, { w: 'FOX', m: '🦊 여우' }, { w: 'SIX', m: '6️⃣ 숫자 6' }],
+        Y: [{ w: 'YAK', m: '🦬 야크' }, { w: 'YOYO', m: '🪀 요요' }, { w: 'YELLOW', m: '🟡 노란색' }],
+        Z: [{ w: 'ZOO', m: '🦁 동물원' }, { w: 'ZEBRA', m: '🦓 얼룩말' }, { w: 'ZIP', m: '🤐 지퍼' }]
+      },
       cvc_a: [
         { w: 'CAT', m: '🐱 고양이' }, { w: 'BAG', m: '🎒 가방' }, { w: 'HAT', m: '🎩 모자' },
         { w: 'FAN', m: '🪭 부채/선풍기' }, { w: 'MAP', m: '🗺️ 지도' }, { w: 'JAM', m: '🍓 잼' },
-        { w: 'VAN', m: '🚐 승합차' }, { w: 'BAT', m: '🦇 박쥐' }, { w: 'CAP', m: '🧢 야구모자' }
+        { w: 'VAN', m: '🚐 승합차' }, { w: 'BAT', m: '🦇 박쥐' }, { w: 'CAP', m: '🧢 야구모자' },
+        { w: 'PAN', m: '🍳 프라이팬' }, { w: 'CAN', m: '🥫 캔/깡통' }, { w: 'MAN', m: '👨 남자' },
+        { w: 'DAD', m: '👨 아빠' }, { w: 'SAD', m: '😢 슬픈' }, { w: 'MAD', m: '😠 화난' },
+        { w: 'MAT', m: '🧶 매트' }, { w: 'RAT', m: '🐀 쥐' }, { w: 'HAM', m: '🍖 햄' },
+        { w: 'RAM', m: '🐏 숫양' }, { w: 'TAG', m: '🏷️ 이름표' }, { w: 'TAP', m: '🚰 수도꼭지' },
+        { w: 'NAP', m: '😴 낮잠' }, { w: 'CAR', m: '🚗 자동차' }, { w: 'JAR', m: '🫙 유리병' },
+        { w: 'ANT', m: '🐜 개미' }, { w: 'ARM', m: '💪 팔' }, { w: 'YAK', m: '🦬 야크' }
       ],
       cvc_ei: [
         { w: 'BED', m: '🛏️ 침대' }, { w: 'PEN', m: '🖊️ 펜' }, { w: 'RED', m: '🔴 빨강' },
         { w: 'HEN', m: '🐔 암탉' }, { w: 'NET', m: '🥅 그물' }, { w: 'PIG', m: '🐷 돼지' },
-        { w: 'SIX', m: '6️⃣ 숫자 6' }, { w: 'LIP', m: '👄 입술' }, { w: 'ZIP', m: '🤐 지퍼' }
+        { w: 'SIX', m: '6️⃣ 숫자 6' }, { w: 'LIP', m: '👄 입술' }, { w: 'ZIP', m: '🤐 지퍼' },
+        { w: 'TEN', m: '🔟 숫자 10' }, { w: 'MEN', m: '👬 사람들' }, { w: 'JET', m: '✈️ 제트기' },
+        { w: 'PET', m: '🐶 반려동물' }, { w: 'WET', m: '💦 젖은' }, { w: 'LEG', m: '🦵 다리' },
+        { w: 'EGG', m: '🥚 달걀' }, { w: 'WEB', m: '🕸️ 거미줄' }, { w: 'BELL', m: '🔔 종' },
+        { w: 'PIN', m: '🧷 옷핀' }, { w: 'FIN', m: '🦈 지느러미' }, { w: 'WIN', m: '🏆 이기다' },
+        { w: 'BIN', m: '🗑️ 휴지통' }, { w: 'BIG', m: '🐘 큰' }, { w: 'WIG', m: '🦱 가발' },
+        { w: 'DIG', m: '🪏 땅을 파다' }, { w: 'SIT', m: '🪑 앉다' }, { w: 'HIT', m: '⚾ 치다' },
+        { w: 'KIT', m: '🧰 도구상자' }, { w: 'KID', m: '🧒 아이' }, { w: 'LID', m: '🍲 뚜껑' }
       ],
       cvc_ou: [
         { w: 'DOG', m: '🐶 강아지' }, { w: 'BOX', m: '📦 상자' }, { w: 'FOX', m: '🦊 여우' },
         { w: 'POT', m: '🍲 냄비' }, { w: 'LOG', m: '🪵 통나무' }, { w: 'SUN', m: '☀️ 태양' },
-        { w: 'BUS', m: '🚌 버스' }, { w: 'CUP', m: '🥤 컵' }, { w: 'BUG', m: '🐞 무당벌레' }
+        { w: 'BUS', m: '🚌 버스' }, { w: 'CUP', m: '🥤 컵' }, { w: 'BUG', m: '🐞 무당벌레' },
+        { w: 'HOT', m: '🔥 뜨거운' }, { w: 'DOT', m: '⚫ 점' }, { w: 'TOP', m: '🪀 팽이/꼭대기' },
+        { w: 'MOP', m: '🧹 대걸레' }, { w: 'HOP', m: '🐰 깡충 뛰다' }, { w: 'POP', m: '🎈 펑 터지다' },
+        { w: 'MOM', m: '👩 엄마' }, { w: 'FROG', m: '🐸 개구리' }, { w: 'DOLL', m: '🎎 인형' },
+        { w: 'RUN', m: '🏃 달리다' }, { w: 'BUN', m: '🍔 동그란 빵' }, { w: 'FUN', m: '🥳 재미있는' },
+        { w: 'MUG', m: '☕ 머그잔' }, { w: 'RUG', m: '🧶 양탄자' }, { w: 'HUG', m: '🤗 안아주다' },
+        { w: 'JUG', m: '🏺 물병' }, { w: 'NUT', m: '🥜 견과류/호두' }, { w: 'HUT', m: '🛖 오두막' },
+        { w: 'CUT', m: '✂️ 자르다' }, { w: 'PUP', m: '🐶 아기강아지' }, { w: 'TUB', m: '🛁 욕조' },
+        { w: 'CUB', m: '🐻 아기곰' }, { w: 'MUD', m: '🤎 진흙' }
       ],
       digraph: [
         { w: 'CHICKEN', m: '🐔 치킨/닭' }, { w: 'DOLPHIN', m: '🐬 돌고래' }, { w: 'CHEESE', m: '🧀 치즈' },
@@ -2223,7 +2272,13 @@
         { w: 'SHARK', m: '🦈 상어' }, { w: 'SHEEP', m: '🐑 양' }, { w: 'SHELL', m: '🐚 조개껍데기' },
         { w: 'CHAIR', m: '🪑 의자' }, { w: 'CHICK', m: '🐥 병아리' }, { w: 'BRUSH', m: '🪥 칫솔/붓' },
         { w: 'TOOTH', m: '🦷 치아/이' }, { w: 'WHALE', m: '🐳 고래' }, { w: 'SWING', m: '🎠 그네' },
-        { w: 'SHIP', m: '🚢 배' }, { w: 'FISH', m: '🐟 물고기' }
+        { w: 'SHIP', m: '🚢 배' }, { w: 'FISH', m: '🐟 물고기' }, { w: 'SHOP', m: '🏪 가게' },
+        { w: 'CHIN', m: '😊 턱' }, { w: 'CHIP', m: '🍟 감자칩' }, { w: 'BATH', m: '🛁 목욕' },
+        { w: 'MATH', m: '🔢 수학' }, { w: 'KING', m: '👑 왕' }, { w: 'RING', m: '💍 반지' },
+        { w: 'WING', m: '🪽 날개' }, { w: 'SONG', m: '🎵 노래' }, { w: 'DUCK', m: '🦆 오리' },
+        { w: 'SOCK', m: '🧦 양말' }, { w: 'ROCK', m: '🪨 바위' }, { w: 'LOCK', m: '🔒 자물쇠' },
+        { w: 'WHEEL', m: '🛞 바퀴' }, { w: 'PHONE', m: '📱 전화기' }, { w: 'PHOTO', m: '📷 사진' },
+        { w: 'PEACH', m: '🍑 복숭아' }, { w: 'BEACH', m: '🏖️ 해변' }, { w: 'LUNCH', m: '🍱 점심식사' }
       ],
       blends: [
         { w: 'FLOWER', m: '🌸 꽃' }, { w: 'SPIDER', m: '🕷️ 거미' }, { w: 'DRAGON', m: '🐉 용(드래곤)' },
@@ -2231,7 +2286,14 @@
         { w: 'SMILE', m: '😊 미소' }, { w: 'SNAIL', m: '🐌 달팽이' }, { w: 'TRUCK', m: '🚚 트럭' },
         { w: 'TRAIN', m: '🚂 기차' }, { w: 'CLOCK', m: '⏰ 시계' }, { w: 'DRESS', m: '👗 드레스' },
         { w: 'CLOUD', m: '☁️ 구름' }, { w: 'GRASS', m: '🌿 풀/잔디' }, { w: 'BREAD', m: '🍞 빵' },
-        { w: 'STAR', m: '⭐ 별' }, { w: 'FROG', m: '🐸 개구리' }
+        { w: 'STAR', m: '⭐ 별' }, { w: 'STOP', m: '🛑 멈춤' }, { w: 'FROG', m: '🐸 개구리' },
+        { w: 'FLAG', m: '🚩 깃발' }, { w: 'DRUM', m: '🥁 북/드럼' }, { w: 'CLAP', m: '👏 박수' },
+        { w: 'CRAB', m: '🦀 꽃게' }, { w: 'SWIM', m: '🏊 수영' }, { w: 'MILK', m: '🥛 우유' },
+        { w: 'TREE', m: '🌳 나무' }, { w: 'SNOW', m: '❄️ 눈(스노우)' }, { w: 'SWAN', m: '🦢 백조' },
+        { w: 'PLUM', m: '🍑 자두' }, { w: 'GIFT', m: '🎁 선물' }, { w: 'LAMP', m: '💡 스탠드/램프' },
+        { w: 'TENT', m: '⛺ 텐트' }, { w: 'HAND', m: '✋ 손' }, { w: 'SAND', m: '🏖️ 모래' },
+        { w: 'WIND', m: '🌬️ 바람' }, { w: 'JUMP', m: '🦘 점프하다' }, { w: 'PINK', m: '🩷 분홍색' },
+        { w: 'CROWN', m: '👑 왕관' }, { w: 'GLOVE', m: '🧤 장갑' }, { w: 'SPOON', m: '🥄 숟가락' }
       ],
       magic_e: [
         { w: 'AIRPLANE', m: '✈️ 비행기' }, { w: 'ORANGE', m: '🍊 오렌지' }, { w: 'PURPLE', m: '🟣 보라색' },
@@ -2241,7 +2303,14 @@
         { w: 'STONE', m: '🪨 돌' }, { w: 'FLUTE', m: '🪈 플루트' }, { w: 'WHITE', m: '⚪ 하얀색' },
         { w: 'HOUSE', m: '🏡 집(하우스)' }, { w: 'MOUSE', m: '🐭 생쥐' }, { w: 'HORSE', m: '🐴 말' },
         { w: 'SKATE', m: '⛸️ 스케이트' }, { w: 'PLATE', m: '🍽️ 접시' },
-        { w: 'CAKE', m: '🎂 케이크' }, { w: 'BIKE', m: '🚲 자전거' }, { w: 'KITE', m: '🪁 연' }
+        { w: 'CAKE', m: '🎂 케이크' }, { w: 'BIKE', m: '🚲 자전거' }, { w: 'KITE', m: '🪁 연' },
+        { w: 'HOME', m: '🏠 집' }, { w: 'NOSE', m: '👃 코' }, { w: 'ROSE', m: '🌹 장미' },
+        { w: 'CUBE', m: '🧊 큐브' }, { w: 'GAME', m: '🎮 게임' }, { w: 'LAKE', m: '🏞️ 호수' },
+        { w: 'BONE', m: '🦴 뼈다귀' }, { w: 'CONE', m: '🍦 아이스크림 콘' }, { w: 'ROPE', m: '🪢 밧줄' },
+        { w: 'TUBE', m: '🛟 튜브' }, { w: 'MULE', m: '🫏 노새' }, { w: 'CUTE', m: '🥰 귀여운' },
+        { w: 'FIRE', m: '🔥 불' }, { w: 'FIVE', m: '5️⃣ 숫자 5' }, { w: 'NINE', m: '9️⃣ 숫자 9' },
+        { w: 'PINE', m: '🌲 소나무' }, { w: 'DICE', m: '🎲 주사위' }, { w: 'RICE', m: '🍚 밥/쌀' },
+        { w: 'WAVE', m: '🌊 파도' }, { w: 'CAVE', m: '🕳️ 동굴' }, { w: 'GATE', m: '🚪 대문' }
       ],
       vowel_team: [
         { w: 'RAINBOW', m: '🌈 무지개' }, { w: 'KANGAROO', m: '🦘 캥거루' }, { w: 'BALLOON', m: '🎈 풍선' },
@@ -2250,7 +2319,16 @@
         { w: 'GREEN', m: '🟢 초록색' }, { w: 'SPOON', m: '🥄 숟가락' }, { w: 'IGLOO', m: '🛖 이글루' },
         { w: 'BREAD', m: '🍞 빵' }, { w: 'BEACH', m: '🏖️ 해변' }, { w: 'PEACH', m: '🍑 복숭아' },
         { w: 'TRAIN', m: '🚂 기차' }, { w: 'SNAIL', m: '🐌 달팽이' }, { w: 'CLOUD', m: '☁️ 구름' },
-        { w: 'BOOK', m: '📖 책' }, { w: 'MOON', m: '🌙 달' }, { w: 'TREE', m: '🌳 나무' }
+        { w: 'HEART', m: '❤️ 하트' }, { w: 'GOOSE', m: '🪿 거위' },
+        { w: 'BOOK', m: '📖 책' }, { w: 'MOON', m: '🌙 달' }, { w: 'FOOT', m: '🦶 발' },
+        { w: 'TREE', m: '🌳 나무' }, { w: 'BEE', m: '🐝 꿀벌' }, { w: 'SEED', m: '🌱 씨앗' },
+        { w: 'BOAT', m: '⛵ 보트' }, { w: 'RAIN', m: '🌧️ 비' }, { w: 'LEAF', m: '🍃 나뭇잎' },
+        { w: 'COAT', m: '🧥 코트/외투' }, { w: 'GOAT', m: '🐐 염소' }, { w: 'SOAP', m: '🧼 비누' },
+        { w: 'ROAD', m: '🛣️ 도로/길' }, { w: 'TOAD', m: '🐸 두꺼비' }, { w: 'MEAT', m: '🥩 고기' },
+        { w: 'SEAL', m: '🦭 물개' }, { w: 'TEAM', m: '🤝 팀' }, { w: 'BEAN', m: '🫘 콩' },
+        { w: 'TAIL', m: '🐕 꼬리' }, { w: 'MAIL', m: '✉️ 편지' }, { w: 'SAIL', m: '⛵ 돛단배' },
+        { w: 'POOL', m: '🏊 수영장' }, { w: 'ZOO', m: '🦁 동물원' }, { w: 'WOOD', m: '🪵 나무/목재' },
+        { w: 'COOK', m: '👩‍🍳 요리사' }, { w: 'FEET', m: '👣 두 발' }, { w: 'DEER', m: '🦌 사슴' }
       ],
       animals: [
         { w: 'ELEPHANT', m: '🐘 코끼리' }, { w: 'DINOSAUR', m: '🦖 공룡' }, { w: 'KANGAROO', m: '🦘 캥거루' },
@@ -2259,37 +2337,77 @@
         { w: 'TURTLE', m: '🐢 거북이' }, { w: 'TIGER', m: '🐯 호랑이' }, { w: 'ZEBRA', m: '🦓 얼룩말' },
         { w: 'PANDA', m: '🐼 판다' }, { w: 'HORSE', m: '🐴 말' }, { w: 'MOUSE', m: '🐭 생쥐' },
         { w: 'SNAKE', m: '🐍 뱀' }, { w: 'SHARK', m: '🦈 상어' }, { w: 'WHALE', m: '🐳 고래' },
-        { w: 'KOALA', m: '🐨 코알라' }, { w: 'LION', m: '🦁 사자' }, { w: 'BEAR', m: '🐻 곰' }
+        { w: 'KOALA', m: '🐨 코알라' }, { w: 'CAMEL', m: '🐪 낙타' }, { w: 'SHEEP', m: '🐑 양' },
+        { w: 'PUPPY', m: '🐶 강아지' }, { w: 'KITTY', m: '🐱 아기고양이' }, { w: 'HIPPO', m: '🦛 하마' },
+        { w: 'RHINO', m: '🦏 코뿔소' }, { w: 'EAGLE', m: '🦅 독수리' }, { w: 'OCTOPUS', m: '🐙 문어' },
+        { w: 'HAMSTER', m: '🐹 햄스터' }, { w: 'PARROT', m: '🦜 앵무새' }, { w: 'SPIDER', m: '🕷️ 거미' },
+        { w: 'LION', m: '🦁 사자' }, { w: 'BEAR', m: '🐻 곰' }, { w: 'DUCK', m: '🦆 오리' },
+        { w: 'BIRD', m: '🐦 새' }, { w: 'WOLF', m: '🐺 늑대' }, { w: 'DEER', m: '🦌 사슴' },
+        { w: 'GOAT', m: '🐐 염소' }, { w: 'SEAL', m: '🦭 물개' }, { w: 'FROG', m: '🐸 개구리' },
+        { w: 'CRAB', m: '🦀 꽃게' }, { w: 'SWAN', m: '🦢 백조' }
       ],
       numbers_eng: [
+        { w: 'ZERO', m: '0 (제로)', num: 0 },
         { w: 'ONE', m: '1 (원)', num: 1 }, { w: 'TWO', m: '2 (투)', num: 2 },
         { w: 'THREE', m: '3 (쓰리)', num: 3 }, { w: 'FOUR', m: '4 (포)', num: 4 },
         { w: 'FIVE', m: '5 (파이브)', num: 5 }, { w: 'SIX', m: '6 (식스)', num: 6 },
         { w: 'SEVEN', m: '7 (세븐)', num: 7 }, { w: 'EIGHT', m: '8 (에잇)', num: 8 },
         { w: 'NINE', m: '9 (나인)', num: 9 }, { w: 'TEN', m: '10 (텐)', num: 10 },
         { w: 'ELEVEN', m: '11 (일레븐)', num: 11 }, { w: 'TWELVE', m: '12 (트웰브)', num: 12 },
-        { w: 'TWENTY', m: '20 (트웬티)', num: 20 }
+        { w: 'THIRTEEN', m: '13 (써틴)', num: 13 }, { w: 'FOURTEEN', m: '14 (포틴)', num: 14 },
+        { w: 'FIFTEEN', m: '15 (피프틴)', num: 15 }, { w: 'SIXTEEN', m: '16 (식스틴)', num: 16 },
+        { w: 'EIGHTEEN', m: '18 (에이틴)', num: 18 }, { w: 'NINETEEN', m: '19 (나인틴)', num: 19 },
+        { w: 'TWENTY', m: '20 (트웬티)', num: 20 }, { w: 'THIRTY', m: '30 (써티)', num: 30 },
+        { w: 'FORTY', m: '40 (포티)', num: 40 }, { w: 'FIFTY', m: '50 (피프티)', num: 50 },
+        { w: 'SIXTY', m: '60 (식스티)', num: 60 }, { w: 'SEVENTY', m: '70 (세븐티)', num: 70 },
+        { w: 'EIGHTY', m: '80 (에이티)', num: 80 }, { w: 'NINETY', m: '90 (나인티)', num: 90 },
+        { w: 'HUNDRED', m: '100 (헌드레드)', num: 100 }
       ],
       colors_fruits: [
         { w: 'BANANA', m: '🍌 바나나' }, { w: 'ORANGE', m: '🍊 오렌지' }, { w: 'TOMATO', m: '🍅 토마토' },
         { w: 'POTATO', m: '🥔 감자' }, { w: 'CHERRY', m: '🍒 체리' }, { w: 'YELLOW', m: '🟡 노란색' },
         { w: 'PURPLE', m: '🟣 보라색' }, { w: 'SILVER', m: '⚪ 은색' }, { w: 'RAINBOW', m: '🌈 무지개색' },
+        { w: 'CARROT', m: '🥕 당근' }, { w: 'ONION', m: '🧅 양파' }, { w: 'GARLIC', m: '🧄 마늘' },
+        { w: 'PAPAYA', m: '🥭 파파야' }, { w: 'COCONUT', m: '🥥 코코넛' }, { w: 'PUMPKIN', m: '🎃 호박' },
+        { w: 'AVOCADO', m: '🥑 아보카도' }, { w: 'PIZZA', m: '🍕 피자' }, { w: 'SALAD', m: '🥗 샐러드' },
+        { w: 'COOKIE', m: '🍪 쿠키' }, { w: 'CANDY', m: '🍬 사탕' }, { w: 'DONUT', m: '🍩 도넛' },
         { w: 'APPLE', m: '🍎 사과' }, { w: 'MELON', m: '🍈 멜론' }, { w: 'GRAPE', m: '🍇 포도' },
         { w: 'LEMON', m: '🍋 레몬' }, { w: 'PEACH', m: '🍑 복숭아' }, { w: 'MANGO', m: '🥭 망고' },
-        { w: 'GREEN', m: '🟢 초록색' }, { w: 'BLACK', m: '⚫ 검정색' }, { w: 'WHITE', m: '⚪ 하얀색' }
+        { w: 'BERRY', m: '🍓 베리' }, { w: 'PLUM', m: '🍑 자두' }, { w: 'KIWI', m: '🥝 키위' },
+        { w: 'CORN', m: '🌽 옥수수' }, { w: 'PEAR', m: '🍐 배(과일)' },
+        { w: 'GREEN', m: '🟢 초록색' }, { w: 'BLACK', m: '⚫ 검정색' }, { w: 'WHITE', m: '⚪ 하얀색' },
+        { w: 'BROWN', m: '🟤 갈색' }, { w: 'BLUE', m: '🔵 파란색' }, { w: 'PINK', m: '🩷 분홍색' },
+        { w: 'GOLD', m: '🟡 금색' }, { w: 'GRAY', m: '🩶 회색' }
       ],
       opposites: [
         { q: 'HOT 🔥 ↔', w: 'COLD', m: '❄️ 추운/차가운' },
+        { q: 'COLD ❄️ ↔', w: 'HOT', m: '🔥 뜨거운/더운' },
         { q: 'BIG 🐘 ↔', w: 'SMALL', m: '🐭 작은' },
+        { q: 'SMALL 🐭 ↔', w: 'BIG', m: '🐘 큰' },
         { q: 'UP ⬆️ ↔', w: 'DOWN', m: '⬇️ 아래로' },
+        { q: 'DOWN ⬇️ ↔', w: 'UP', m: '⬆️ 위로' },
         { q: 'DAY ☀️ ↔', w: 'NIGHT', m: '🌙 밤' },
+        { q: 'NIGHT 🌙 ↔', w: 'DAY', m: '☀️ 낮' },
         { q: 'FAST 🐆 ↔', w: 'SLOW', m: '🐢 느린' },
+        { q: 'SLOW 🐢 ↔', w: 'FAST', m: '🐆 빠른' },
         { q: 'LIGHT 🪶 ↔', w: 'HEAVY', m: '🏋️ 무거운' },
+        { q: 'HEAVY 🏋️ ↔', w: 'LIGHT', m: '🪶 가벼운' },
         { q: 'CLEAN ✨ ↔', w: 'DIRTY', m: '🧹 더러운' },
+        { q: 'DIRTY 🧹 ↔', w: 'CLEAN', m: '✨ 깨끗한' },
         { q: 'SAD 😢 ↔', w: 'HAPPY', m: '😊 행복한' },
+        { q: 'HAPPY 😊 ↔', w: 'SAD', m: '😢 슬픈' },
         { q: 'TALL 🦒 ↔', w: 'SHORT', m: '🌱 키가 작은/짧은' },
+        { q: 'SHORT 🌱 ↔', w: 'TALL', m: '🦒 키가 큰' },
         { q: 'WEAK 🐣 ↔', w: 'STRONG', m: '💪 강한/힘센' },
-        { q: 'OPEN 🔓 ↔', w: 'CLOSE', m: '🔒 닫다' }
+        { q: 'OPEN 🔓 ↔', w: 'CLOSE', m: '🔒 닫다' },
+        { q: 'GOOD 👍 ↔', w: 'BAD', m: '👎 나쁜' },
+        { q: 'OLD 👴 ↔', w: 'YOUNG', m: '👶 어린/젊은' },
+        { q: 'FULL 🌕 ↔', w: 'EMPTY', m: '🌑 텅 빈' },
+        { q: 'WET 💦 ↔', w: 'DRY', m: '☀️ 마른/건조한' },
+        { q: 'SOFT 🧸 ↔', w: 'HARD', m: '🪨 딱딱한' },
+        { q: 'LEFT ⬅️ ↔', w: 'RIGHT', m: '➡️ 오른쪽' },
+        { q: 'BLACK ⚫ ↔', w: 'WHITE', m: '⚪ 하얀색' },
+        { q: 'START 🏁 ↔', w: 'STOP', m: '🛑 멈추다' }
       ],
       sentences: [
         { pre: 'I like', post: '!', w: 'BANANA', m: '🍌 나는 바나나를 좋아해요' },
@@ -2299,7 +2417,27 @@
         { pre: 'I am', post: '!', w: 'HAPPY', m: '😊 나는 행복해요' },
         { pre: 'I eat an', post: '.', w: 'APPLE', m: '🍎 나는 사과를 먹어요' },
         { pre: 'I drink', post: '.', w: 'WATER', m: '💧 나는 물을 마셔요' },
-        { pre: 'See the', post: '!', w: 'TIGER', m: '🐯 호랑이를 보세요' }
+        { pre: 'See the', post: '!', w: 'TIGER', m: '🐯 호랑이를 보세요' },
+        { pre: 'Take the', post: '!', w: 'TRAIN', m: '🚂 기차를 타요' },
+        { pre: 'It is a', post: '.', w: 'DOG', m: '🐶 그것은 강아지예요' },
+        { pre: 'I like', post: '.', w: 'MILK', m: '🥛 나는 우유를 좋아해요' },
+        { pre: 'Look at the', post: '!', w: 'STAR', m: '⭐ 저 별을 보세요' },
+        { pre: 'This is my', post: '.', w: 'BOOK', m: '📖 이것은 내 책이에요' },
+        { pre: 'I can', post: '!', w: 'SWIM', m: '🏊 나는 수영할 수 있어요' },
+        { pre: 'Fly the', post: '!', w: 'AIRPLANE', m: '✈️ 비행기를 날려요!' },
+        { pre: ' Funny brown', post: '!', w: 'MONKEY', m: '🐒 재미있는 갈색 원숭이!' },
+        { pre: 'Tall yellow', post: '!', w: 'GIRAFFE', m: '🦒 키가 큰 노란 기린!' },
+        { pre: 'I love my', post: '!', w: 'MOM', m: '👩 나는 엄마를 사랑해요!' },
+        { pre: 'I love my', post: '!', w: 'DAD', m: '👨 나는 아빠를 사랑해요!' },
+        { pre: 'Sweet pink', post: '!', w: 'PEACH', m: '🍑 달콤한 분홍 복숭아!' },
+        { pre: 'Ride a', post: '!', w: 'BIKE', m: '🚲 자전거를 타요!' },
+        { pre: 'Eat hot', post: '!', w: 'PIZZA', m: '🍕 따뜻한 피자를 먹어요!' },
+        { pre: 'Play a', post: '!', w: 'GAME', m: '🎮 게임을 해요!' },
+        { pre: 'Sing a', post: '!', w: 'SONG', m: '🎵 노래를 불러요!' },
+        { pre: 'Wash my', post: '.', w: 'HAND', m: '✋ 내 손을 씻어요.' },
+        { pre: 'Brush my', post: '.', w: 'TOOTH', m: '🦷 치아를 닦아요.' },
+        { pre: 'Go to', post: '!', w: 'SCHOOL', m: '🏫 학교에 가요!' },
+        { pre: 'Blue big', post: '!', w: 'WHALE', m: '🐳 파란 큰 고래!' }
       ]
     };
 
@@ -2311,6 +2449,28 @@
       return arr[rand(0, arr.length - 1)];
     }
 
+    const MATH_STORY_THEMES = {
+      '+': [
+        '🍎 달콤한 사과 모으기', '🍓 새콤달콤 딸기 더하기', '🎈 알록달록 풍선 모으기',
+        '🐣 삐약삐약 병아리 친구들', '🍪 바삭바삭 쿠키 더하기', '🌟 반짝반짝 별 모으기',
+        '🚗 부릉부릉 자동차 주차장', '🍩 맛있는 도넛 가게', '🐶 귀여운 강아지 모이기',
+        '🌷 향기로운 튤립 꽃밭', '🍬 달콤한 사탕 주머니', '🐝 붕붕 꿀벌 친구들'
+      ],
+      '-': [
+        '🎈 풍선이 하늘로 날아갔어요', '🍪 쿠키를 맛있게 먹었어요', '🍎 사과를 친구에게 나눠줬어요',
+        '🐦 참새가 포르르 날아갔어요', '🚗 자동차가 출발했어요', '🍓 딸기를 냠냠 먹었어요',
+        '🐸 개구리가 폴짝 뛰어갔어요', '🍬 사탕을 동생에게 주었어요', '🦋 나비가 꽃밭에서 날아갔어요'
+      ],
+      '×': [
+        '🍒 묶음으로 씩씩하게 세기', '🎁 선물 상자 묶음 곱하기', '🍪 쿠키 접시 묶음 계산',
+        '🚲 바퀴가 모두 몇 개일까요?', '🌟 별자리 묶음 곱셈', '🍎 사과 상자 묶음 세기'
+      ],
+      '÷': [
+        '🍕 똑같이 사이좋게 나누기', '🍪 쿠키를 똑같이 나누어 담기', '🍓 딸기를 접시에 똑같이 나누기',
+        '🎈 풍선을 친구들에게 똑같이!', '🍬 사탕 봉지 똑같이 나누기', '🍎 사과 바구니 똑같이 나누기'
+      ]
+    };
+
     function pickActualOp(opMode) {
       if (['add', 'sub', 'mul', 'div'].includes(opMode)) return opMode;
       if (opMode === 'mix_md') return (Math.random() < 0.5) ? 'mul' : 'div';
@@ -2318,61 +2478,286 @@
       return (Math.random() < 0.5) ? 'add' : 'sub';
     }
 
-    // 🔢 수학 Lv.1 ~ Lv.20 문제 생성 (사칙연산 + 유아 블록 수 세기 + 숫자 기차 순서 추론)
+    // 레벨별 기본 수 범위에서 (a, b, op) 쌍을 폭넓게 생성하는 헬퍼
+    function generateBaseAddSubPair(lv, forceOp = null) {
+      const isSub = forceOp ? (forceOp === 'sub') : (Math.random() < 0.5);
+      let a = 1, b = 1, op = isSub ? '-' : '+';
+
+      switch (lv) {
+        case 1: // 0~5 수 세기와 모으기 (0 포함으로 조합 다양성 대폭 확대)
+          if (forceOp === 'sub') { a = rand(1, 5); b = rand(0, a); op = '-'; }
+          else { a = rand(0, 5); b = rand(0, 5 - a); if (a === 0 && b === 0) a = rand(1, 4); op = '+'; }
+          break;
+        case 2: // 0~5 가르기와 기초 뺄셈
+          if (forceOp === 'add') { a = rand(0, 5); b = rand(0, 5 - a); if (a === 0 && b === 0) b = rand(1, 4); op = '+'; }
+          else { a = rand(1, 5); b = rand(0, a); op = '-'; }
+          break;
+        case 3: // 6~10 수 모으기와 덧셈
+          if (forceOp === 'sub') { a = rand(6, 10); b = rand(0, a - 1); op = '-'; }
+          else { const sum = rand(6, 10); a = rand(0, sum); b = sum - a; op = '+'; }
+          break;
+        case 4: // 6~10 가르기와 뺄셈
+          if (forceOp === 'add') { const sum = rand(6, 10); a = rand(1, sum - 1); b = sum - a; op = '+'; }
+          else { a = rand(6, 10); b = rand(0, a); op = '-'; }
+          break;
+        case 5: // 10의 보수 (Make 10)
+          a = rand(0, 10); b = 10 - a;
+          if (forceOp === 'sub') { a = 10; b = rand(0, 10); op = '-'; }
+          else { op = '+'; }
+          break;
+        case 6: // 받아올림 없는 십몇 + 한 자리
+          if (forceOp === 'sub') { const o = rand(2, 9); a = 10 + o; b = rand(0, o); op = '-'; }
+          else { const o = rand(0, 8); a = 10 + o; b = rand(1, 9 - o); op = '+'; }
+          break;
+        case 7: // 받아내림 없는 십몇 - 한 자리
+          if (forceOp === 'add') { const o = rand(0, 8); a = 10 + o; b = rand(1, 9 - o); op = '+'; }
+          else { const o = rand(1, 9); a = 10 + o; b = rand(0, o); op = '-'; }
+          break;
+        case 8: // 20 이하 받아올림 덧셈
+          if (forceOp === 'sub') { a = rand(11, 18); b = rand(Math.max(2, a - 9), 9); op = '-'; }
+          else { a = rand(2, 9); b = rand(Math.max(2, 11 - a), 9); op = '+'; }
+          break;
+        case 9: // 20 이하 받아내림 뺄셈
+          if (forceOp === 'add') { a = rand(2, 9); b = rand(Math.max(2, 11 - a), 9); op = '+'; }
+          else { a = rand(11, 18); b = rand(Math.max(2, a - 9), 9); op = '-'; }
+          break;
+        case 10: // 20 이하 종합
+          if (!isSub) { a = rand(2, 16); b = rand(1, 20 - a); op = '+'; }
+          else { a = rand(8, 20); b = rand(1, a); op = '-'; }
+          break;
+        case 11: // 30 이하 두 자리와 한 자리
+          if (!isSub) { a = rand(11, 26); b = rand(1, 30 - a); op = '+'; }
+          else { a = rand(12, 30); b = rand(1, 9); op = '-'; }
+          break;
+        case 12: // 50 이하 받아올림/내림 없는 두 자리 연산
+          if (!isSub) {
+            const t1 = rand(1, 3), o1 = rand(0, 7);
+            const t2 = rand(1, 4 - t1), o2 = rand(0, 9 - o1);
+            a = t1 * 10 + o1; b = t2 * 10 + o2; op = '+';
+          } else {
+            const t1 = rand(2, 4), o1 = rand(2, 9);
+            const t2 = rand(1, t1 - 1), o2 = rand(0, o1);
+            a = t1 * 10 + o1; b = t2 * 10 + o2; op = '-';
+          }
+          break;
+        case 13: // 50 이하 받아올림/내림 있는 두 자리 연산
+          if (!isSub) {
+            const t1 = rand(1, 2), o1 = rand(3, 9);
+            const t2 = rand(1, 3 - t1), o2 = rand(10 - o1, 9);
+            a = t1 * 10 + o1; b = t2 * 10 + o2; op = '+';
+          } else {
+            const t1 = rand(2, 4), o1 = rand(0, 7);
+            const t2 = rand(1, t1 - 1), o2 = rand(o1 + 1, 9);
+            a = t1 * 10 + o1; b = t2 * 10 + o2; op = '-';
+          }
+          break;
+        case 14: // 몇십 + 몇십 / 몇십 - 몇십
+          if (!isSub) {
+            const t1 = rand(1, 9), t2 = rand(1, 10 - t1);
+            a = t1 * 10; b = t2 * 10; op = '+';
+          } else {
+            const t1 = rand(2, 10), t2 = rand(1, t1 - 1);
+            a = t1 * 10; b = t2 * 10; op = '-';
+          }
+          break;
+        case 15: // 100 이하 받아올림 없는 두 자리 연산
+          if (!isSub) {
+            const t1 = rand(1, 7), o1 = rand(0, 7);
+            const t2 = rand(1, 9 - t1), o2 = rand(0, 9 - o1);
+            a = t1 * 10 + o1; b = t2 * 10 + o2; op = '+';
+          } else {
+            const t1 = rand(2, 9), o1 = rand(2, 9);
+            const t2 = rand(1, t1 - 1), o2 = rand(0, o1);
+            a = t1 * 10 + o1; b = t2 * 10 + o2; op = '-';
+          }
+          break;
+        case 16: // 100 이하 받아올림 두 자리 덧셈
+          if (forceOp === 'sub') { a = rand(35, 98); b = rand(12, a - 10); op = '-'; }
+          else {
+            const t1 = rand(1, 7), o1 = rand(2, 9);
+            const t2 = rand(1, 8 - t1), o2 = rand(10 - o1, 9);
+            a = t1 * 10 + o1; b = t2 * 10 + o2; op = '+';
+          }
+          break;
+        case 17: // 100 이하 받아내림 두 자리 뺄셈
+          if (forceOp === 'add') { a = rand(18, 72); b = rand(12, 100 - a); op = '+'; }
+          else {
+            const t1 = rand(2, 9), o1 = rand(0, 7);
+            const t2 = rand(1, t1 - 1), o2 = rand(o1 + 1, 9);
+            a = t1 * 10 + o1; b = t2 * 10 + o2; op = '-';
+          }
+          break;
+        default: // Lv.18~20: 100 이하 종합
+          if (!isSub) { a = rand(12, 78); b = rand(11, 100 - a); op = '+'; }
+          else { a = rand(28, 100); b = rand(11, a - 8); op = '-'; }
+          break;
+      }
+      return { a, b, op, ans: op === '+' ? (a + b) : (a - b) };
+    }
+
+    // 🔢 수학 Lv.1 ~ Lv.20 문제 생성 (사칙연산 + 유아 블록 수 세기 + 숫자 기차 + 수 가르기/모으기 + 크기 비교 + 빈칸 추론)
     function generateMathProblem(level, opMode) {
       const lv = Number(level);
 
-      // 1) 만 4세 유아 기초: 넘버블럭스 블록 개수 세기 & 숫자 쓰기 모드
-      if (opMode === 'count') {
+      // 0) 🎲 종합 다양성 믹스 모드(variety) 또는 표준 모드(mix)에서의 자연스러운 유형 다변화
+      let effectiveMode = opMode;
+      if (opMode === 'variety') {
+        const pool = ['normal', 'blank', 'bond', 'compare', 'seq', 'count'];
+        effectiveMode = pickItem(pool);
+      } else if (opMode === 'mix') {
+        // 표준 모드에서도 단조롭지 않게 30% 확률로 수 모으기/가르기 또는 빈칸 추론 유형을 섞어줌
+        const r = Math.random();
+        if (lv === 5 || lv === 20) effectiveMode = 'blank';
+        else if (lv <= 4 && r < 0.28) effectiveMode = (r < 0.14) ? 'bond' : 'count';
+        else if (lv >= 6 && lv <= 18 && r < 0.24) effectiveMode = (r < 0.12) ? 'blank' : 'bond';
+      }
+
+      // 1) 만 4세 유아 기초: 넘버블럭스 블록 개수 세기 & (+1/-1 이웃 수 찾기)
+      if (effectiveMode === 'count') {
         let n = 1;
         if (lv === 1) n = rand(1, 5);
         else if (lv === 2) n = rand(0, 5); // Numberblock Zero(0) 포함!
         else if (lv === 3) n = rand(5, 10);
-        else if (lv <= 5) n = rand(1, 10);
+        else if (lv <= 5) n = rand(0, 10);
         else if (lv <= 9) n = rand(11, 19);
         else if (lv === 10) n = rand(10, 20);
         else if (lv === 11) n = rand(15, 30);
         else if (lv <= 13) n = rand(20, 50);
         else if (lv === 14) n = rand(1, 10) * 10;
         else n = rand(30, 100);
+
+        // 다양성: 기본 개수 세기(60%) + 1 더 많은 수(20%) + 1 더 적은 수(20%)
+        const subVariant = rand(1, 5);
+        if (subVariant === 4 && n < 99) {
+          return {
+            subject: 'math',
+            type: 'count_blocks',
+            a: n,
+            promptLabel: `${n}보다 1 더 큰 수는? →`,
+            badgeText: '🔢 블록보다 1 더 많은 수 찾기!',
+            ans: String(n + 1),
+            key: `cnt_plus1_${n}`
+          };
+        } else if (subVariant === 5 && n >= 1) {
+          return {
+            subject: 'math',
+            type: 'count_blocks',
+            a: n,
+            promptLabel: `${n}보다 1 더 작은 수는? →`,
+            badgeText: '🔢 블록보다 1 더 적은 수 찾기!',
+            ans: String(n - 1),
+            key: `cnt_minus1_${n}`
+          };
+        }
         return {
           subject: 'math',
           type: 'count_blocks',
           a: n,
+          promptLabel: '블록은 모두 몇 개? →',
+          badgeText: '🔢 블록을 하나씩 세어 보아요!',
           ans: String(n),
           key: `cnt_${n}`
         };
       }
 
-      // 2) 만 4세 유아 기초: 넘버블럭스 숫자 기차 순서 맞추기 (n1 → □ → n3)
-      if (opMode === 'seq') {
+      // 2) 만 4세 유아 기초: 넘버블럭스 숫자 기차 순서 맞추기 (오름차순 + 거꾸로 내림차순 + 뛰어세기)
+      if (effectiveMode === 'seq') {
         let step = 1, start = 1;
+        const isDesc = (lv >= 2 && Math.random() < 0.35); // 35% 확률로 거꾸로(내림차순) 기차!
         if (lv === 1) start = rand(1, 3);
         else if (lv === 2) start = rand(0, 3);
-        else if (lv <= 5) start = rand(1, 8);
-        else if (lv <= 9) start = rand(8, 17);
-        else if (lv === 10) { step = [1, 2, 5][rand(0, 2)]; start = rand(1, 5) * step; }
-        else if (lv === 11) start = rand(12, 28);
-        else if (lv <= 13) start = rand(20, 48);
+        else if (lv <= 4) start = rand(1, 8);
+        else if (lv === 5) { step = [1, 2][rand(0, 1)]; start = rand(1, 6); }
+        else if (lv <= 9) start = rand(7, 17);
+        else if (lv === 10) { step = [1, 2, 5][rand(0, 2)]; start = rand(1, 4) * step; }
+        else if (lv === 11) { step = [1, 2, 3][rand(0, 2)]; start = rand(10, 24); }
+        else if (lv <= 13) { step = [1, 2, 5][rand(0, 2)]; start = rand(15, 40); }
         else if (lv === 14) { step = 10; start = rand(1, 8) * 10; }
-        else start = rand(30, 98);
+        else { step = [1, 2, 5, 10][rand(0, 3)]; start = rand(20, 80); }
 
-        const seqNums = [start, start + step, start + step * 2];
+        const seqNums = isDesc
+          ? [start + step * 2, start + step, start]
+          : [start, start + step, start + step * 2];
         const bPos = rand(0, 2);
         const ansVal = seqNums[bPos];
+        const dirText = isDesc
+          ? `🚂 거꾸로 작아지는 숫자 기차 (-${step}씩)`
+          : (step > 1 ? `🚂 ${step}씩 커지는 점프 숫자 기차 (+${step}씩)` : '🚂 차례차례 커지는 숫자 기차 (+1씩)');
         return {
           subject: 'math',
           type: 'seq_math',
           seq: seqNums,
           blankIdx: bPos,
+          badgeText: dirText,
           ans: String(ansVal),
-          key: `mseq_${start}_${step}_${bPos}`
+          key: `mseq_${start}_${step}_${isDesc ? 'd' : 'a'}_${bPos}`
         };
+      }
+
+      // 3) ⚖️ 두 수의 크기 비교 (누가 더 클까요? > , < , =)
+      if (effectiveMode === 'compare') {
+        let maxN = 5;
+        if (lv <= 2) maxN = 5;
+        else if (lv <= 5) maxN = 10;
+        else if (lv <= 10) maxN = 20;
+        else if (lv === 11) maxN = 30;
+        else if (lv <= 13) maxN = 50;
+        else maxN = 100;
+
+        const minN = (lv === 2) ? 0 : (lv >= 12 ? 10 : 1);
+        let a = rand(minN, maxN);
+        let b = rand(minN, maxN);
+        if (Math.random() < 0.22) b = a; // 22% 확률로 같은 수(=) 출제
+        const ansSign = (a > b) ? '>' : (a < b ? '<' : '=');
+        return {
+          subject: 'math',
+          type: 'compare',
+          a,
+          b,
+          ans: ansSign,
+          badgeText: '⚖️ 어느 쪽 넘버블럭스가 더 클까요? (> · < · =)',
+          key: `cmp_${a}_${b}`
+        };
+      }
+
+      // 4) 🍒 수 모으기와 가르기 (Number Bonds)
+      if (effectiveMode === 'bond') {
+        const forceOp = (opMode === 'add' || opMode === 'sub') ? opMode : null;
+        const base = generateBaseAddSubPair(lv, forceOp);
+        const isGather = (base.op === '+'); // true: 모으기(p1, p2 -> whole), false: 가르기(whole -> p1, ?)
+        const p1 = isGather ? base.a : base.b;
+        const p2 = isGather ? base.b : base.ans;
+        const whole = isGather ? base.ans : base.a;
+        if (isGather) {
+          return {
+            subject: 'math',
+            type: 'number_bond',
+            bondMode: 'gather',
+            a: p1,
+            b: p2,
+            whole,
+            ans: String(whole),
+            badgeText: `🍒 수 모으기: ${p1}와(과) ${p2}를 모으면 얼마일까요?`,
+            key: `bond_g_${p1}_${p2}`
+          };
+        } else {
+          return {
+            subject: 'math',
+            type: 'number_bond',
+            bondMode: 'split',
+            a: p1,
+            b: p2,
+            whole,
+            ans: String(p2),
+            badgeText: `🍒 수 가르기: ${whole}을(를) ${p1}와(과) 몇으로 가를까요?`,
+            key: `bond_s_${whole}_${p1}`
+          };
+        }
       }
 
       const actualOp = pickActualOp(opMode);
 
-      // 곱셈/나눗셈 선택 시 레벨별 맞춤 구구단/나눗셈 생성
+      // 5) 곱셈/나눗셈 선택 시 레벨별 맞춤 구구단/나눗셈 생성 (빈칸 추론 포함)
       if (actualOp === 'mul' || actualOp === 'div') {
         const isDiv = (actualOp === 'div');
         let f1 = 2, f2 = 2;
@@ -2381,157 +2766,84 @@
         else if (lv <= 8) { f1 = rand(2, 5); f2 = rand(2, 6); }
         else if (lv <= 11) { f1 = rand(2, 6); f2 = rand(2, 7); }
         else if (lv <= 14) { f1 = rand(3, 7); f2 = rand(3, 8); }
-        else if (lv <= 17) { f1 = rand(5, 9); f2 = rand(3, 9); }
-        else { f1 = rand(6, 10); f2 = rand(3, 10); }
+        else if (lv <= 17) { f1 = rand(4, 9); f2 = rand(3, 9); }
+        else { f1 = rand(5, 10); f2 = rand(3, 10); }
 
         const prod = f1 * f2;
-        if (lv === 20) {
+        const story = pickItem(MATH_STORY_THEMES[isDiv ? '÷' : '×']);
+        if (lv === 20 || effectiveMode === 'blank') {
           return !isDiv
-            ? { subject: 'math', a: f1, b: f2, op: '×', ans: String(f2), target: prod, type: 'blank_right' }
-            : { subject: 'math', a: prod, b: f1, op: '÷', ans: String(f1), target: f2, type: 'blank_right' };
+            ? { subject: 'math', a: f1, b: f2, op: '×', ans: String(f2), target: prod, type: 'blank_right', badgeText: story, key: `mul_br_${f1}_${f2}` }
+            : { subject: 'math', a: prod, b: f1, op: '÷', ans: String(f1), target: f2, type: 'blank_right', badgeText: story, key: `div_br_${prod}_${f1}` };
         }
         return !isDiv
-          ? { subject: 'math', a: f1, b: f2, op: '×', ans: String(prod), type: 'normal' }
-          : { subject: 'math', a: prod, b: f1, op: '÷', ans: String(f2), type: 'normal' };
+          ? { subject: 'math', a: f1, b: f2, op: '×', ans: String(prod), type: 'normal', badgeText: story, key: `mul_${f1}_${f2}` }
+          : { subject: 'math', a: prod, b: f1, op: '÷', ans: String(f2), type: 'normal', badgeText: story, key: `div_${prod}_${f1}` };
       }
 
-      const isSub = (actualOp === 'sub');
-      let a = 1, b = 1;
-
-      switch (lv) {
-        case 1: // 1~5 수 세기와 모으기 (덧셈 기본 고정, 뺄셈 집중 선택 시에만 뺄셈)
-          if (opMode === 'sub') { a = rand(2, 5); b = rand(1, a - 1); return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' }; }
-          a = rand(1, 4); b = rand(1, 5 - a);
-          return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' };
-        case 2: // 1~5 가르기와 기초 뺄셈 (0 결과 포함 가능)
-          if (opMode === 'add') { a = rand(1, 4); b = rand(1, 5 - a); return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' }; }
-          a = rand(1, 5); b = rand(1, a); // a === b 이면 Numberblock Zero(0) 정답!
-          return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' };
-        case 3: // 6~10 수 모으기와 덧셈 (덧셈 기본 고정)
-          if (opMode === 'sub') { a = rand(6, 10); b = rand(1, a - 2); return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' }; }
-          a = rand(2, 7); b = rand(2, 10 - a);
-          return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' };
-        case 4: // 6~10 빼기
-          if (opMode === 'add') { a = rand(3, 7); b = rand(2, 10 - a); return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' }; }
-          a = rand(6, 10); b = rand(2, a - 1);
-          return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' };
-        case 5: // 10의 보수
-          a = rand(1, 9); b = 10 - a;
-          if (!isSub) {
-            return { subject: 'math', a, b, op: '+', ans: String(b), target: 10, type: 'blank_right' };
-          } else {
-            return { subject: 'math', a: 10, b: a, op: '-', ans: String(b), type: 'normal' };
-          }
-        case 6: // 받아올림 없는 십몇 + 한 자리 (덧셈 기본 고정)
-          if (opMode === 'sub') { const o = rand(3, 9); a = 10 + o; b = rand(1, o - 1); return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' }; }
-          { const o = rand(1, 6); a = 10 + o; b = rand(1, 9 - o); return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' }; }
-        case 7: // 받아내림 없는 십몇 - 한 자리
-          if (opMode === 'add') { const o = rand(1, 7); a = 10 + o; b = rand(1, 9 - o); return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' }; }
-          { const o = rand(3, 9); a = 10 + o; b = rand(1, o - 1); return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' }; }
-        case 8: // 20 이하 받아올림 덧셈
-          if (opMode === 'sub') { a = rand(11, 18); b = rand(Math.max(2, a - 9), 9); }
-          else { a = rand(4, 9); b = rand(11 - a, 9); return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' }; }
-          break;
-        case 9: // 20 이하 받아내림 뺄셈
-          if (opMode === 'add') { a = rand(5, 9); b = rand(11 - a, 9); }
-          else { a = rand(11, 18); b = rand(Math.max(2, a - 9), 9); return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' }; }
-          break;
-        case 10: // 20 이하 종합
-          if (!isSub) { a = rand(5, 13); b = rand(3, 20 - a); }
-          else { a = rand(11, 20); b = rand(3, a - 2); }
-          break;
-        case 11: // 30 이하 두 자리와 한 자리
-          if (!isSub) { a = rand(12, 24); b = rand(2, 30 - a); }
-          else { a = rand(15, 30); b = rand(2, 9); }
-          break;
-        case 12: // 50 이하 받아올림/내림 없는 두 자리 연산
-          if (!isSub) {
-            const t1 = rand(1, 2), o1 = rand(1, 5);
-            const t2 = rand(1, 4 - t1), o2 = rand(1, 9 - o1);
-            a = t1 * 10 + o1; b = t2 * 10 + o2;
-          } else {
-            const t1 = rand(2, 4), o1 = rand(3, 9);
-            const t2 = rand(1, t1 - 1), o2 = rand(1, o1 - 1);
-            a = t1 * 10 + o1; b = t2 * 10 + o2;
-          }
-          break;
-        case 13: // 50 이하 받아올림/내림 있는 두 자리 연산
-          if (!isSub) {
-            const t1 = rand(1, 2), o1 = rand(5, 9);
-            const t2 = rand(1, 3 - t1), o2 = rand(10 - o1, 9);
-            a = t1 * 10 + o1; b = t2 * 10 + o2;
-          } else {
-            const t1 = rand(2, 4), o1 = rand(1, 5);
-            const t2 = rand(1, t1 - 1), o2 = rand(o1 + 1, 9);
-            a = t1 * 10 + o1; b = t2 * 10 + o2;
-          }
-          break;
-        case 14: // 몇십 + 몇십 / 몇십 - 몇십
-          if (!isSub) {
-            const t1 = rand(1, 8), t2 = rand(1, 10 - t1);
-            a = t1 * 10; b = t2 * 10;
-          } else {
-            const t1 = rand(2, 10), t2 = rand(1, t1 - 1);
-            a = t1 * 10; b = t2 * 10;
-          }
-          break;
-        case 15: // 100 이하 받아올림 없는 두 자리 연산
-          if (!isSub) {
-            const t1 = rand(2, 6), o1 = rand(1, 5);
-            const t2 = rand(1, 9 - t1), o2 = rand(1, 9 - o1);
-            a = t1 * 10 + o1; b = t2 * 10 + o2;
-          } else {
-            const t1 = rand(3, 9), o1 = rand(3, 9);
-            const t2 = rand(1, t1 - 1), o2 = rand(1, o1 - 1);
-            a = t1 * 10 + o1; b = t2 * 10 + o2;
-          }
-          break;
-        case 16: // 100 이하 받아올림 두 자리 덧셈
-          if (opMode === 'sub') { a = rand(42, 98); b = rand(15, a - 12); }
-          else {
-            const t1 = rand(1, 6), o1 = rand(4, 9);
-            const t2 = rand(1, 8 - t1), o2 = rand(10 - o1, 9);
-            a = t1 * 10 + o1; b = t2 * 10 + o2;
-            return { subject: 'math', a, b, op: '+', ans: String(a + b), type: 'normal' };
-          }
-          break;
-        case 17: // 100 이하 받아내림 두 자리 뺄셈
-          if (opMode === 'add') { a = rand(24, 68); b = rand(15, 100 - a); }
-          else {
-            const t1 = rand(3, 9), o1 = rand(1, 6);
-            const t2 = rand(1, t1 - 1), o2 = rand(o1 + 1, 9);
-            a = t1 * 10 + o1; b = t2 * 10 + o2;
-            return { subject: 'math', a, b, op: '-', ans: String(a - b), type: 'normal' };
-          }
-          break;
-        case 18: // 100 이하 종합
-          if (!isSub) { a = rand(15, 72); b = rand(12, 100 - a); }
-          else { a = rand(35, 100); b = rand(12, a - 10); }
-          break;
-        case 19: { // 세 수의 연쇄 연산 (넘버블럭스 3캐릭터)
-          if (!isSub) {
-            const c1 = rand(2, 12), c2 = rand(2, 12), c3 = rand(2, 12);
-            return { subject: 'math', a: c1, b: c2, c: c3, op1: '+', op2: '+', ans: String(c1 + c2 + c3), type: 'triple' };
-          } else {
-            const c1 = rand(12, 28), c2 = rand(2, 7), c3 = rand(2, 6);
-            return { subject: 'math', a: c1, b: c2, c: c3, op1: '-', op2: '-', ans: String(c1 - c2 - c3), type: 'triple' };
-          }
-        }
-        case 20:
-        default: { // 미지수 빈칸 추론 마스터
-          if (!isSub) {
-            a = rand(12, 65); b = rand(11, 100 - a);
-            return { subject: 'math', a, b, op: '+', ans: String(b), target: a + b, type: 'blank_right' };
-          } else {
-            a = rand(32, 100); b = rand(11, a - 10);
-            return { subject: 'math', a, b, op: '-', ans: String(b), target: a - b, type: 'blank_right' };
-          }
+      // 6) Lv.19: 세 수의 연쇄 연산 (A+B+C, A-B-C 뿐만 아니라 A+B-C 혼합 연쇄까지 다양화!)
+      if (lv === 19 && effectiveMode !== 'blank') {
+        const subType = rand(1, 3);
+        if (opMode === 'add' || (opMode !== 'sub' && subType === 1)) {
+          const c1 = rand(2, 12), c2 = rand(2, 12), c3 = rand(2, 12);
+          return { subject: 'math', a: c1, b: c2, c: c3, op1: '+', op2: '+', ans: String(c1 + c2 + c3), type: 'triple', badgeText: '🚂 넘버블럭스 세 친구 모두 더하기!', key: `tri_pp_${c1}_${c2}_${c3}` };
+        } else if (opMode === 'sub' || subType === 2) {
+          const c1 = rand(12, 28), c2 = rand(2, 7), c3 = rand(2, 6);
+          return { subject: 'math', a: c1, b: c2, c: c3, op1: '-', op2: '-', ans: String(c1 - c2 - c3), type: 'triple', badgeText: '🚂 넘버블럭스 차례차례 빼기!', key: `tri_mm_${c1}_${c2}_${c3}` };
+        } else {
+          const c1 = rand(5, 16), c2 = rand(3, 12), c3 = rand(2, c1 + c2 - 2);
+          return { subject: 'math', a: c1, b: c2, c: c3, op1: '+', op2: '-', ans: String(c1 + c2 - c3), type: 'triple', badgeText: '🚂 더하고 빼는 신나는 혼합 기차!', key: `tri_pm_${c1}_${c2}_${c3}` };
         }
       }
 
-      const opChar = isSub ? '-' : '+';
-      const ansVal = isSub ? (a - b) : (a + b);
-      return { subject: 'math', a, b, op: opChar, ans: String(ansVal), type: 'normal' };
+      // 7) 레벨별 맞춤 덧셈·뺄셈 및 빈칸 추론 (□ + b = c / a + □ = c)
+      let forceOp = null;
+      if (opMode === 'add' || (!['sub', 'mix_all'].includes(opMode) && [1, 3, 6, 8, 16].includes(lv))) forceOp = 'add';
+      else if (opMode === 'sub' || (!['add', 'mix_all'].includes(opMode) && [2, 4, 7, 9, 17].includes(lv))) forceOp = 'sub';
+      else forceOp = actualOp;
+
+      const pair = generateBaseAddSubPair(lv, forceOp);
+      const story = pickItem(MATH_STORY_THEMES[pair.op]);
+
+      if (effectiveMode === 'blank' || lv === 5 || lv === 20) {
+        const useLeftBlank = (Math.random() < 0.45);
+        if (useLeftBlank) {
+          // □ + b = target 또는 □ - b = target
+          return {
+            subject: 'math',
+            type: 'blank_left',
+            a: pair.a,
+            b: pair.b,
+            op: pair.op,
+            target: pair.ans,
+            ans: String(pair.a),
+            badgeText: `❓ 앞에 숨은 넘버블럭스 찾기 (${story})`,
+            key: `bl_${pair.op}_${pair.a}_${pair.b}`
+          };
+        }
+        return {
+          subject: 'math',
+          type: 'blank_right',
+          a: pair.a,
+          b: pair.b,
+          op: pair.op,
+          target: pair.ans,
+          ans: String(pair.b),
+          badgeText: `❓ 가운데 숨은 넘버블럭스 찾기 (${story})`,
+          key: `br_${pair.op}_${pair.a}_${pair.b}`
+        };
+      }
+
+      return {
+        subject: 'math',
+        type: 'normal',
+        a: pair.a,
+        b: pair.b,
+        op: pair.op,
+        ans: String(pair.ans),
+        badgeText: story,
+        key: `norm_${pair.op}_${pair.a}_${pair.b}`
+      };
     }
 
     // 단어 내 빈칸 인덱스 정밀 선택기 (첫소리 / 모음 / 끝소리 / 레벨별 타겟 완벽 대응)
@@ -2544,7 +2856,6 @@
           if ('AEIOU'.includes(w[i].toUpperCase())) vowelIndices.push(i);
         }
         if (vowelIndices.length > 0) {
-          // Magic E 단어(끝이 E이고 모음이 2개 이상)는 앞쪽 핵심 장모음을 우선 선택
           if (vowelIndices.length > 1 && vowelIndices[vowelIndices.length - 1] === w.length - 1) {
             return vowelIndices[0];
           }
@@ -2553,51 +2864,107 @@
         return Math.min(1, w.length - 1);
       }
 
-      // 기본(표준/따라쓰기) 모드일 때 레벨별 학습 목표에 맞는 빈칸 위치 선택
+      // 표준/다양성 모드에서도 매번 똑같은 자리만 빈칸이 되지 않도록 레벨 특성과 랜덤성을 조화!
       if (lv === 6) return 0;                          // Lv.6: 첫소리(Beginning Sound)
-      if (lv >= 7 && lv <= 9) return 1;                // Lv.7~9: CVC 단모음(가운데 글자)
+      if (lv >= 7 && lv <= 9) {                        // Lv.7~9: CVC 단모음(70%) + 앞/뒤 자음(30%)으로 다양화
+        return (Math.random() < 0.7) ? 1 : [0, w.length - 1][rand(0, 1)];
+      }
       if (lv === 10) return w.length - 1;              // Lv.10: 끝소리(Ending Sound)
-      if (lv === 11) {                                 // Lv.11: 이중자음 CH, SH, TH, WH, NG
-        if (w.startsWith('SH') || w.startsWith('CH') || w.startsWith('TH') || w.startsWith('WH')) return rand(0, 1);
-        return rand(w.length - 2, w.length - 1);
+      if (lv === 11) {                                 // Lv.11: 이중자음 CH, SH, TH, WH, NG, CK
+        const up = w.toUpperCase();
+        if (up.startsWith('SH') || up.startsWith('CH') || up.startsWith('TH') || up.startsWith('WH')) return rand(0, 1);
+        return rand(Math.max(0, w.length - 2), w.length - 1);
       }
       if (lv === 12) return rand(0, 1);                // Lv.12: 자음 블렌드(앞 2글자 중 택1)
-      if (lv === 13) {                                 // Lv.13: Magic E 핵심 장모음 또는 끝의 마법 E
+      if (lv === 13) {                                 // Lv.13: Magic E 핵심 장모음 또는 끝의 마법 E 또는 첫 자음
         const innerVowels = [];
         for (let i = 0; i < w.length - 1; i++) {
-          if ('AEIOU'.includes(w[i])) innerVowels.push(i);
+          if ('AEIOU'.includes(w[i].toUpperCase())) innerVowels.push(i);
         }
         const mainVowelIdx = innerVowels.length > 0 ? innerVowels[0] : 1;
-        return (Math.random() < 0.5) ? mainVowelIdx : (w.length - 1);
+        const r = Math.random();
+        if (r < 0.45) return mainVowelIdx;
+        if (r < 0.85) return w.length - 1;
+        return 0;
       }
       if (lv === 14) {                                 // Lv.14: 연속된 이중모음(OO, EE, EA, AI, OA, OU) 위치 우선 선택
         const teamIndices = [];
         for (let i = 0; i < w.length - 1; i++) {
-          if ('AEIOU'.includes(w[i]) && 'AEIOU'.includes(w[i + 1])) {
+          if ('AEIOU'.includes(w[i].toUpperCase()) && 'AEIOU'.includes(w[i + 1].toUpperCase())) {
             teamIndices.push(i, i + 1);
             break;
           }
         }
-        if (teamIndices.length > 0) return teamIndices[rand(0, teamIndices.length - 1)];
-        for (let i = 0; i < w.length; i++) {
-          if ('AEIOU'.includes(w[i])) return i;
-        }
+        if (teamIndices.length > 0 && Math.random() < 0.8) return teamIndices[rand(0, teamIndices.length - 1)];
+        return rand(0, w.length - 1);
       }
       return rand(0, w.length - 1);
     }
 
-    // 🔤 영어(알파블럭스) Lv.1 ~ Lv.20 문제 생성 (단어 전체 글자 알파블럭스 매칭)
+    // 🔤 영어(알파블럭스) Lv.1 ~ Lv.20 문제 생성 (단어 전체 글자 알파블럭스 매칭 + 다양한 출제 유형)
     function generateEngProblem(level, engMode) {
       const lv = Number(level);
       const isTrace = (engMode === 'eng_trace');
+      const useLowerWord = (engMode === 'eng_lower') || (engMode === 'eng_variety' && Math.random() < 0.35);
 
-      // Lv.1 ~ Lv.4: 알파벳 대·소문자 짝꿍 찾기 (대문자+소문자 알파블럭스 남매 나란히 등장)
+      // Lv.1 ~ Lv.4: 알파벳 짝꿍 찾기 + 알파벳 대표 영단어 첫 글자 찾기 + 이웃 알파벳 순서 (레벨당 60개 이상 문제 풀!)
       if (lv >= 1 && lv <= 4) {
         const ranges = { 1: 'ABCDEFG', 2: 'HIJKLMN', 3: 'OPQRSTU', 4: 'VWXYZ' };
         const pool = ranges[lv];
         const ch = pool[rand(0, pool.length - 1)];
         const lower = ch.toLowerCase();
-        const askUpper = (engMode === 'eng_first');
+
+        // 출제 서브유형 결정:
+        // 1) 대문자 -> 소문자 짝꿍, 2) 소문자 -> 대문자 짝꿍, 3) 대표 영단어 첫 글자 빈칸(APPLE -> _PPLE), 4) 알파벳 이웃 순서
+        let subType = 1;
+        if (engMode === 'eng_first') subType = (Math.random() < 0.5) ? 2 : 3;
+        else if (engMode === 'eng_lower') subType = 1;
+        else {
+          const r = Math.random();
+          if (r < 0.30) subType = 1;      // 대문자 -> 소문자 짝꿍
+          else if (r < 0.55) subType = 2; // 소문자 -> 대문자 짝꿍
+          else if (r < 0.85) subType = 3; // 알파벳 대표 단어 첫소리 찾기 (A~Z 각 3단어 = 78단어 풀!)
+          else subType = 4;               // 알파벳 이웃 친구 순서
+        }
+
+        if (subType === 3 && WORD_BANKS.alphabet_words[ch]) {
+          const item = pickItem(WORD_BANKS.alphabet_words[ch]);
+          const w = useLowerWord ? item.w.toLowerCase() : item.w;
+          return {
+            subject: 'eng',
+            type: 'word_blank',
+            chars: w.split(''),
+            word: w,
+            blankIdx: 0,
+            ans: w[0],
+            meaning: `${ch}·${lower} 대표 단어: ${item.m}`,
+            trace: isTrace,
+            key: `lv14_word_${w}_0`
+          };
+        }
+
+        if (subType === 4) {
+          const fullAlpha = useLowerWord ? 'abcdefghijklmnopqrstuvwxyz' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+          const idx = Math.min(23, Math.max(0, fullAlpha.indexOf(useLowerWord ? lower : ch)));
+          const seqArr = [fullAlpha[idx], fullAlpha[idx + 1], fullAlpha[idx + 2]];
+          const bPos = rand(0, 2);
+          const ansCh = seqArr[bPos];
+          const displaySeq = [...seqArr];
+          displaySeq[bPos] = null;
+          return {
+            subject: 'eng',
+            type: 'seq_blank',
+            chars: seqArr,
+            blankIdx: bPos,
+            seq: displaySeq,
+            ans: ansCh,
+            meaning: `알파벳 이웃 친구 (${seqArr.join(' → ')})`,
+            trace: isTrace,
+            key: `lv14_seq_${idx}_${bPos}_${useLowerWord ? 'l' : 'u'}`
+          };
+        }
+
+        const askUpper = (subType === 2);
         return {
           subject: 'eng',
           type: 'letter_pair',
@@ -2611,32 +2978,35 @@
         };
       }
 
-      // Lv.5: 알파벳 A~Z 순서 빈칸 추론
+      // Lv.5: 알파벳 A~Z 순서 빈칸 추론 (대문자/소문자 + 오름차순/거꾸로 순서 + 앞/중간/뒤 빈칸 = 150개 이상 조합!)
       if (lv === 5) {
-        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const isLowerSeq = useLowerWord || (Math.random() < 0.35);
+        const isReverse = (engMode === 'eng_variety' && Math.random() < 0.3);
+        const alphabet = isLowerSeq ? 'abcdefghijklmnopqrstuvwxyz' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const idx = rand(0, 23);
-        const c1 = alphabet[idx], c2 = alphabet[idx + 1], c3 = alphabet[idx + 2];
-        const bPos = (engMode === 'eng_first') ? 0 : (engMode === 'eng_last' ? 2 : 1);
-        const seq = [c1, c2, c3];
+        const raw = [alphabet[idx], alphabet[idx + 1], alphabet[idx + 2]];
+        if (isReverse) raw.reverse();
+        const bPos = (engMode === 'eng_first') ? 0 : (engMode === 'eng_last' ? 2 : rand(0, 2));
+        const seq = [...raw];
         const ans = seq[bPos];
         seq[bPos] = null;
         return {
           subject: 'eng',
           type: 'seq_blank',
-          chars: [c1, c2, c3],
+          chars: raw,
           blankIdx: bPos,
           seq,
           ans,
-          meaning: `알파벳 순서 (${c1} → ${c2} → ${c3})`,
+          meaning: `${isLowerSeq ? '소문자' : '대문자'} 알파벳 ${isReverse ? '거꾸로 ' : ''}순서 (${raw[0]} → ${raw[1]} → ${raw[2]})`,
           trace: isTrace,
-          key: `seq_${idx}_${bPos}`
+          key: `seq_${idx}_${bPos}_${isLowerSeq ? 'l' : 'u'}_${isReverse ? 'r' : 'f'}`
         };
       }
 
-      // Lv.16: 숫자 영단어 (넘버블럭스 × 알파블럭스 전체 글자 콜라보!)
+      // Lv.16: 숫자 영단어 (넘버블럭스 × 알파블럭스 전체 글자 콜라보! 0~20 & 30~100 총 28개 단어)
       if (lv === 16) {
         const item = pickItem(WORD_BANKS.numbers_eng);
-        const w = item.w;
+        const w = useLowerWord ? item.w.toLowerCase() : item.w;
         const blankIdx = pickBlankIndex(w, lv, engMode);
         return {
           subject: 'eng',
@@ -2652,13 +3022,16 @@
         };
       }
 
-      // Lv.18: 알파블럭스 애너그램 (철자 셔플 후 순서 맞추기 - 3~5글자 다양하게 출제)
+      // Lv.18: 알파블럭스 애너그램 (철자 셔플 후 순서 맞추기 - 200개 이상의 단어 풀)
       if (lv === 18) {
-        const pool = [...WORD_BANKS.cvc_a, ...WORD_BANKS.magic_e, ...WORD_BANKS.vowel_team, ...WORD_BANKS.animals];
+        const pool = [
+          ...WORD_BANKS.cvc_a, ...WORD_BANKS.cvc_ei, ...WORD_BANKS.cvc_ou,
+          ...WORD_BANKS.digraph, ...WORD_BANKS.blends, ...WORD_BANKS.magic_e,
+          ...WORD_BANKS.vowel_team, ...WORD_BANKS.animals, ...WORD_BANKS.colors_fruits
+        ];
         const item = pickItem(pool);
-        const w = item.w;
+        const w = useLowerWord ? item.w.toLowerCase() : item.w;
         const arr = w.split('');
-        // 원래 단어와 다른 순서가 되도록 섞기
         for (let t = 0; t < 8; t++) {
           arr.sort(() => Math.random() - 0.5);
           if (arr.join('') !== w) break;
@@ -2679,10 +3052,23 @@
         };
       }
 
-      // Lv.19: 반대말 완성 (전체 글자 알파블럭스 표시)
+      // Lv.19: 반대말 완성 (28쌍의 반대말 - 빈칸 1글자 또는 전체 단어 쓰기 다양화)
       if (lv === 19) {
         const item = pickItem(WORD_BANKS.opposites);
-        const w = item.w;
+        const w = useLowerWord ? item.w.toLowerCase() : item.w;
+        if (engMode === 'eng_variety' && Math.random() < 0.35) {
+          return {
+            subject: 'eng',
+            type: 'whole_word',
+            chars: w.split(''),
+            blankIdx: -1,
+            promptText: `${item.q}`,
+            ans: w,
+            meaning: item.m,
+            trace: isTrace,
+            key: `opp_whole_${w}`
+          };
+        }
         const blankIdx = pickBlankIndex(w, lv, engMode);
         return {
           subject: 'eng',
@@ -2694,34 +3080,35 @@
           ans: w[blankIdx],
           meaning: item.m,
           trace: isTrace,
-          key: `opp_${w}`
+          key: `opp_${w}_${blankIdx}`
         };
       }
 
-      // Lv.20: 기초 영어 문장 빈칸 완성 (핵심 단어 전체 알파블럭스 표시)
+      // Lv.20: 기초 영어 문장 빈칸 완성 (28개 다양한 패턴 문장!)
       if (lv === 20) {
         const item = pickItem(WORD_BANKS.sentences);
+        const w = useLowerWord ? item.w.toLowerCase() : item.w;
         return {
           subject: 'eng',
           type: 'sentence_blank',
-          chars: item.w.split(''),
+          chars: w.split(''),
           blankIdx: -1,
           pre: item.pre,
           post: item.post,
-          ans: item.w,
+          ans: w,
           meaning: item.m,
           trace: isTrace,
-          key: `sent_${item.w}`
+          key: `sent_${item.pre}_${w}`
         };
       }
 
-      // Lv.6 ~ Lv.15, Lv.17: 파닉스 및 영단어 스펠링 블렌딩 (단어 모든 철자의 알파블럭스 출동!)
+      // Lv.6 ~ Lv.15, Lv.17: 파닉스 및 영단어 스펠링 블렌딩
       let bank = WORD_BANKS.cvc_a;
-      if (lv === 6) bank = [...WORD_BANKS.cvc_a, ...WORD_BANKS.cvc_ei, ...WORD_BANKS.cvc_ou];
+      if (lv === 6) bank = [...WORD_BANKS.cvc_a, ...WORD_BANKS.cvc_ei, ...WORD_BANKS.cvc_ou, ...WORD_BANKS.animals];
       else if (lv === 7) bank = WORD_BANKS.cvc_a;
       else if (lv === 8) bank = WORD_BANKS.cvc_ei;
       else if (lv === 9) bank = WORD_BANKS.cvc_ou;
-      else if (lv === 10) bank = [...WORD_BANKS.cvc_a, ...WORD_BANKS.cvc_ei, ...WORD_BANKS.cvc_ou];
+      else if (lv === 10) bank = [...WORD_BANKS.cvc_a, ...WORD_BANKS.cvc_ei, ...WORD_BANKS.cvc_ou, ...WORD_BANKS.digraph];
       else if (lv === 11) bank = WORD_BANKS.digraph;
       else if (lv === 12) bank = WORD_BANKS.blends;
       else if (lv === 13) bank = WORD_BANKS.magic_e;
@@ -2730,7 +3117,28 @@
       else if (lv === 17) bank = WORD_BANKS.colors_fruits;
 
       const item = pickItem(bank);
-      const w = item.w;
+      const w = useLowerWord ? item.w.toLowerCase() : item.w;
+
+      // 🎲 영어 종합 믹스(eng_variety) 모드일 때 25% 확률로 알파블럭스 셔플 애너그램 문제로 출제!
+      if (engMode === 'eng_variety' && Math.random() < 0.25 && w.length <= 6) {
+        const arr = w.split('');
+        for (let t = 0; t < 6; t++) {
+          arr.sort(() => Math.random() - 0.5);
+          if (arr.join('') !== w) break;
+        }
+        return {
+          subject: 'eng',
+          type: 'whole_word',
+          chars: arr,
+          blankIdx: -1,
+          promptText: `${arr.join(' · ')} →`,
+          ans: w,
+          meaning: `🧩 철자 순서 맞추기: ${item.m}`,
+          trace: isTrace,
+          key: `var_anagram_${w}`
+        };
+      }
+
       const blankIdx = pickBlankIndex(w, lv, engMode);
 
       return {
@@ -2742,7 +3150,7 @@
         ans: w[blankIdx],
         meaning: item.m,
         trace: isTrace,
-        key: `word_${w}`
+        key: `word_${w}_${blankIdx}`
       };
     }
 
@@ -2752,6 +3160,7 @@
     let currentSubject = 'math'; // 'math' | 'eng'
     let currentProblems = [];
     let wrongProblems = [];
+    let recentProblemKeys = [];  // 연속 학습지 생성 시 이전 시트와 중복되지 않도록 최근 35개 문제 키 기억!
 
     function populateSelectors() {
       const levelSelect = document.getElementById('levelSelect');
@@ -2771,9 +3180,13 @@
       opSelect.innerHTML = '';
       if (currentSubject === 'math') {
         const mathOps = [
-          { v: 'mix', t: '덧셈·뺄셈 (레벨 맞춤 표준)' },
-          { v: 'count', t: '🔢 블록 개수 세기 & 숫자 쓰기 (유아 기초)' },
-          { v: 'seq', t: '🚂 숫자 기차 순서 맞추기 (n → □ → n+2)' },
+          { v: 'mix', t: '덧셈·뺄셈·사고력 (레벨 맞춤 표준)' },
+          { v: 'variety', t: '🎲 다양한 유형 종합 믹스 (연산+가르기+비교+기차)' },
+          { v: 'count', t: '🔢 블록 개수 세기 & ±1 이웃 수 (유아 기초)' },
+          { v: 'seq', t: '🚂 숫자 기차 순서 맞추기 (오름·내림·뛰어세기)' },
+          { v: 'bond', t: '🍒 수 모으기와 가르기 집중 (Number Bonds)' },
+          { v: 'compare', t: '⚖️ 누가 더 클까요? 크기 비교 (> · < · =)' },
+          { v: 'blank', t: '❓ 빈칸 추론 집중 (□ + b = c / a + □ = c)' },
           { v: 'add', t: '덧셈 집중 (+)' },
           { v: 'sub', t: '뺄셈 집중 (-)' },
           { v: 'mul', t: '곱셈 집중 (×)' },
@@ -2789,8 +3202,10 @@
         });
       } else {
         const engOps = [
-          { v: 'eng_all', t: '파닉스·스펠링 빈칸 (표준)' },
-          { v: 'eng_trace', t: '따라쓰기 가이드 (Tracing)' },
+          { v: 'eng_all', t: '파닉스·스펠링 빈칸 (레벨 맞춤 표준)' },
+          { v: 'eng_variety', t: '🎲 다양한 유형 종합 믹스 (대·소문자+애너그램+빈칸)' },
+          { v: 'eng_trace', t: '✏️ 따라쓰기 가이드 (Tracing)' },
+          { v: 'eng_lower', t: '🔤 소문자 영단어 스펠링 집중 (cat, banana...)' },
           { v: 'eng_first', t: '첫소리(앞글자) 집중' },
           { v: 'eng_vowel', t: '모음(가운데 글자) 집중' },
           { v: 'eng_last', t: '끝소리(마지막 글자) 집중' }
@@ -2826,12 +3241,18 @@
           const opMap = { '+': '더하기', '-': '빼기', '×': '곱하기', '÷': '나누기' };
           let text = '';
           if (prob.type === 'count_blocks') {
-            text = `넘버블럭스의 블록은 모두 몇 개일까요? 하나씩 세어 보고 숫자를 써 보세요!`;
+            text = `${prob.badgeText || ''} ${prob.promptLabel ? prob.promptLabel.replace('→', '') : '블록은 모두 몇 개일까요?'}`;
           } else if (prob.type === 'seq_math') {
             const spokenSeq = prob.seq.map((n, i) => (i === prob.blankIdx ? '빈칸' : String(n))).join(', ');
             text = `숫자 기차 순서예요! ${spokenSeq}! 빈칸에 들어갈 숫자는 몇일까요?`;
+          } else if (prob.type === 'compare') {
+            text = `${prob.a} 와 ${prob.b} 중 어느 쪽이 더 클까요? 부등호나 등호를 써 보세요!`;
+          } else if (prob.type === 'number_bond') {
+            text = prob.badgeText ? prob.badgeText.replace('🍒 ', '') : `${prob.a} 와 ${prob.b} 수 모으기 가르기 문제예요!`;
           } else if (prob.type === 'triple') {
             text = `${prob.a} ${opMap[prob.op1] || prob.op1} ${prob.b} ${opMap[prob.op2] || prob.op2} ${prob.c} 는 얼마일까요?`;
+          } else if (prob.type === 'blank_left') {
+            text = `몇 ${opMap[prob.op] || prob.op} ${prob.b} 은 ${prob.target} 일까요?`;
           } else if (prob.type === 'blank_right') {
             text = `${prob.a} ${opMap[prob.op] || prob.op} 몇은 ${prob.target} 일까요?`;
           } else {
@@ -2853,8 +3274,8 @@
           } else if (prob.type === 'sentence_blank') {
             engText = `${prob.pre} ${prob.ans}${prob.post}`;
           } else {
-            const targetWord = prob.word || prob.ans || '';
-            const spelled = targetWord.split('').join(', ');
+            const targetWord = (prob.word || prob.ans || '').toLowerCase();
+            const spelled = targetWord.toUpperCase().split('').join(', ');
             engText = `${targetWord}! ${spelled}. ${targetWord}!`;
           }
           const utter = new SpeechSynthesisUtterance(engText);
@@ -2869,7 +3290,7 @@
     // 정답 박스 공통 HTML 빌더 (키보드 input + 태블릿 펜 canvas + 개별 지우개 + 정답 힌트 + 두 자리 수 가이드)
     function buildAnswerBoxHTML(ans, opts = {}) {
       const numVal = Number(ans);
-      const isTwoDigitMath = opts.numeric && !isNaN(numVal) && numVal >= 10 && numVal <= 99;
+      const isTwoDigitMath = opts.numeric && !isNaN(numVal) && String(ans).trim() !== '' && numVal >= 10 && numVal <= 99;
       const extraClass = [opts.extraClass || '', isTwoDigitMath ? 'two-digit-guide' : ''].filter(Boolean).join(' ');
       const styleAttr = opts.style ? `style="${opts.style}"` : '';
       const maxLen = opts.maxLen || 3;
@@ -3068,8 +3489,12 @@
       let formulaHtml = '';
 
       if (prob.subject === 'math') {
+        const storyBadge = prob.badgeText
+          ? `<span class="eng-meaning-badge" style="color:#0369A1; background:#E0F2FE; border-color:#BAE6FD;">${prob.badgeText}</span>`
+          : '';
+
         if (prob.type === 'count_blocks') {
-          // 유아 기초: 넘버블럭스 블록 개수 세기 & 숫자 쓰기
+          // 유아 기초: 넘버블럭스 블록 개수 세기 & ±1 이웃 수 찾기
           visualHtml = `
             <div class="visual-area" style="gap:10px;">
               ${buildNumberblockSVG(prob.a, svgScale * 1.12)}
@@ -3078,16 +3503,16 @@
           formulaHtml = `
             <div class="formula-area">
               <div class="eng-word-box">
-                <span class="eng-meaning-badge" style="color:#0284C7; background:#E0F2FE; border-color:#BAE6FD;">🔢 블록을 하나씩 세어 보아요!</span>
+                <span class="eng-meaning-badge" style="color:#0284C7; background:#E0F2FE; border-color:#BAE6FD;">${prob.badgeText || '🔢 블록을 하나씩 세어 보아요!'}</span>
                 <div class="eng-letters-row">
-                  <span class="formula-text" style="font-size:23px;">블록은 모두 몇 개? →</span>
+                  <span class="formula-text" style="font-size:22px;">${prob.promptLabel || '블록은 모두 몇 개? →'}</span>
                   ${buildAnswerBoxHTML(prob.ans, { numeric: true, maxLen: 3 })}
                 </div>
               </div>
             </div>
           `;
         } else if (prob.type === 'seq_math') {
-          // 유아 기초: 숫자 기차 순서 맞추기 (n1 → □ → n3)
+          // 유아 기초: 숫자 기차 순서 맞추기 (오름차순 / 내림차순 / 뛰어세기)
           const seqSvgHtml = prob.seq.map((numVal, i) => {
             if (i === prob.blankIdx) {
               return `
@@ -3115,13 +3540,98 @@
           formulaHtml = `
             <div class="formula-area">
               <div class="eng-word-box">
-                <span class="eng-meaning-badge" style="color:#D97706; background:#FEF3C7; border-color:#FDE68A;">🚂 숫자 기차 순서 맞추기</span>
+                <span class="eng-meaning-badge" style="color:#D97706; background:#FEF3C7; border-color:#FDE68A;">${prob.badgeText || '🚂 숫자 기차 순서 맞추기'}</span>
                 <div class="eng-letters-row">
                   ${seqFormulaHtml}
                 </div>
               </div>
             </div>
           `;
+        } else if (prob.type === 'compare') {
+          // ⚖️ 두 수의 크기 비교 (> , < , =)
+          const sc = (prob.a > 20 || prob.b > 20) ? (svgScale * 0.8) : (svgScale * 0.9);
+          visualHtml = `
+            <div class="visual-area" style="gap:8px;">
+              ${buildNumberblockSVG(prob.a, sc)}
+              <div class="mystery-nb-wrap" title="어느 쪽이 더 클까요? (> , < , =)">
+                <div class="mystery-nb-box" style="width:44px; height:44px; font-size:22px;">?</div>
+                <div class="reveal-nb-svg">
+                  <div style="width:44px; height:44px; border-radius:12px; background:#EDE9FE; border:3px solid #7C3AED; color:#6D28D9; font-weight:900; font-size:26px; display:flex; align-items:center; justify-content:center;">${prob.ans}</div>
+                </div>
+              </div>
+              ${buildNumberblockSVG(prob.b, sc)}
+            </div>
+          `;
+          formulaHtml = `
+            <div class="formula-area">
+              <div class="eng-word-box">
+                <span class="eng-meaning-badge" style="color:#7C3AED; background:#F3E8FF; border-color:#DDD6FE;">${prob.badgeText || '⚖️ 크기 비교 (> · < · =)'}</span>
+                <div class="eng-letters-row" style="gap:10px;">
+                  <span class="formula-text">${prob.a}</span>
+                  ${buildAnswerBoxHTML(prob.ans, { extraClass: 'blank-middle', maxLen: 2 })}
+                  <span class="formula-text">${prob.b}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (prob.type === 'number_bond') {
+          // 🍒 수 모으기와 가르기 (Number Bonds)
+          const sc = (prob.whole > 20) ? (svgScale * 0.76) : (svgScale * 0.84);
+          if (prob.bondMode === 'gather') {
+            visualHtml = `
+              <div class="visual-area" style="gap:6px;">
+                ${buildNumberblockSVG(prob.a, sc)}
+                <span class="operator-icon" style="font-size:18px;">&amp;</span>
+                ${buildNumberblockSVG(prob.b, sc)}
+                <span class="operator-icon" style="font-size:20px;">➔</span>
+                <div class="mystery-nb-wrap">
+                  <div class="mystery-nb-box">?</div>
+                  <div class="reveal-nb-svg">${buildNumberblockSVG(prob.whole, sc)}</div>
+                </div>
+              </div>
+            `;
+            formulaHtml = `
+              <div class="formula-area">
+                <div class="eng-word-box">
+                  <span class="eng-meaning-badge" style="color:#BE123C; background:#FFE4E6; border-color:#FECDD3;">${prob.badgeText}</span>
+                  <div class="eng-letters-row" style="gap:8px;">
+                    <div class="letter-tile">${prob.a}</div>
+                    <span class="operator-icon" style="font-size:20px;">+</span>
+                    <div class="letter-tile">${prob.b}</div>
+                    <span class="operator-icon" style="font-size:20px;">➔</span>
+                    ${buildAnswerBoxHTML(prob.ans, { numeric: true, maxLen: 3 })}
+                  </div>
+                </div>
+              </div>
+            `;
+          } else {
+            visualHtml = `
+              <div class="visual-area" style="gap:6px;">
+                ${buildNumberblockSVG(prob.whole, sc)}
+                <span class="operator-icon" style="font-size:20px;">➔</span>
+                ${buildNumberblockSVG(prob.a, sc)}
+                <span class="operator-icon" style="font-size:18px;">&amp;</span>
+                <div class="mystery-nb-wrap">
+                  <div class="mystery-nb-box">?</div>
+                  <div class="reveal-nb-svg">${buildNumberblockSVG(prob.b, sc)}</div>
+                </div>
+              </div>
+            `;
+            formulaHtml = `
+              <div class="formula-area">
+                <div class="eng-word-box">
+                  <span class="eng-meaning-badge" style="color:#BE123C; background:#FFE4E6; border-color:#FECDD3;">${prob.badgeText}</span>
+                  <div class="eng-letters-row" style="gap:8px;">
+                    <div class="letter-tile">${prob.whole}</div>
+                    <span class="operator-icon" style="font-size:20px;">➔</span>
+                    <div class="letter-tile">${prob.a}</div>
+                    <span class="operator-icon" style="font-size:18px;">,</span>
+                    ${buildAnswerBoxHTML(prob.ans, { numeric: true, maxLen: 3 })}
+                  </div>
+                </div>
+              </div>
+            `;
+          }
         } else if (prob.type === 'triple') {
           visualHtml = `
             <div class="visual-area" style="gap:5px;">
@@ -3134,33 +3644,70 @@
           `;
           formulaHtml = `
             <div class="formula-area">
-              <span class="formula-text">${prob.a} ${prob.op1} ${prob.b} ${prob.op2} ${prob.c} =</span>
-              ${buildAnswerBoxHTML(prob.ans, { numeric: true, maxLen: 3 })}
+              <div class="eng-word-box">
+                ${storyBadge}
+                <div class="eng-letters-row">
+                  <span class="formula-text">${prob.a} ${prob.op1} ${prob.b} ${prob.op2} ${prob.c} =</span>
+                  ${buildAnswerBoxHTML(prob.ans, { numeric: true, maxLen: 3 })}
+                </div>
+              </div>
             </div>
           `;
-        } else if (prob.type === 'blank_right') {
-          // 빈칸 추론(Lv.5, Lv.20): 정답 보기 클릭 시 ? 박스가 실제 정답 넘버블럭스로 변신!
+        } else if (prob.type === 'blank_left') {
+          // 앞자리 빈칸 추론 (□ + b = target)
+          const sc = (prob.a > 20 || prob.b > 20 || prob.target > 20) ? (svgScale * 0.76) : (svgScale * 0.82);
           visualHtml = `
             <div class="visual-area" style="gap:6px;">
-              ${buildNumberblockSVG(prob.a, svgScale * 0.8)}
-              <span class="operator-icon" style="font-size:22px;">${prob.op}</span>
               <div class="mystery-nb-wrap" title="빈칸에 들어갈 넘버블럭스는 누구일까요?">
                 <div class="mystery-nb-box">?</div>
-                <div class="reveal-nb-svg">${buildNumberblockSVG(Number(prob.ans), svgScale * 0.8)}</div>
+                <div class="reveal-nb-svg">${buildNumberblockSVG(Number(prob.ans), sc)}</div>
               </div>
+              <span class="operator-icon" style="font-size:22px;">${prob.op}</span>
+              ${buildNumberblockSVG(prob.b, sc)}
               <span class="operator-icon" style="font-size:22px;">=</span>
-              ${buildNumberblockSVG(prob.target, svgScale * 0.8)}
+              ${buildNumberblockSVG(prob.target, sc)}
             </div>
           `;
           formulaHtml = `
             <div class="formula-area">
-              <span class="formula-text">${prob.a} ${prob.op}</span>
-              ${buildAnswerBoxHTML(prob.ans, { extraClass: 'blank-middle', numeric: true, maxLen: 3 })}
-              <span class="formula-text">= ${prob.target}</span>
+              <div class="eng-word-box">
+                ${storyBadge}
+                <div class="eng-letters-row">
+                  ${buildAnswerBoxHTML(prob.ans, { extraClass: 'blank-middle', numeric: true, maxLen: 3 })}
+                  <span class="formula-text">${prob.op} ${prob.b} = ${prob.target}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (prob.type === 'blank_right') {
+          // 가운데 빈칸 추론 (a + □ = target)
+          const sc = (prob.a > 20 || prob.b > 20 || prob.target > 20) ? (svgScale * 0.76) : (svgScale * 0.82);
+          visualHtml = `
+            <div class="visual-area" style="gap:6px;">
+              ${buildNumberblockSVG(prob.a, sc)}
+              <span class="operator-icon" style="font-size:22px;">${prob.op}</span>
+              <div class="mystery-nb-wrap" title="빈칸에 들어갈 넘버블럭스는 누구일까요?">
+                <div class="mystery-nb-box">?</div>
+                <div class="reveal-nb-svg">${buildNumberblockSVG(Number(prob.ans), sc)}</div>
+              </div>
+              <span class="operator-icon" style="font-size:22px;">=</span>
+              ${buildNumberblockSVG(prob.target, sc)}
+            </div>
+          `;
+          formulaHtml = `
+            <div class="formula-area">
+              <div class="eng-word-box">
+                ${storyBadge}
+                <div class="eng-letters-row">
+                  <span class="formula-text">${prob.a} ${prob.op}</span>
+                  ${buildAnswerBoxHTML(prob.ans, { extraClass: 'blank-middle', numeric: true, maxLen: 3 })}
+                  <span class="formula-text">= ${prob.target}</span>
+                </div>
+              </div>
             </div>
           `;
         } else {
-          // 일반 사칙연산: [A블록] + [B블록] = [? 미스테리 블록 -> 정답 보기 시 합체된 결과 넘버블럭스 등장!]
+          // 일반 사칙연산: [A블록] + [B블록] = [? 미스테리 블록 -> 정답 보기 시 합체된 결과 넘버블럭스 등장!] + 귀여운 스토리 배지
           const ansNum = Number(prob.ans);
           const sc = (prob.a > 20 || prob.b > 20 || ansNum > 20) ? (svgScale * 0.76) : (svgScale * 0.86);
           visualHtml = `
@@ -3177,8 +3724,13 @@
           `;
           formulaHtml = `
             <div class="formula-area">
-              <span class="formula-text">${prob.a} ${prob.op} ${prob.b} =</span>
-              ${buildAnswerBoxHTML(prob.ans, { numeric: true, maxLen: 3 })}
+              <div class="eng-word-box">
+                ${storyBadge}
+                <div class="eng-letters-row">
+                  <span class="formula-text">${prob.a} ${prob.op} ${prob.b} =</span>
+                  ${buildAnswerBoxHTML(prob.ans, { numeric: true, maxLen: 3 })}
+                </div>
+              </div>
             </div>
           `;
         }
@@ -3403,18 +3955,24 @@
       } else {
         currentProblems = [];
         const usedKeys = new Set();
+        const recentSet = new Set(recentProblemKeys);
         for (let i = 0; i < count; i++) {
           let p = null;
-          for (let attempt = 0; attempt < 25; attempt++) {
+          let chosenKey = '';
+          for (let attempt = 0; attempt < 40; attempt++) {
             p = (currentSubject === 'math')
               ? generateMathProblem(level, opMode)
               : generateEngProblem(level, opMode);
             const pKey = p.key || `${p.subject}_${p.type}_${p.a}_${p.b}_${p.c || ''}_${p.op || ''}_${p.word || ''}_${p.ans}`;
-            if (!usedKeys.has(pKey)) {
-              usedKeys.add(pKey);
+            chosenKey = pKey;
+            // 현재 시트 중복 방지 + 처음 28번 시도 동안은 직전 시트들(recentSet)과의 중복도 철저히 배제!
+            if (!usedKeys.has(pKey) && (attempt >= 28 || !recentSet.has(pKey))) {
               break;
             }
           }
+          usedKeys.add(chosenKey);
+          recentProblemKeys.push(chosenKey);
+          if (recentProblemKeys.length > 35) recentProblemKeys.shift();
           currentProblems.push(p);
         }
       }
