@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+  <title>넘버블럭스 초등 수학 학습지 (Lv.1~Lv.10)</title>
+  <style>
+    :root {
+      --bg-page: #F1F5F9;
+      --primary: #EF4444;
+      --secondary: #0EA5E9;
+      --success: #10B981;
+      --dark: #0F172A;
+      --card-bg: #FFFFFF;
+      --card-border: #E2E8F0;
+      --accent: #F59E0B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px 40px;
+      min-height: 100vh;
+    }
+
+    /* 상단 설정 바 (PC & 모바일 반응형) */
+    .toolbar {
+      background: #FFFFFF;
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+      width: 100%;
+      max-width: 794px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .toolbar-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.2fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 680px) {
+      .toolbar-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ctrl-box {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .ctrl-box label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 2px solid #CBD5E1;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    select:focus, input[type="text"]:focus {
+      border-color: var(--secondary);
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 540px) {
+      .action-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 11px 16px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.1s ease;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-new {
+      background: #10B981;
+      box-shadow: 0 3px 0 #059669;
+    }
+    .btn-new:hover { background: #059669; }
+
+    .btn-print {
+      background: #0284C7;
+      box-shadow: 0 3px 0 #0369A1;
+    }
+    .btn-print:hover { background: #0369A1; }
+
+    .btn-ans {
+      background: #64748B;
+      box-shadow: 0 3px 0 #475569;
+    }
+    .btn-ans.active {
+      background: #E11D48;
+      box-shadow: 0 3px 0 #BE123C;
+    }
+
+    /* A4 스케일링 래퍼 (모바일 반응형 핵심) */
+    .sheet-wrapper {
+      position: relative;
+      width: 794px;
+      height: 1122px;
+      transform-origin: top center;
+      transition: transform 0.15s ease;
+      margin: 0 auto;
+    }
+
+    /* A4 실제 인쇄 시트 (794px * 1122px - A4 96 DPI 비율) */
+    .a4-sheet {
+      width: 794px;
+      height: 1122px;
+      background: #FFFFFF;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      border-radius: 8px;
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 학습지 헤더 */
+    .sheet-header {
+      border-bottom: 3px solid #E2E8F0;
+      padding-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #DC2626;
+      background: #FEE2E2;
+      padding: 3px 10px;
+      border-radius: 999px;
+      width: fit-content;
+    }
+
+    .main-title {
+      font-size: 26px;
+      font-weight: 900;
+      color: #0F172A;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      font-weight: 700;
+      color: #64748B;
+    }
+
+    .meta-box {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .meta-field {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .line-input {
+      border: none;
+      border-bottom: 2px solid #94A3B8;
+      width: 85px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #0F172A;
+      padding: 2px 4px;
+      background: transparent;
+    }
+
+    .score-badge {
+      width: 52px;
+      height: 52px;
+      border: 2px dashed #CBD5E1;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      color: #94A3B8;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    /* 문제 목록 컨테이너 (6문제 또는 8문제 그리드) */
+    .problems-grid {
+      display: grid;
+      gap: 14px;
+      flex: 1;
+      margin: 18px 0;
+    }
+
+    .grid-6 {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(3, 1fr);
+    }
+
+    .grid-8 {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, 1fr);
+    }
+
+    /* 개별 문제 카드 */
+    .problem-card {
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+    }
+
+    .card-num {
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      font-size: 13px;
+      font-weight: 900;
+      color: #94A3B8;
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: #EDF2F7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 넘버블럭스 캐릭터 시각화 영역 */
+    .visual-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 140px;
+      flex-shrink: 0;
+      padding-top: 4px;
+    }
+
+    .operator-icon {
+      font-size: 18px;
+      font-weight: 900;
+      color: #64748B;
+    }
+
+    /* 수식 및 정답 입력 영역 */
+    .formula-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      font-size: 26px;
+      font-weight: 900;
+      color: #1E293B;
+      letter-spacing: 0.5px;
+    }
+
+    .formula-text {
+      white-space: nowrap;
+    }
+
+    .answer-box {
+      width: 58px;
+      height: 58px;
+      border: 3px solid #0EA5E9;
+      background: #FFFFFF;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: #0284C7;
+      position: relative;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .answer-box.blank-middle {
+      border-color: #F59E0B;
+      color: #D97706;
+    }
+
+    /* 정답 미리보기 힌트 (기본은 투명) */
+    .answer-hint {
+      display: none;
+      color: #E11D48;
+      font-size: 24px;
+    }
+
+    body.show-answers .answer-hint {
+      display: block;
+    }
+
+    /* 하단 푸터 */
+    .sheet-footer {
+      border-top: 2px dashed #E2E8F0;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #94A3B8;
+    }
+
+    .footer-cheer {
+      color: #0EA5E9;
+      font-weight: 800;
+    }
+
+    /* =========================================
+       A4 인쇄 최적화 (@media print)
+       ========================================= */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+      body {
+        background: #FFFFFF !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        min-height: auto !important;
+        display: block !important;
+      }
+
+      .toolbar {
+        display: none !important;
+      }
+
+      .sheet-wrapper {
+        width: 794px !important;
+        height: 1122px !important;
+        transform: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+      }
+
+      .a4-sheet {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: none !important;
+        width: 794px !important;
+        height: 1122px !important;
+        padding: 36px 40px !important;
+      }
+
+      .btn, select, .score-badge, .line-input {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 설정 및 액션 툴바 (PC & 모바일 반응형) -->
+  <header class="toolbar">
+    <div class="toolbar-grid">
+      <div class="ctrl-box">
+        <label for="levelSelect">⭐ 학습 단계 (Lv.1 ~ Lv.10)</label>
+        <select id="levelSelect">
+          <option value="1">Lv.1 - 5 이하 수 모으기와 가르기 (1~4)</option>
+          <option value="2" selected>Lv.2 - 10 이하 한 자리 덧셈</option>
+          <option value="3">Lv.3 - 10 이하 한 자리 뺄셈</option>
+          <option value="4">Lv.4 - 10 모으기 (합이 10인 짝꿍 수)</option>
+          <option value="5">Lv.5 - 10이 넘는 한 자리 덧셈 (받아올림)</option>
+          <option value="6">Lv.6 - 두 자리 + 한 자리 (받아올림 없음)</option>
+          <option value="7">Lv.7 - 십 몇에서 빼기 (11~18 뺄셈)</option>
+          <option value="8">Lv.8 - 20 이하 덧셈과 뺄셈 종합</option>
+          <option value="9">Lv.9 - 세 수의 연산 (3+4+2 / 9-3+2)</option>
+          <option value="10">Lv.10 - 빈칸 채우기 도전 (A + □ = C)</option>
+        </select>
+      </div>
+
+      <div class="ctrl-box">
+        <label for="countSelect">📝 문제 수</label>
+        <select id="countSelect">
+          <option value="6" selected>6문제 (큼직하게)</option>
+          <option value="8">8문제 (알차게)</option>
+        </select>
+      </div>
+
+      <div class="ctrl-box">
+        <label for="titleCustom">🏷️ 학습지 제목</label>
+        <input type="text" id="titleCustom" value="넘버블럭스 수학 교실" maxlength="15">
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn btn-new" id="btnGenerate">
+        <span>🎲 새 문제 만들기</span>
+      </button>
+      <button class="btn btn-print" id="btnPrint">
+        <span>🖨️ A4 인쇄 / PDF 저장</span>
+      </button>
+      <button class="btn btn-ans" id="btnToggleAns">
+        <span>👀 정답 보기/숨김</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 모바일 반응형 스케일링 래퍼 -->
+  <main class="sheet-wrapper" id="sheetWrapper">
+    <div class="a4-sheet" id="a4Sheet">
+      
+      <!-- 학습지 헤더 -->
+      <section class="sheet-header">
+        <div class="title-group">
+          <div class="brand-tag">
+            <span>●</span> NUMBERBLOCKS MATH
+          </div>
+          <h1 class="main-title" id="displayTitle">넘버블럭스 수학 교실</h1>
+          <p class="subtitle" id="displaySubtitle">Lv.2 - 10 이하 한 자리 덧셈</p>
+        </div>
+
+        <div class="meta-box">
+          <div class="meta-field">
+            날짜: <span class="line-input" id="currentDate"></span>
+          </div>
+          <div class="meta-field">
+            이름: <span class="line-input"></span>
+          </div>
+          <div class="score-badge">
+            참 잘했어요<br>⭐
+          </div>
+        </div>
+      </section>
+
+      <!-- 문제 카드 목록 -->
+      <section class="problems-grid grid-6" id="problemsContainer">
+        <!-- JS로 동적 생성 -->
+      </section>
+
+      <!-- 학습지 푸터 -->
+      <footer class="sheet-footer">
+        <div>Numberblocks © Learning Blocks Ltd. | 창의력과 수 감각을 기르는 매일 수학</div>
+        <div class="footer-cheer">오늘도 스스로 멋지게 해냈어요! 👍</div>
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    /* =====================================================================
+       1. 모바일 & PC 반응형 A4 스케일러 (fitA4ToScreen)
+       - 794px * 1122px 크기를 화면 너비에 맞게 깨짐 없이 부드럽게 축소
+       ===================================================================== */
+    function fitA4ToScreen() {
+      const wrapper = document.getElementById('sheetWrapper');
+      if (!wrapper) return;
+
+      const screenWidth = window.innerWidth;
+      const targetWidth = 794;
+      const targetHeight = 1122;
+      const padding = 24; // 좌우 여백
+
+      if (screenWidth < targetWidth + padding) {
+        const scale = (screenWidth - padding) / targetWidth;
+        wrapper.style.transform = `scale(${scale})`;
+        wrapper.style.width = `${targetWidth * scale}px`;
+        wrapper.style.height = `${targetHeight * scale}px`;
+        wrapper.style.marginBottom = '20px';
+      } else {
+        wrapper.style.transform = 'none';
+        wrapper.style.width = `${targetWidth}px`;
+        wrapper.style.height = `${targetHeight}px`;
+        wrapper.style.marginBottom = '0';
+      }
+    }
+
+    window.addEventListener('resize', fitA4ToScreen);
+    window.addEventListener('orientationchange', fitA4ToScreen);
+    document.addEventListener('DOMContentLoaded', fitA4ToScreen);
+
+    /* =====================================================================
+       2. 순수 내장형 SVG 넘버블럭스 렌더링 엔진 (외부 라이브러리/이미지 없음)
+       - 1~10번 캐릭터별 공식 고유 색상 및 얼굴/눈/표정 벡터화
+       ===================================================================== */
+    const BLOCK_COLORS = {
+      1: '#EF4444', // Red
+      2: '#F97316', // Orange
+      3: '#FACC15', // Yellow
+      4: '#22C55E', // Green
+      5: '#06B6D4', // Cyan/Sky
+      6: '#6366F1', // Indigo
+      7: '#A855F7', // Rainbow/Purple
+      8: '#EC4899', // Pink/Magenta (Octoblock)
+      9: '#94A3B8', // Grey/Slate
+      10: '#FFFFFF' // White with Red border
+    };
+
+    function renderNumberblockSVG(num, blockUnit = 16) {
+      const n = Math.max(1, Math.min(10, Number(num) || 1));
+      const col = BLOCK_COLORS[n] || '#3B82F6';
+
+      // 형태별 그리드 결정 (가로 x 세로)
+      let wBlocks = 1;
+      let hBlocks = n;
+
+      if (n === 4) { wBlocks = 2; hBlocks = 2; }
+      else if (n === 6) { wBlocks = 2; hBlocks = 3; }
+      else if (n === 8) { wBlocks = 2; hBlocks = 4; }
+      else if (n === 9) { wBlocks = 3; hBlocks = 3; }
+      else if (n === 10) { wBlocks = 2; hBlocks = 5; }
+      else if (n > 5) { wBlocks = 2; hBlocks = Math.ceil(n / 2); }
+
+      const svgW = wBlocks * blockUnit + 4;
+      const svgH = hBlocks * blockUnit + 4;
+
+      let blocksHtml = '';
+      let blockCount = 0;
+
+      // 7번 무지개 블록용 컬러 배열
+      const rainbow = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#6366F1', '#A855F7'];
+
+      for (let r = hBlocks - 1; r >= 0; r--) {
+        for (let c = 0; c < wBlocks; c++) {
+          if (blockCount >= n) break;
+          const x = 2 + c * blockUnit;
+          const y = 2 + r * blockUnit;
+          const fill = (n === 7) ? rainbow[blockCount % 7] : col;
+          const stroke = (n === 10) ? '#DC2626' : 'rgba(0,0,0,0.25)';
+          const strokeW = (n === 10) ? '2' : '1.5';
+
+          blocksHtml += `
+            <rect x="${x}" y="${y}" width="${blockUnit}" height="${blockUnit}" rx="3"
+                  fill="${fill}" stroke="${stroke}" stroke-width="${strokeW}"/>
+            <rect x="${x + 2}" y="${y + 2}" width="${blockUnit - 4}" height="${blockUnit - 4}" rx="2"
+                  fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+          `;
+          blockCount++;
+        }
+      }
+
+      // 얼굴 및 특징 (상단 블록에 눈/입 배치)
+      let faceHtml = '';
+      const topX = 2;
+      const topY = 2;
+      const faceW = wBlocks * blockUnit;
+      const centerX = topX + faceW / 2;
+      const centerY = topY + blockUnit / 2;
+
+      if (n === 1) {
+        // One: 커다란 외눈박이, 귀여운 미소
+        faceHtml = `
+          <circle cx="${centerX}" cy="${centerY - 1}" r="4" fill="#FFFFFF" stroke="#000" stroke-width="1"/>
+          <circle cx="${centerX}" cy="${centerY - 1}" r="2" fill="#000000"/>
+          <path d="M ${centerX - 3} ${centerY + 3} Q ${centerX} ${centerY + 6} ${centerX + 3} ${centerY + 3}"
+                stroke="#000" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        `;
+      } else if (n === 2) {
+        // Two: 주황색 + 안경
+        faceHtml = `
+          <rect x="${centerX - 6}" y="${centerY - 3}" width="5" height="4" rx="1.5" fill="#FFF" stroke="#6D28D9" stroke-width="1"/>
+          <rect x="${centerX + 1}" y="${centerY - 3}" width="5" height="4" rx="1.5" fill="#FFF" stroke="#6D28D9" stroke-width="1"/>
+          <line x1="${centerX - 1}" y1="${centerY - 1}" x2="${centerX + 1}" y2="${centerY - 1}" stroke="#6D28D9" stroke-width="1.2"/>
+          <circle cx="${centerX - 3.5}" cy="${centerY - 1}" r="1" fill="#000"/>
+          <circle cx="${centerX + 3.5}" cy="${centerY - 1}" r="1" fill="#000"/>
+          <path d="M ${centerX - 2.5} ${centerY + 3.5} Q ${centerX} ${centerY + 5.5} ${centerX + 2.5} ${centerY + 3.5}"
+                stroke="#000" stroke-width="1" fill="none" stroke-linecap="round"/>
+        `;
+      } else if (n === 3) {
+        // Three: 노란색 삼색 단추
+        faceHtml = `
+          <circle cx="${centerX - 3.5}" cy="${centerY - 2}" r="1.8" fill="#FFF" stroke="#000" stroke-width="0.8"/>
+          <circle cx="${centerX + 3.5}" cy="${centerY - 2}" r="1.8" fill="#FFF" stroke="#000" stroke-width="0.8"/>
+          <circle cx="${centerX - 3.5}" cy="${centerY - 2}" r="1" fill="#000"/>
+          <circle cx="${centerX + 3.5}" cy="${centerY - 2}" r="1" fill="#000"/>
+          <path d="M ${centerX - 3} ${centerY + 2.5} Q ${centerX} ${centerY + 5.5} ${centerX + 3} ${centerY + 2.5}"
+                stroke="#000" stroke-width="1" fill="none" stroke-linecap="round"/>
+        `;
+      } else if (n === 4) {
+        // Four: 정사각형 눈썹
+        faceHtml = `
+          <rect x="${centerX - 5}" y="${centerY - 2.5}" width="3.5" height="3.5" fill="#FFF" stroke="#000" stroke-width="0.8"/>
+          <rect x="${centerX + 1.5}" y="${centerY - 2.5}" width="3.5" height="3.5" fill="#FFF" stroke="#000" stroke-width="0.8"/>
+          <circle cx="${centerX - 3.2}" cy="${centerY - 0.7}" r="0.9" fill="#000"/>
+          <circle cx="${centerX + 3.2}" cy="${centerY - 0.7}" r="0.9" fill="#000"/>
+          <line x1="${centerX - 2}" y1="${centerY + 3.5}" x2="${centerX + 2}" y2="${centerY + 3.5}" stroke="#000" stroke-width="1.2" stroke-linecap="round"/>
+        `;
+      } else if (n === 5) {
+        // Five: 스타 글래스
+        faceHtml = `
+          <polygon points="${centerX},${centerY-5} ${centerX+1.5},${centerY-2} ${centerX+4},${centerY-2} ${centerX+2},${centerY} ${centerX+3},${centerY+3} ${centerX},${centerY+1.5} ${centerX-3},${centerY+3} ${centerX-2},${centerY} ${centerX-4},${centerY-2} ${centerX-1.5},${centerY-2}"
+                   fill="#3B82F6" stroke="#1D4ED8" stroke-width="0.7"/>
+          <circle cx="${centerX}" cy="${centerY}" r="1.5" fill="#FFF"/>
+          <circle cx="${centerX}" cy="${centerY}" r="0.8" fill="#000"/>
+        `;
+      } else {
+        // 일반 공통 친근한 표정 (6, 7, 8, 9, 10)
+        faceHtml = `
+          <circle cx="${centerX - 4}" cy="${centerY - 1.5}" r="2" fill="#FFF" stroke="#000" stroke-width="0.8"/>
+          <circle cx="${centerX + 4}" cy="${centerY - 1.5}" r="2" fill="#FFF" stroke="#000" stroke-width="0.8"/>
+          <circle cx="${centerX - 4}" cy="${centerY - 1.5}" r="1" fill="#000"/>
+          <circle cx="${centerX + 4}" cy="${centerY - 1.5}" r="1" fill="#000"/>
+          <path d="M ${centerX - 3} ${centerY + 3} Q ${centerX} ${centerY + 5.5} ${centerX + 3} ${centerY + 3}"
+                stroke="#000" stroke-width="1" fill="none" stroke-linecap="round"/>
+        `;
+      }
+
+      return `
+        <svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" class="nb-svg" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));">
+          ${blocksHtml}
+          ${faceHtml}
+        </svg>
+      `;
+    }
+
+    /* =====================================================================
+       3. Lv.1 ~ Lv.10 수학 문제 생성기
+       ===================================================================== */
+    const LEVEL_INFOS = {
+      1: { name: "Lv.1 - 5 이하 수 모으기와 가르기", desc: "넘버블럭스와 함께 5 이하 수의 덧셈 기초를 배워요." },
+      2: { name: "Lv.2 - 10 이하 한 자리 덧셈", desc: "블록을 합치면 모두 몇 개가 될까요?" },
+      3: { name: "Lv.3 - 10 이하 한 자리 뺄셈", desc: "블록을 빼고 남은 개수를 구해요." },
+      4: { name: "Lv.4 - 10 모으기 (짝꿍 수)", desc: "합이 10이 되려면 몇 개가 더 필요할까요?" },
+      5: { name: "Lv.5 - 10이 넘는 한 자리 덧셈", desc: "10보다 큰 수로 변신하는 넘버블럭스!" },
+      6: { name: "Lv.6 - 두 자리 + 한 자리 덧셈", desc: "받아올림 없는 십 몇과 한 자리의 덧셈." },
+      7: { name: "Lv.7 - 십 몇에서 빼기", desc: "11~18에서 한 자리를 쏙 빼보아요." },
+      8: { name: "Lv.8 - 20 이하 덧셈과 뺄셈", desc: "더하기와 빼기를 골고루 연습해요." },
+      9: { name: "Lv.9 - 세 수의 연산", desc: "세 친구가 모여서 계산해 보아요." },
+      10: { name: "Lv.10 - 빈칸 채우기 도전", desc: "네모 상자에 들어갈 알맞은 수를 맞춰보세요!" }
+    };
+
+    function rand(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generateProblem(level) {
+      let p = {};
+
+      switch (Number(level)) {
+        case 1: {
+          // 5 이하의 수 모으기 (합 <= 5)
+          const a = rand(1, 4);
+          const b = rand(1, 5 - a);
+          p = { a, b, op: '+', ans: a + b, type: 'normal' };
+          break;
+        }
+        case 2: {
+          // 10 이하 덧셈 (합 <= 10)
+          const a = rand(1, 8);
+          const b = rand(1, 10 - a);
+          p = { a, b, op: '+', ans: a + b, type: 'normal' };
+          break;
+        }
+        case 3: {
+          // 10 이하 뺄셈
+          const a = rand(2, 10);
+          const b = rand(1, a - 1);
+          p = { a, b, op: '-', ans: a - b, type: 'normal' };
+          break;
+        }
+        case 4: {
+          // 10 모으기 (A + □ = 10 또는 A + B = 10)
+          const a = rand(1, 9);
+          const b = 10 - a;
+          const makeBlank = Math.random() > 0.4;
+          if (makeBlank) {
+            p = { a, b, op: '+', ans: b, target: 10, type: 'blank_right' };
+          } else {
+            p = { a, b, op: '+', ans: 10, type: 'normal' };
+          }
+          break;
+        }
+        case 5: {
+          // 10이 넘는 한 자리 덧셈 (합 11~18)
+          const a = rand(4, 9);
+          const b = rand(11 - a, 9);
+          p = { a, b, op: '+', ans: a + b, type: 'normal' };
+          break;
+        }
+        case 6: {
+          // 두 자리 + 한 자리 (받아올림 없음: 11~16 + 1~3, 일의 자리 합 < 10)
+          const tens = 10;
+          const onesA = rand(1, 6);
+          const a = tens + onesA;
+          const b = rand(1, 9 - onesA);
+          p = { a, b, op: '+', ans: a + b, type: 'normal' };
+          break;
+        }
+        case 7: {
+          // 십 몇에서 빼기 (11~18 - 2~9)
+          const a = rand(11, 18);
+          const b = rand(Math.max(2, a - 9), 9);
+          p = { a, b, op: '-', ans: a - b, type: 'normal' };
+          break;
+        }
+        case 8: {
+          // 20 이하 덧셈과 뺄셈 혼합
+          const isAdd = Math.random() > 0.5;
+          if (isAdd) {
+            const a = rand(3, 12);
+            const b = rand(2, 19 - a);
+            p = { a, b, op: '+', ans: a + b, type: 'normal' };
+          } else {
+            const a = rand(7, 19);
+            const b = rand(2, Math.min(9, a - 1));
+            p = { a, b, op: '-', ans: a - b, type: 'normal' };
+          }
+          break;
+        }
+        case 9: {
+          // 세 수의 연산
+          const isAddAll = Math.random() > 0.5;
+          if (isAddAll) {
+            const a = rand(1, 5);
+            const b = rand(1, 5);
+            const c = rand(1, 5);
+            p = { a, b, c, op1: '+', op2: '+', ans: a + b + c, type: 'triple' };
+          } else {
+            const a = rand(6, 12);
+            const b = rand(1, 4);
+            const c = rand(1, 4);
+            p = { a, b, c, op1: '-', op2: '+', ans: a - b + c, type: 'triple' };
+          }
+          break;
+        }
+        case 10:
+        default: {
+          // 빈칸 채우기 (A + □ = C 또는 □ - B = C)
+          const isAdd = Math.random() > 0.4;
+          if (isAdd) {
+            const a = rand(2, 10);
+            const b = rand(2, 9);
+            const sum = a + b;
+            p = { a, b, op: '+', ans: b, target: sum, type: 'blank_right' };
+          } else {
+            const ans = rand(3, 9);
+            const b = rand(2, 8);
+            const total = ans + b;
+            p = { a: total, b, op: '-', ans: b, target: ans, type: 'blank_right' };
+          }
+          break;
+        }
+      }
+
+      return p;
+    }
+
+    /* =====================================================================
+       4. 렌더링 및 UI 바인딩
+       ===================================================================== */
+    function renderWorksheet() {
+      const level = document.getElementById('levelSelect').value;
+      const count = parseInt(document.getElementById('countSelect').value, 10) || 6;
+      const customTitle = document.getElementById('titleCustom').value.trim() || '넘버블럭스 수학 교실';
+
+      // 텍스트 업데이트
+      document.getElementById('displayTitle').innerText = customTitle;
+      const info = LEVEL_INFOS[level] || LEVEL_INFOS[2];
+      document.getElementById('displaySubtitle').innerText = info.name;
+
+      // 그리드 클래스 조정 (6문제 vs 8문제)
+      const container = document.getElementById('problemsContainer');
+      container.className = `problems-grid grid-${count}`;
+      container.innerHTML = '';
+
+      for (let i = 1; i <= count; i++) {
+        const prob = generateProblem(level);
+        const card = document.createElement('div');
+        card.className = 'problem-card';
+
+        // 시각화 (넘버블럭스 SVG)
+        let visualHtml = '';
+        if (prob.type === 'triple') {
+          visualHtml = `
+            <div class="visual-area">
+              ${renderNumberblockSVG(prob.a, 12)}
+              <span class="operator-icon">${prob.op1}</span>
+              ${renderNumberblockSVG(prob.b, 12)}
+            </div>
+          `;
+        } else {
+          // 일반 / 빈칸 문제
+          const displayB = (prob.b <= 10) ? prob.b : 10;
+          visualHtml = `
+            <div class="visual-area">
+              ${renderNumberblockSVG(prob.a, 14)}
+              <span class="operator-icon">${prob.op}</span>
+              ${renderNumberblockSVG(displayB, 14)}
+            </div>
+          `;
+        }
+
+        // 수식 및 답안 박스
+        let formulaHtml = '';
+        if (prob.type === 'blank_right') {
+          formulaHtml = `
+            <div class="formula-area">
+              <span class="formula-text">${prob.a} ${prob.op}</span>
+              <div class="answer-box blank-middle">
+                <span class="answer-hint">${prob.ans}</span>
+              </div>
+              <span class="formula-text">= ${prob.target}</span>
+            </div>
+          `;
+        } else if (prob.type === 'triple') {
+          formulaHtml = `
+            <div class="formula-area">
+              <span class="formula-text">${prob.a} ${prob.op1} ${prob.b} ${prob.op2} ${prob.c} =</span>
+              <div class="answer-box">
+                <span class="answer-hint">${prob.ans}</span>
+              </div>
+            </div>
+          `;
+        } else {
+          formulaHtml = `
+            <div class="formula-area">
+              <span class="formula-text">${prob.a} ${prob.op} ${prob.b} =</span>
+              <div class="answer-box">
+                <span class="answer-hint">${prob.ans}</span>
+              </div>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="card-num">${i}</div>
+          ${visualHtml}
+          ${formulaHtml}
+        `;
+
+        container.appendChild(card);
+      }
+
+      // 화면 리사이즈 보정
+      fitA4ToScreen();
+    }
+
+    // 날짜 세팅 (오늘 날짜)
+    function initDate() {
+      const now = new Date();
+      const month = now.getMonth() + 1;
+      const day = now.getDate();
+      document.getElementById('currentDate').innerText = `${month}월 ${day}일`;
+    }
+
+    // 이벤트 리스너 등록
+    document.getElementById('btnGenerate').addEventListener('click', renderWorksheet);
+    document.getElementById('levelSelect').addEventListener('change', renderWorksheet);
+    document.getElementById('countSelect').addEventListener('change', renderWorksheet);
+    document.getElementById('titleCustom').addEventListener('input', (e) => {
+      document.getElementById('displayTitle').innerText = e.target.value.trim() || '넘버블럭스 수학 교실';
+    });
+
+    // 인쇄 버튼 (인쇄 전용 최적화)
+    document.getElementById('btnPrint').addEventListener('click', () => {
+      window.print();
+    });
+
+    // 정답 토글 버튼
+    const btnToggleAns = document.getElementById('btnToggleAns');
+    btnToggleAns.addEventListener('click', () => {
+      document.body.classList.toggle('show-answers');
+      btnToggleAns.classList.toggle('active');
+    });
+
+    // 초기 실행
+    initDate();
+    renderWorksheet();
+  </script>
+</body>
+</html>
