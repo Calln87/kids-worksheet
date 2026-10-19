@@ -956,10 +956,11 @@
       z-index: 1;
     }
 
-    /* 따라쓰기 모드일 때 연한 회색 점선/가이드 글자 표시 */
-    .answer-hint.trace-guide {
+    /* 따라쓰기 모드일 때 연한 회색 점선/가이드 글자 표시 (수학·영어 공통 따라쓰기 스위치 연동) */
+    .answer-hint.trace-guide,
+    body.trace-mode-all .answer-hint {
       display: flex;
-      color: rgba(148, 163, 184, 0.42);
+      color: rgba(148, 163, 184, 0.38);
       font-size: 52px;
     }
 
@@ -983,6 +984,38 @@
       border: 1.5px solid #F43F5E;
       border-radius: 999px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* 만 4세 유아용 문제 읽어주기(TTS) 스피커 버튼 */
+    .card-left-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .tts-speak-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1.5px solid #BAE6FD;
+      background: #F0F9FF;
+      color: #0284C7;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.15s, background 0.15s;
+      box-shadow: 0 2px 3px rgba(2, 132, 199, 0.12);
+    }
+
+    .tts-speak-btn:hover,
+    .tts-speak-btn:active {
+      background: #E0F2FE;
+      transform: scale(1.12);
     }
 
     /* 알파블럭스 미스테리(빈칸) 글자 캡 ? / 정답 전환 */
@@ -1050,7 +1083,8 @@
       .toolbar,
       .zoom-pad-modal,
       .box-clear-btn,
-      .pen-grade-ctrl {
+      .pen-grade-ctrl,
+      .tts-speak-btn {
         display: none !important;
       }
 
@@ -1165,11 +1199,17 @@
         </div>
 
         <div class="pen-size-group" title="펜 굵기 선택">
-          <button type="button" class="size-btn" data-size="2.5">가늘게</button>
-          <button type="button" class="size-btn active" data-size="4.5">보통</button>
-          <button type="button" class="size-btn" data-size="7.5">굵게</button>
+          <button type="button" class="size-btn" data-size="3.5">가늘게</button>
+          <button type="button" class="size-btn active" data-size="5.5">보통</button>
+          <button type="button" class="size-btn" data-size="8.5">굵게</button>
         </div>
 
+        <button type="button" class="chip-btn" id="btnTraceGuide" title="만 4세 운필력 연습용: 빈칸 안에 흐린 따라쓰기 글씨를 표시해요">
+          <span>🖍️ 따라쓰기 가이드</span>
+        </button>
+        <button type="button" class="chip-btn" id="btnStylusOnly" title="켜면 손바닥/손가락 터치는 무시하고 터치펜(Apple Pencil, S펜)만 인식해요">
+          <span>✋ 손바닥 무시(펜 전용)</span>
+        </button>
         <button type="button" class="chip-btn" id="btnScratchMode" title="문제 카드 여백이나 블록 위에도 자유롭게 풀이 과정을 쓸 수 있어요">
           <span>📝 여백 풀이펜</span>
         </button>
@@ -1177,7 +1217,7 @@
           <span>🔍 크게 쓰기 창</span>
         </button>
         <button type="button" class="chip-btn" id="btnClearAllInk" title="작성한 모든 손글씨를 깨끗하게 지웁니다">
-          <span>🗑️ 손글씨 모두 지우기</span>
+          <span>🗑️ 모두 지우기</span>
         </button>
       </div>
     </div>
@@ -2600,16 +2640,62 @@
       }
     }
 
-    /* =====================================================================
-       4-B. 태블릿 펜 필기(Stylus/Touch Canvas) 엔진
+     /* =====================================================================
+       4-B. 태블릿 펜 필기(Stylus/Touch Canvas) 엔진 & 유아용 음성(TTS) 지원
        ===================================================================== */
     let isPenMode = true;          // 기본값: 태블릿 펜 쓰기 모드 활성화 (키보드 팝업 차단)
     let penTool = 'draw';          // 'draw' | 'eraser'
     let penColor = '#0F172A';      // 기본 검정색
     let penSize = 5.5;             // 만 4세 유아용 기본 굵기 (큼직한 2배 입력칸에 맞춘 선명한 두께)
+    let traceAllEnabled = false;   // 만 4세용 수학/영어 전 레벨 따라쓰기(Tracing) 상시 가이드 토글
+    let stylusOnlyMode = false;    // 손바닥 무시(Apple Pencil / S펜 전용 인식) 모드
     let scratchModeActive = false; // 여백 자유 풀이펜 토글
     let zoomPadEnabled = false;    // 빈칸 터치 시 크게 쓰기 패드 자동 열기 토글
     let activeAnswerBox = null;    // 현재 크게 쓰기 패드와 연결된 .answer-box
+
+    // 만 4세 유아용 문제 읽어주기 (Web Speech API 내장 TTS - 외부 오디오 파일 제로)
+    function speakProblem(prob) {
+      if (!('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        if (prob.subject === 'math') {
+          const opMap = { '+': '더하기', '-': '빼기', '×': '곱하기', '÷': '나누기' };
+          let text = '';
+          if (prob.type === 'triple') {
+            text = `${prob.a} ${opMap[prob.op1] || prob.op1} ${prob.b} ${opMap[prob.op2] || prob.op2} ${prob.c} 는 얼마일까요?`;
+          } else if (prob.type === 'blank_right') {
+            text = `${prob.a} ${opMap[prob.op] || prob.op} 몇은 ${prob.target} 일까요?`;
+          } else {
+            text = `${prob.a} ${opMap[prob.op] || prob.op} ${prob.b} 는 얼마일까요?`;
+          }
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = 'ko-KR';
+          utter.rate = 0.92;
+          utter.pitch = 1.12;
+          window.speechSynthesis.speak(utter);
+        } else {
+          // 영어: 원어민 발음으로 철자 & 단어 읽어주기
+          let engText = '';
+          if (prob.type === 'letter_pair') {
+            const c0 = prob.chars[0].toUpperCase();
+            engText = `Big ${c0}, little ${c0.toLowerCase()}!`;
+          } else if (prob.type === 'seq_blank') {
+            engText = `${prob.chars[0]}, ${prob.chars[1]}, ${prob.chars[2]}!`;
+          } else if (prob.type === 'sentence_blank') {
+            engText = `${prob.pre} ${prob.ans}${prob.post}`;
+          } else {
+            const targetWord = prob.word || prob.ans || '';
+            const spelled = targetWord.split('').join(', ');
+            engText = `${targetWord}! ${spelled}. ${targetWord}!`;
+          }
+          const utter = new SpeechSynthesisUtterance(engText);
+          utter.lang = 'en-US';
+          utter.rate = 0.82;
+          utter.pitch = 1.08;
+          window.speechSynthesis.speak(utter);
+        }
+      } catch (_) {}
+    }
 
     // 정답 박스 공통 HTML 빌더 (키보드 input + 태블릿 펜 canvas + 개별 지우개 + 정답 힌트)
     function buildAnswerBoxHTML(ans, opts = {}) {
@@ -2672,6 +2758,8 @@
 
       canvas.addEventListener('pointerdown', (e) => {
         if (!isPenMode) return;
+        // 손바닥 무시(펜 전용) 모드가 켜져 있으면 손가락/손바닥 터치(touch)는 무시하고 펜(pen)/마우스만 허용
+        if (stylusOnlyMode && e.pointerType === 'touch') return;
         if (options.onlyPenOrScratch && e.pointerType !== 'pen' && !scratchModeActive) return;
 
         // 크게 쓰기 창 모드가 켜져 있고 일반 정답 칸을 터치한 경우 확대 창 오픈
@@ -2705,6 +2793,7 @@
 
       canvas.addEventListener('pointermove', (e) => {
         if (!drawing || !isPenMode) return;
+        if (stylusOnlyMode && e.pointerType === 'touch') return;
         e.preventDefault();
         e.stopPropagation();
 
@@ -2957,7 +3046,10 @@
       }
 
       card.innerHTML = `
-        <div class="card-num">${idx + 1}</div>
+        <div class="card-left-col">
+          <div class="card-num">${idx + 1}</div>
+          <button type="button" class="tts-speak-btn" title="문제 소리내어 읽어주기 (원어민/한국어 음성)">🔈</button>
+        </div>
         ${visualHtml}
         <div style="display:flex; align-items:center; gap:6px; flex:1; justify-content:flex-end;">
           ${formulaHtml}
@@ -2967,6 +3059,23 @@
           </div>
         </div>
       `;
+
+      // 스피커 버튼 및 캐릭터 영역 터치 시 음성 읽어주기(TTS)
+      const ttsBtn = card.querySelector('.tts-speak-btn');
+      if (ttsBtn) {
+        ttsBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          speakProblem(prob);
+        });
+      }
+      const visArea = card.querySelector('.visual-area');
+      if (visArea) {
+        visArea.style.cursor = 'pointer';
+        visArea.title = '캐릭터를 터치하면 문제를 읽어줘요! 🔈';
+        visArea.addEventListener('click', () => {
+          if (!scratchModeActive) speakProblem(prob);
+        });
+      }
 
       // 카드 내 정답 빈칸 캔버스 및 개별 지우기/O-X 판정 이벤트 바인딩
       const box = card.querySelector('.answer-box');
@@ -3228,10 +3337,23 @@
 
     document.querySelectorAll('.size-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        penSize = parseFloat(btn.dataset.size) || 4.5;
+        penSize = parseFloat(btn.dataset.size) || 5.5;
         document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
       });
+    });
+
+    document.getElementById('btnTraceGuide').addEventListener('click', (e) => {
+      traceAllEnabled = !traceAllEnabled;
+      e.currentTarget.classList.toggle('active', traceAllEnabled);
+      document.body.classList.toggle('trace-mode-all', traceAllEnabled);
+      playSoundEffect('pop');
+    });
+
+    document.getElementById('btnStylusOnly').addEventListener('click', (e) => {
+      stylusOnlyMode = !stylusOnlyMode;
+      e.currentTarget.classList.toggle('active', stylusOnlyMode);
+      playSoundEffect('pop');
     });
 
     document.getElementById('btnScratchMode').addEventListener('click', (e) => {
