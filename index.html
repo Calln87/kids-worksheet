@@ -1161,7 +1161,7 @@
     }
 
     /* =========================================
-       A4 인쇄 최적화 (@media print)
+       A4 인쇄 최적화 (@media print) & 모바일 인쇄 도우미 모달
        ========================================= */
     @page {
       size: A4 portrait;
@@ -1169,16 +1169,22 @@
     }
 
     @media print {
-      body {
+      html, body {
+        width: 794px !important;
+        height: 1122px !important;
         background: #FFFFFF !important;
         padding: 0 !important;
-        margin: 0 !important;
+        margin: 0 auto !important;
         min-height: auto !important;
         display: block !important;
+        overflow: hidden !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
 
       .toolbar,
       .zoom-pad-modal,
+      .mobile-print-modal,
       .box-clear-btn,
       .pen-grade-ctrl,
       .tts-speak-btn {
@@ -1189,10 +1195,11 @@
         width: 794px !important;
         height: 1122px !important;
         transform: none !important;
-        margin: 0 !important;
+        margin: 0 auto !important;
         padding: 0 !important;
-        page-break-after: avoid;
-        page-break-inside: avoid;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
 
       .a4-sheet {
@@ -1201,8 +1208,153 @@
         border: none !important;
         width: 794px !important;
         height: 1122px !important;
-        padding: 32px 38px !important;
+        padding: 30px 36px !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
+    }
+
+    /* 모바일·태블릿 인쇄 & 고화질 이미지/PDF 저장 모달 */
+    .mobile-print-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-print-modal.open {
+      display: flex;
+    }
+
+    .mobile-print-card {
+      background: #FFFFFF;
+      border-radius: 22px;
+      width: 100%;
+      max-width: 440px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 3px solid #0284C7;
+    }
+
+    .mobile-print-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 17px;
+      font-weight: 900;
+      color: #0F172A;
+      border-bottom: 2px solid #F1F5F9;
+      padding-bottom: 10px;
+    }
+
+    .mobile-print-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #475569;
+      font-weight: 700;
+      background: #F8FAFC;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1.5px solid #E2E8F0;
+    }
+
+    .inapp-warning-box {
+      display: none;
+      background: #FEF3C7;
+      border: 2px solid #F59E0B;
+      color: #92400E;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      font-weight: 800;
+      line-height: 1.45;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .inapp-warning-box.visible {
+      display: flex;
+    }
+
+    .mobile-print-btn-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .mp-action-btn {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: none;
+      font-family: inherit;
+      font-size: 14.5px;
+      font-weight: 900;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+      transition: transform 0.1s;
+    }
+
+    .mp-action-btn:active {
+      transform: scale(0.98);
+    }
+
+    .mp-btn-system {
+      background: #0284C7;
+    }
+
+    .mp-btn-share {
+      background: #7C3AED;
+    }
+
+    .mp-btn-image {
+      background: #10B981;
+    }
+
+    .mp-btn-external {
+      background: #F59E0B;
+      font-size: 13px;
+      padding: 9px 12px;
+    }
+
+    .mp-preview-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: #F1F5F9;
+      padding: 10px;
+      border-radius: 12px;
+      border: 2px dashed #94A3B8;
+    }
+
+    .mp-preview-box.visible {
+      display: flex;
+    }
+
+    .mp-preview-box img {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background: #FFFFFF;
     }
   </style>
 </head>
@@ -1359,6 +1511,44 @@
     </div>
   </div>
 
+  <!-- 모바일·태블릿 인쇄 & 고화질 A4 이미지/PDF 저장 모달 -->
+  <div class="mobile-print-modal" id="mobilePrintModal">
+    <div class="mobile-print-card">
+      <div class="mobile-print-header">
+        <span>🖨️ 모바일·태블릿 인쇄 및 저장</span>
+        <button type="button" class="chip-btn" id="btnMobilePrintClose" style="padding:5px 10px;">닫기 ✕</button>
+      </div>
+
+      <div class="inapp-warning-box" id="inAppWarningBox">
+        <span>⚠️ 현재 카카오톡·네이버 등 <b>인앱 브라우저</b>에서 접속 중입니다. 인앱 브라우저에서는 기본 인쇄 창이 차단될 수 있으니 아래 <b>[이미지 공유/저장]</b> 또는 <b>[외부 브라우저로 열기]</b>를 이용해 주세요!</span>
+        <button type="button" class="mp-action-btn mp-btn-external" id="btnOpenExternalBrowser">
+          <span>🌐 Chrome / Safari 외부 브라우저로 열기</span>
+        </button>
+      </div>
+
+      <div class="mobile-print-desc">
+        스마트폰·태블릿 환경에 맞춰 <b>시스템 인쇄(PDF)</b>, <b>프린터 앱 공유(AirPrint·삼성프린트)</b>, 또는 <b>고화질 A4 이미지 저장</b> 중 편한 방법을 선택하세요!
+      </div>
+
+      <div class="mobile-print-btn-list">
+        <button type="button" class="mp-action-btn mp-btn-system" id="btnTriggerSystemPrint">
+          <span>🖨️ 기기 기본 인쇄 / PDF로 저장하기</span>
+        </button>
+        <button type="button" class="mp-action-btn mp-btn-share" id="btnShareSheetImg">
+          <span>📤 프린터 앱 · 카톡 · AirPrint로 바로 공유</span>
+        </button>
+        <button type="button" class="mp-action-btn mp-btn-image" id="btnDownloadSheetImg">
+          <span>📸 고화질 A4 학습지 이미지(PNG) 저장</span>
+        </button>
+      </div>
+
+      <div class="mp-preview-box" id="mpPreviewBox">
+        <span style="font-size:12px; font-weight:800; color:#0369A1;" id="mpPreviewStatus">👇 아래 학습지 이미지를 길게 눌러 [사진에 저장] 또는 [공유]할 수도 있어요!</span>
+        <img id="mpPreviewImg" alt="A4 학습지 미리보기">
+      </div>
+    </div>
+  </div>
+
   <!-- 모바일 반응형 스케일링 래퍼 -->
   <main class="sheet-wrapper" id="sheetWrapper">
     <div class="a4-sheet" id="a4Sheet">
@@ -1470,9 +1660,12 @@
     }
 
     /* =====================================================================
-       1. 모바일 & PC 반응형 A4 스케일러 (fitA4ToScreen)
+       1. 모바일 & PC 반응형 A4 스케일러 (fitA4ToScreen) + 인쇄 중 스케일 잠금
        ===================================================================== */
+    let isPrintInProgress = false;
+
     function fitA4ToScreen() {
+      if (isPrintInProgress) return;
       const wrapper = document.getElementById('sheetWrapper');
       if (!wrapper) return;
 
@@ -4381,7 +4574,239 @@
       else if (e.target.value === 'eco') document.body.classList.add('theme-eco');
     });
 
-    document.getElementById('btnPrint').addEventListener('click', () => window.print());
+    /* =====================================================================
+       5. 모바일·태블릿 완벽 대응 인쇄(Print) & 고화질 A4 이미지/PDF 저장·공유 엔진
+       ===================================================================== */
+    function isInAppBrowser() {
+      const ua = navigator.userAgent || '';
+      return /KAKAOTALK|NAVER|Instagram|FBAN|FBAV|Line\/|DaumApps|everytimeApp|wv\)/i.test(ua);
+    }
+
+    function isMobileOrTabletDevice() {
+      const ua = navigator.userAgent || '';
+      if (/Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua)) return true;
+      if (navigator.maxTouchPoints && navigator.maxTouchPoints > 1 && window.innerWidth < 1024) return true;
+      return window.innerWidth < 820;
+    }
+
+    function prepareForPrint() {
+      isPrintInProgress = true;
+      document.getElementById('zoomPadModal').classList.remove('open');
+      document.getElementById('mobilePrintModal').classList.remove('open');
+
+      const vp = document.querySelector('meta[name="viewport"]');
+      if (vp) {
+        vp.dataset.origContent = vp.getAttribute('content') || '';
+        vp.setAttribute('content', 'width=794, initial-scale=1.0');
+      }
+
+      const wrapper = document.getElementById('sheetWrapper');
+      if (wrapper) {
+        wrapper.style.transform = 'none';
+        wrapper.style.width = '794px';
+        wrapper.style.height = '1122px';
+        wrapper.style.marginBottom = '0';
+      }
+    }
+
+    function restoreAfterPrint() {
+      const vp = document.querySelector('meta[name="viewport"]');
+      if (vp && vp.dataset.origContent) {
+        vp.setAttribute('content', vp.dataset.origContent);
+      }
+      isPrintInProgress = false;
+      fitA4ToScreen();
+    }
+
+    window.addEventListener('beforeprint', prepareForPrint);
+    window.addEventListener('afterprint', restoreAfterPrint);
+
+    function triggerNativePrint() {
+      prepareForPrint();
+      // 모바일 브라우저가 794px A4 레이아웃으로 먼저 리플로우할 시간을 준 뒤 인쇄 창 호출
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const startTs = Date.now();
+          try {
+            window.print();
+          } catch (_) {}
+          const elapsed = Date.now() - startTs;
+          setTimeout(() => {
+            restoreAfterPrint();
+            // 인앱 브라우저 등에서 window.print()가 아무 반응 없이 즉시 무시된 경우 이미지 미리보기 자동 생성
+            if (isInAppBrowser() && elapsed < 120) {
+              openMobilePrintModal(true);
+            }
+          }, 600);
+        }, 180);
+      });
+    }
+
+    // 현재 A4 학습지(#a4Sheet + SVG 캐릭터 + 손글씨 캔버스)를 고화질(1588x2244) PNG DataURL 및 Blob으로 렌더링
+    async function renderWorksheetToImage() {
+      const sheet = document.getElementById('a4Sheet');
+      const clone = sheet.cloneNode(true);
+
+      // 불필요한 버튼 제거
+      clone.querySelectorAll('.box-clear-btn, .pen-grade-ctrl, .tts-speak-btn').forEach(el => el.remove());
+
+      // 원본의 모든 <input> 텍스트 값을 클론에 반영
+      const origInputs = sheet.querySelectorAll('input');
+      const cloneInputs = clone.querySelectorAll('input');
+      origInputs.forEach((inp, i) => {
+        if (cloneInputs[i]) {
+          cloneInputs[i].setAttribute('value', inp.value);
+        }
+      });
+
+      // 원본의 모든 <canvas>(손글씨)를 클론 내 <img>로 변환하여 SVG foreignObject 안에서도 손글씨가 100% 보존되게 처리
+      const origCanvases = sheet.querySelectorAll('canvas');
+      const cloneCanvases = clone.querySelectorAll('canvas');
+      origCanvases.forEach((origC, i) => {
+        const cloneC = cloneCanvases[i];
+        if (!cloneC) return;
+        try {
+          const dataUrl = origC.toDataURL('image/png');
+          const img = document.createElement('img');
+          img.src = dataUrl;
+          img.className = cloneC.className;
+          img.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:4;';
+          cloneC.replaceWith(img);
+        } catch (_) {}
+      });
+
+      const styleText = Array.from(document.querySelectorAll('style')).map(s => s.innerHTML).join('\n');
+      const bodyClass = document.body.className;
+
+      const xhtml = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="794" height="1122" viewBox="0 0 794 1122">
+          <foreignObject width="100%" height="100%">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="${bodyClass}" style="width:794px; height:1122px; margin:0; padding:0; background:#FFFFFF;">
+              <style>${styleText}</style>
+              ${new XMLSerializer().serializeToString(clone)}
+            </div>
+          </foreignObject>
+        </svg>
+      `;
+
+      const svgUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xhtml);
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          const outCanvas = document.createElement('canvas');
+          outCanvas.width = 1588;  // 2x Retina A4 고해상도
+          outCanvas.height = 2244;
+          const ctx = outCanvas.getContext('2d');
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, outCanvas.width, outCanvas.height);
+          ctx.drawImage(img, 0, 0, outCanvas.width, outCanvas.height);
+          const pngDataUrl = outCanvas.toDataURL('image/png');
+          outCanvas.toBlob((blob) => {
+            resolve({ dataUrl: pngDataUrl, blob });
+          }, 'image/png');
+        };
+        img.onerror = reject;
+        img.src = svgUrl;
+      });
+    }
+
+    async function openMobilePrintModal(autoGeneratePreview = false) {
+      const modal = document.getElementById('mobilePrintModal');
+      const inAppBox = document.getElementById('inAppWarningBox');
+      inAppBox.classList.toggle('visible', isInAppBrowser());
+      modal.classList.add('open');
+
+      if (autoGeneratePreview || isInAppBrowser()) {
+        await generateAndShowPreviewImage();
+      }
+    }
+
+    async function generateAndShowPreviewImage() {
+      const previewBox = document.getElementById('mpPreviewBox');
+      const previewImg = document.getElementById('mpPreviewImg');
+      const statusEl = document.getElementById('mpPreviewStatus');
+      previewBox.classList.add('visible');
+      statusEl.innerText = '⏳ 고화질 A4 학습지 이미지를 생성하고 있어요...';
+      try {
+        const { dataUrl, blob } = await renderWorksheetToImage();
+        previewImg.src = dataUrl;
+        statusEl.innerText = '✅ 아래 학습지 이미지를 길게 눌러 [사진에 저장] 또는 [공유/인쇄]할 수 있어요!';
+        return { dataUrl, blob };
+      } catch (e) {
+        statusEl.innerText = '⚠️ 이미지 생성 중 오류가 발생했습니다. 기기 기본 인쇄를 이용해 주세요.';
+        return null;
+      }
+    }
+
+    document.getElementById('btnPrint').addEventListener('click', () => {
+      if (isMobileOrTabletDevice() || isInAppBrowser()) {
+        openMobilePrintModal(false);
+      } else {
+        triggerNativePrint();
+      }
+    });
+
+    document.getElementById('btnMobilePrintClose').addEventListener('click', () => {
+      document.getElementById('mobilePrintModal').classList.remove('open');
+    });
+
+    document.getElementById('btnTriggerSystemPrint').addEventListener('click', () => {
+      triggerNativePrint();
+    });
+
+    document.getElementById('btnDownloadSheetImg').addEventListener('click', async () => {
+      const res = await generateAndShowPreviewImage();
+      if (!res) return;
+      const subjName = (currentSubject === 'math') ? '넘버블럭스_수학' : '알파블럭스_영어';
+      const lv = document.getElementById('levelSelect').value || '1';
+      const fileName = `${subjName}_Lv${lv}_학습지.png`;
+
+      const a = document.createElement('a');
+      a.href = res.dataUrl;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
+
+    document.getElementById('btnShareSheetImg').addEventListener('click', async () => {
+      const res = await generateAndShowPreviewImage();
+      if (!res || !res.blob) return;
+      const subjName = (currentSubject === 'math') ? '넘버블럭스_수학' : '알파블럭스_영어';
+      const lv = document.getElementById('levelSelect').value || '1';
+      const fileName = `${subjName}_Lv${lv}_학습지.png`;
+      const file = new File([res.blob], fileName, { type: 'image/png' });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            title: `${subjName} Lv.${lv} 학습지`,
+            text: 'A4 1장 맞춤 유아 학습지입니다. 프린트(AirPrint/모바일 프린터) 또는 사진에 저장하세요!',
+            files: [file]
+          });
+          return;
+        } catch (_) {}
+      }
+      // Web Share 파일 공유 미지원 브라우저일 경우 자동 다운로드 실행
+      const a = document.createElement('a');
+      a.href = res.dataUrl;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
+
+    document.getElementById('btnOpenExternalBrowser').addEventListener('click', () => {
+      const currentUrl = window.location.href;
+      const ua = navigator.userAgent || '';
+      if (/Android/i.test(ua)) {
+        const noProto = currentUrl.replace(/^https?:\/\//i, '');
+        const scheme = currentUrl.startsWith('https') ? 'https' : 'http';
+        window.location.href = `intent://${noProto}#Intent;scheme=${scheme};package=com.android.chrome;end`;
+      } else {
+        alert('우측 상단 또는 하단의 [ ··· ] 메뉴나 공유 버튼을 눌러 [Safari로 열기 / 다른 브라우저로 열기]를 선택해 주세요!');
+      }
+    });
 
     const btnToggleAns = document.getElementById('btnToggleAns');
     btnToggleAns.addEventListener('click', () => {
